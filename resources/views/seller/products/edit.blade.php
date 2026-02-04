@@ -7,7 +7,7 @@
             <h2 class="text-2xl font-black text-gray-800">Modifier : {{ $product->title }}</h2>
         </div>
 
-        <form action="{{ route('seller.update', $product->id) }}" method="POST" enctype="multipart/form-data" class="p-8 space-y-6">
+        <form action="{{ route('seller.products.update', $product->id) }}" method="POST" enctype="multipart/form-data" class="p-8 space-y-6">
             @csrf
             @method('PUT') <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="space-y-2">

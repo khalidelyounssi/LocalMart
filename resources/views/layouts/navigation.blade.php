@@ -75,7 +75,7 @@
                 {{ __('Tableau de bord') }}
             </x-responsive-nav-link>
         </div>
-        <x-nav-link :href="route('seller.index')" :active="request()->routeIs('seller.products.*')">
+        <x-nav-link :href="route('seller.products.index')" :active="request()->routeIs('seller.products.*')">
     {{ __('Mes Produits') }}
 </x-nav-link>
 

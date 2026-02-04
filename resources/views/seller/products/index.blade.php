@@ -26,7 +26,7 @@
     <div class="bg-white shadow-2xl rounded-3xl overflow-hidden border border-gray-100">
         <div class="p-8 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
             <h3 class="font-black text-xl text-gray-800">Mes articles en vente</h3>
-            <a href="{{ route('seller.create') }}" class="bg-indigo-600 text-white px-6 py-3 rounded-2xl font-bold shadow-indigo-200 shadow-lg hover:bg-indigo-700 transition">+ Ajouter un produit</a>
+            <a href="{{ route('seller.products.create') }}" class="bg-indigo-600 text-white px-6 py-3 rounded-2xl font-bold shadow-indigo-200 shadow-lg hover:bg-indigo-700 transition">+ Ajouter un produit</a>
         </div>
         <div class="overflow-x-auto">
             <table class="w-full">
@@ -58,8 +58,8 @@
                             </span>
                         </td>
                         <td class="px-8 py-6 text-right space-x-4">
-                            <a href="{{ route('seller.edit', $product->id) }}" class="text-indigo-600 font-black hover:underline">Modifier</a>
-                            <form action="{{ route('seller.destroy', $product->id) }}" method="POST" class="inline" onsubmit="return confirm('Supprimer?')">
+                            <a href="{{ route('seller.products.edit', $product->id) }}" class="text-indigo-600 font-black hover:underline">Modifier</a>
+                            <form action="{{ route('seller.products.destroy', $product->id) }}" method="POST" class="inline" onsubmit="return confirm('Supprimer?')">
                                 @csrf @method('DELETE')
                                 <button class="text-red-400 font-black hover:text-red-600">Supprimer</button>
                             </form>
