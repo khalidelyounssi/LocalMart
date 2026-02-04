@@ -1,15 +1,15 @@
 <?php
 
-use App\Http\Controllers\ProductController;
+use App\Http\Controllers\Seller\ProductController;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware(['auth'])->group(function () {
-    Route::resource('products', ProductController::class)->names([
-        'index'   => 'seller.index',
-        'create'  => 'seller.create',
-        'store'   => 'seller.store',
-        'edit'    => 'seller.edit',
-        'update'  => 'seller.update',
-        'destroy' => 'seller.destroy',  
-    ]);
-});
+
+
+
+
+Route::get('/seller/products/index' , [ProductController::class , 'index'])->name("seller.products.index");
+Route::get('/seller/products/create' , [ProductController::class , 'create'])->name("seller.products.create");
+Route::get('/seller/products/store' , [ProductController::class , 'store'])->name("seller.products.store");
+Route::get('/seller/products/edit' , [ProductController::class , 'edit'])->name("seller.products.edit");
+Route::get('/seller/products/update' , [ProductController::class , 'update'])->name("seller.products.update");
+Route::get('/seller/products/destroy' , [ProductController::class , 'destroy'])->name("seller.products.destroy");

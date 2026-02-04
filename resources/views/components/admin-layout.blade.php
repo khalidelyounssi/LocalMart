@@ -12,7 +12,7 @@
         <aside class="w-64 bg-white border-r border-gray-200 flex flex-col">
             <div class="p-6 flex items-center gap-3 text-blue-600">
                 <i class="fa-solid fa-shop text-2xl"></i>
-                <span class="text-xl font-bold text-gray-800">LocalMart</span>
+                <span class="text-xl font-bold text-gray-800">LocalMart <span class="text-xs text-indigo-500 italic">Admin</span></span>
             </div>
 
             <nav class="flex-1 px-4 space-y-2 py-4">

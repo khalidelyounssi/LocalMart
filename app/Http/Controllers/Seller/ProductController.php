@@ -1,23 +1,28 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Seller;
 
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Category;
-use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
+    
+
+
+
     public function index()
     {
         $products = Product::where('user_id', auth()->id())->get();
-        return view('seller.index', compact('products')); 
+        return view('seller.products.index', compact('products')); 
     }
 
     public function create()
     {
         $categories = Category::all();
-        return view('seller.create', compact('categories'));
+        return view('seller.products.create', compact('categories'));
     }
 
     public function store(Request $request)
@@ -46,13 +51,13 @@ class ProductController extends Controller
 
     $product->save();
 
-    return redirect()->route('seller.index')->with('success', 'Produit mis en vente avec succès !');
+    return redirect()->route('seller.products.index')->with('success', 'Produit mis en vente avec succès !');
 }
 
     public function edit(Product $product)
 {
     $categories = Category::all();
-    return view('seller.edit', compact('product', 'categories'));
+    return view('seller.products.edit', compact('product', 'categories'));
 }
 
 public function update(Request $request, Product $product)
@@ -78,12 +83,12 @@ public function update(Request $request, Product $product)
 
     $product->save();
 
-    return redirect()->route('seller.index')->with('success', 'Produit modifié avec succès !');
+    return redirect()->route('seller.products.index')->with('success', 'Produit modifié avec succès !');
 }
 
     public function destroy(Product $product)
     {
         $product->delete();
-        return redirect()->route('seller.index');
+        return redirect()->route('seller.products.index');
     }
 }

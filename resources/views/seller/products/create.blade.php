@@ -3,7 +3,7 @@
 @section('content')
 <div class="max-w-4xl mx-auto">
     <div class="mb-6">
-        <a href="{{ route('seller.index') }}" class="text-indigo-600 hover:text-indigo-800 font-bold flex items-center">
+        <a href="{{ route('seller.products.index') }}" class="text-indigo-600 hover:text-indigo-800 font-bold flex items-center">
             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
             Retour à la liste
         </a>
@@ -15,7 +15,7 @@
             <p class="text-gray-500">Remplissez les informations ci-dessous pour mettre votre article en vente.</p>
         </div>
 
-        <form action="{{ route('seller.store') }}" method="POST" enctype="multipart/form-data" class="p-8 space-y-6">
+        <form action="{{ route('seller.products.store') }}" method="POST" enctype="multipart/form-data" class="p-8 space-y-6">
             @csrf
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
