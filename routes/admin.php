@@ -9,11 +9,12 @@ use App\Http\Controllers\Admin\PermissionController;
 
 Route::get('/admin/dashboard/index' , [DashboardController::class , 'index'])->name("admin.dashboard.index");
 
-Route::get('/admin/users.index', [UserController::class , 'index'])->name("admin.users.index");
+Route::get('/admin/users/index', [UserController::class , 'index'])->name("admin.users.index");
 
 Route::get('/admin/products/index', [ProductController::class , 'index'])->name("admin.products.index");
 
 Route::get('/admin/categories/index', [CategoryController::class , 'index'])->name("admin.categories.index");
+Route::get('/admin/categories/create', [CategoryController::class , 'create'])->name("admin.categories.create");
 
 Route::get('/admin/comments/index' , [ReviewController::class , 'index'])->name("admin.comments.index");
 

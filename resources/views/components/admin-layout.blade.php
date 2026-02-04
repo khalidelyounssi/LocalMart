@@ -40,8 +40,8 @@
                 <h2 class="text-lg font-semibold text-gray-700">Admin Office</h2>
                 <div class="flex items-center gap-4">
                     <span class="text-sm text-gray-500 italic">2026-02-03</span>
-                    <div class="w-8 h-8 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center font-bold">A</div>
                 </div>
+            
             </header>
 
             <div class="p-8">
