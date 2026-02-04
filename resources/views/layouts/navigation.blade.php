@@ -20,7 +20,7 @@
                         class="text-sm font-semibold hover:text-green-600 transition-colors">
                         {{ __('Tableau de bord') }}
                     </x-nav-link>
-                    </div>
+                </div>
             </div>
 
             <div class="hidden sm:flex sm:items-center sm:ms-6">
@@ -75,6 +75,9 @@
                 {{ __('Tableau de bord') }}
             </x-responsive-nav-link>
         </div>
+        <x-nav-link :href="route('seller.products.index')" :active="request()->routeIs('seller.products.*')">
+    {{ __('Mes Produits') }}
+</x-nav-link>
 
         <div class="pt-4 pb-1 border-t border-gray-200">
             <div class="px-4 flex items-center gap-3">

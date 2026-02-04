@@ -59,11 +59,11 @@ class User extends Authenticatable
     public function getRedirectRoute()
     {
         if ($this->hasRole('admin') || $this->hasRole('moderator')) {
-            return 'admin.dashboard.index';
+            return 'admin/dashboard/index';
         }
 
         if ($this->hasRole('seller')) {
-            return 'seller.dashboard.index';
+            return 'seller/dashboard/index';
         }
         return 'dashboard';
     }
