@@ -1,0 +1,22 @@
+<?php 
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\ReviewController;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\PermissionController;
+
+Route::get('/admin/dashboard/index' , [DashboardController::class , 'index'])->name("admin.dashboard.index");
+
+Route::get('/admin/users.index', [UserController::class , 'index'])->name("admin.users.index");
+
+Route::get('/admin/products/index', [ProductController::class , 'index'])->name("admin.products.index");
+
+Route::get('/admin/categories/index', [CategoryController::class , 'index'])->name("admin.categories.index");
+
+Route::get('/admin/comments/index' , [ReviewController::class , 'index'])->name("admin.comments.index");
+
+Route::get('/admin/comments/product/{id}' , [ReviewController::class , 'show'])->name("admin.comments.product");
+
+Route::get('/admin/permissions/index', [PermissionController::class , 'index'])->name("admin.permissions.index");
