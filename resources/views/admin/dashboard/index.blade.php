@@ -1,4 +1,6 @@
-<x-admin-layout>
+@extends('layouts.admin')
+
+@section('content')
     <div class="mb-8">
         <h1 class="text-2xl font-bold text-gray-900">Admin Dashboard</h1>
         <p class="text-gray-500 text-sm">fast access to all statistique of your platform</p>
@@ -101,4 +103,4 @@
             </div>
         </div>
     </div>
-</x-admin-layout>
+@endsection
