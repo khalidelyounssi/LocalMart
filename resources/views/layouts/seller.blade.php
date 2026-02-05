@@ -28,6 +28,15 @@
                     <i class="fa-solid fa-plus-circle"></i>
                     <span class="font-medium">Ajouter Produit</span>
                 </a>
+                <a href="{{ route('seller.orders.index') }}" class="flex items-center gap-3 p-3 rounded-xl transition {{ request()->routeIs('seller.orders.*') ? 'bg-indigo-50 text-indigo-600 font-bold' : 'text-gray-600 hover:bg-gray-50' }}">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span>Mes Commandes</span>
+                </a>
+
+                <a href="{{ route('seller.products.reviews') }}" class="flex items-center gap-3 p-3 rounded-xl transition {{ request()->routeIs('seller.reviews.*') ? 'bg-indigo-50 text-indigo-600 font-bold' : 'text-gray-600 hover:bg-gray-50' }}">
+                    <i class="fa-solid fa-star"></i>
+                    <span>Avis Clients</span>
+                </a>
             </nav>
 
             <div class="p-4 border-t border-gray-100">

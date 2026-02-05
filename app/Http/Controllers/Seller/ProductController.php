@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\Review;
 
 class ProductController extends Controller
 {
@@ -91,4 +92,12 @@ public function update(Request $request, Product $product)
         $product->delete();
         return redirect()->route('seller.products.index');
     }
+    public function reviews()
+{
+    $reviews = Review::whereHas('product', function($query) {
+        $query->where('user_id', auth()->id());
+    })->with(['user', 'product'])->latest()->get();
+
+    return view('seller.products.reviews', compact('reviews'));
+}
 }
