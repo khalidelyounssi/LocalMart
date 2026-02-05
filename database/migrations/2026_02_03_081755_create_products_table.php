@@ -17,7 +17,7 @@ return new class extends Migration
         $table->text('description');
         $table->decimal('price', 10, 2);
         $table->integer('stock')->default(0);
-        $table->string('image')->nullable();
+        $table->string('image')->default('default.image.png');
         $table->foreignId('user_id')->constrained()->onDelete('cascade'); 
         $table->foreignId('category_id')->constrained()->onDelete('cascade');
         $table->timestamps();

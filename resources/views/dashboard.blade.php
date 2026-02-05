@@ -7,7 +7,8 @@
 
     <div class="py-12 bg-[#FDF8F3] min-h-screen">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-10">
-            
+
+            <!-- Banner -->
             <div class="relative bg-[#D7C0AE] rounded-3xl overflow-hidden shadow-sm h-72 flex items-center">
                 <div class="relative z-10 px-12">
                     <h1 class="text-4xl font-black text-[#4E342E] mb-2 uppercase tracking-tight">Sustainable Style.</h1>
@@ -18,6 +19,7 @@
                 <div class="absolute right-10 bottom-0 w-64 h-64 bg-white/10 rounded-full blur-3xl"></div>
             </div>
 
+            <!-- Categories -->
             <div class="flex space-x-4 overflow-x-auto pb-4 scrollbar-hide">
                 @foreach(['New Arrivals', 'Best Sellers', 'Organic Cotton', 'Accessories', 'Home Decor'] as $category)
                     <div class="flex-shrink-0 bg-white px-6 py-3 rounded-2xl border border-[#E8D7C5] shadow-sm hover:border-[#BC9F8B] cursor-pointer transition">
@@ -26,6 +28,7 @@
                 @endforeach
             </div>
 
+            <!-- Featured Products -->
             <div class="space-y-6">
                 <div class="flex justify-between items-end px-2">
                     <div>
@@ -36,42 +39,53 @@
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                    @for ($i = 1; $i <= 8; $i++)
-                        <div class="group bg-white rounded-3xl border border-[#F5EBE0] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300">
-                            
+                    @forelse ($products as $product)
+                        <div class="group product-card bg-white rounded-3xl border border-[#F5EBE0] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 relative">
+
+                            <!-- Product Image -->
                             <div class="aspect-[4/5] bg-[#F5EBE0] relative overflow-hidden">
-                                <div class="w-full h-full flex items-center justify-center text-[#BC9F8B] group-hover:scale-110 transition-transform duration-500">
-                                    <svg class="w-16 h-16 opacity-30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                    </svg>
-                                </div>
-                                
+                                @if ($product->image)
+                                    <img src="{{ asset('storage/'.$product->image) }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                                @else
+                                    <div class="w-full h-full flex items-center justify-center text-[#BC9F8B] group-hover:scale-110 transition-transform duration-500">
+                                        <svg class="w-16 h-16 opacity-30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                        </svg>
+                                    </div>
+                                @endif
+
                                 <div class="absolute top-4 left-4 flex flex-col space-y-2">
                                     <span class="bg-white/90 backdrop-blur px-2 py-1 rounded-lg text-[10px] text-[#8D6E63] font-black uppercase shadow-sm w-fit">
-                                        Stock: {{ rand(1, 50) }}
+                                        Stock: {{ $product->stock }}
                                     </span>
                                     <span class="bg-[#8D6E63] text-white px-2 py-1 rounded-lg text-[10px] font-bold uppercase shadow-sm w-fit">
-                                        Essentials
+                                        {{ $product->category->name ?? 'Uncategorized' }}
                                     </span>
                                 </div>
+
+                                <!-- + Button for Modal -->
+                                <button class="open-modal absolute bottom-4 right-4 bg-[#8D6E63] text-white rounded-full w-10 h-10 flex items-center justify-center hover:bg-[#70554C] shadow-lg">
+                                    +
+                                </button>
                             </div>
 
+                            <!-- Product Info -->
                             <div class="p-6">
                                 <div class="flex items-center mb-3 text-[10px] uppercase tracking-widest text-[#BC9F8B] font-bold">
                                     <div class="w-4 h-4 rounded-full bg-[#D7C0AE] mr-2"></div>
-                                    Merchant #{{ rand(10, 99) }}
+                                    Merchant #{{ $product->seller->id }} ({{ $product->seller->name ?? 'Seller' }})
                                 </div>
 
-                                <h4 class="text-[#4E342E] font-bold text-lg leading-tight mb-2 truncate">Minimalist Linen Shirt</h4>
+                                <h4 class="text-[#4E342E] font-bold text-lg leading-tight mb-2 truncate">{{ $product->title }}</h4>
                                 
                                 <p class="text-[#BC9F8B] text-xs line-clamp-2 mb-6 leading-relaxed">
-                                    Crafted from 100% organic linen. This piece offers a breathable, relaxed fit for everyday comfort.
+                                    {{ Str::limit($product->description, 100) }}
                                 </p>
 
                                 <div class="flex justify-between items-center pt-4 border-t border-[#F5EBE0]">
                                     <div class="flex flex-col">
                                         <span class="text-[#BC9F8B] text-[10px] uppercase font-bold">Price</span>
-                                        <span class="text-[#8D6E63] font-black text-xl">$59.00</span>
+                                        <span class="text-[#8D6E63] font-black text-xl">${{ number_format($product->price, 2) }}</span>
                                     </div>
                                     
                                     <div class="flex space-x-1">
@@ -88,13 +102,72 @@
                                     </div>
                                 </div>
                             </div>
+
                         </div>
-                    @endfor
+                    @empty
+                        <p class="text-center text-[#BC9F8B] col-span-4">
+                            No products available at the moment.
+                        </p>
+                    @endforelse
                 </div>
             </div>
 
-            
-
         </div>
     </div>
+
+    <!-- Modal Container -->
+    <div id="modal-container" class="fixed inset-0 z-50 hidden items-center justify-center bg-black bg-opacity-50">
+        <div class="bg-white rounded-2xl w-80 p-6 relative">
+            <h3 id="modal-title" class="text-lg font-bold text-[#4E342E] mb-4">Add product to your cart?</h3>
+            <div class="flex justify-end space-x-3">
+                <form id="modal-form" method="POST" action=""> 
+                    @csrf
+                    <button type="submit" class="bg-[#8D6E63] text-white px-4 py-2 rounded-lg hover:bg-[#70554C]">Add to Cart</button>
+                </form>
+                <button id="modal-cancel" class="bg-gray-300 px-4 py-2 rounded-lg hover:bg-gray-400">Cancel</button>
+            </div>
+            <button id="modal-close" class="absolute top-3 right-3 text-gray-500 hover:text-gray-700">&times;</button>
+        </div>
+    </div>
+
+    <script>
+        // Native JS for modal
+        document.addEventListener('DOMContentLoaded', () => {
+            const modal = document.getElementById('modal-container');
+            const modalTitle = document.getElementById('modal-title');
+            const modalForm = document.getElementById('modal-form');
+            const closeButtons = [document.getElementById('modal-close'), document.getElementById('modal-cancel')];
+
+            // Open modal
+            document.querySelectorAll('.open-modal').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const card = btn.closest('.product-card');
+                    const productId = card.dataset.productId = card.dataset.productId || btn.dataset.productId || btn.closest('.product-card').querySelector('h4').textContent;
+                    const productTitle = card.querySelector('h4').textContent;
+
+                    modalTitle.textContent = `Add "${productTitle}" to your cart?`;
+                    modalForm.action = `/cart/add/${card.dataset.productId}`;
+
+                    modal.classList.remove('hidden');
+                    modal.classList.add('flex');
+                });
+            });
+
+            // Close modal
+            closeButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    modal.classList.add('hidden');
+                    modal.classList.remove('flex');
+                });
+            });
+
+            // Close on click outside modal
+            modal.addEventListener('click', e => {
+                if (e.target === modal) {
+                    modal.classList.add('hidden');
+                    modal.classList.remove('flex');
+                }
+            });
+        });
+    </script>
 </x-app-layout>

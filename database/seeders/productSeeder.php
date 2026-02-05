@@ -12,48 +12,43 @@ class ProductSeeder extends Seeder
         $products = [
             [
                 'title' => 'Minimalist Linen Shirt',
-                'description' => 'Crafted from 100% organic linen. This piece offers a breathable, relaxed fit for everyday comfort.',
+                'description' => 'Crafted from 100% organic linen.',
                 'price' => 59.00,
                 'stock' => 20,
-                'image' => null,
-                'user_id' => 1,      // seller id
-                'category_id' => 1,  // category id
+                'user_id' => 1,      // Assurez-vous que l'utilisateur existe
+                'category_id' => 1,  // Shirts
             ],
             [
                 'title' => 'Organic Cotton Hoodie',
-                'description' => 'Soft, eco-friendly hoodie made from premium organic cotton.',
+                'description' => 'Soft, eco-friendly hoodie.',
                 'price' => 79.00,
                 'stock' => 15,
-                'image' => null,
                 'user_id' => 1,
-                'category_id' => 2,
+                'category_id' => 2,  // Hoodies
             ],
             [
                 'title' => 'Eco-friendly Canvas Tote',
-                'description' => 'Durable tote bag made from recycled canvas. Perfect for daily errands.',
+                'description' => 'Durable tote bag.',
                 'price' => 25.00,
                 'stock' => 50,
-                'image' => null,
                 'user_id' => 1,
-                'category_id' => 3,
+                'category_id' => 3,  // Totes
             ],
             [
                 'title' => 'Sustainable Bamboo Socks',
-                'description' => 'Soft and breathable socks made from sustainable bamboo fibers.',
+                'description' => 'Soft bamboo socks.',
                 'price' => 12.00,
                 'stock' => 30,
-                'image' => null,
                 'user_id' => 1,
-                'category_id' => 4,
+                'category_id' => 4,  // Socks
             ],
             [
                 'title' => 'Recycled Glass Water Bottle',
-                'description' => 'Stylish water bottle made from 100% recycled glass with leak-proof cap.',
+                'description' => 'Glass water bottle.',
                 'price' => 30.00,
                 'stock' => 10,
-                'image' => null,
                 'user_id' => 1,
-                'category_id' => 5,
+                'category_id' => 5,  // Water Bottles
             ],
         ];
 
@@ -62,4 +57,3 @@ class ProductSeeder extends Seeder
         }
     }
 }
-

@@ -6,11 +6,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -45,11 +46,25 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
-public function products() {
-    return $this->hasMany(Product::class);
-}
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
 
-public function orders() {
-    return $this->hasMany(Order::class);
-}
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+
+    public function getRedirectRoute()
+    {
+        if ($this->hasRole('admin') || $this->hasRole('moderator')) {
+            return 'admin/dashboard/index';
+        }
+
+        if ($this->hasRole('seller')) {
+            return 'seller/dashboard/index';
+        }
+        return 'dashboard';
+    }
 }
