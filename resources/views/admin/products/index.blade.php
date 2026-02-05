@@ -1,4 +1,6 @@
-<x-admin-layout>
+@extends('layouts.admin')
+
+@section('content')
     <div class="flex justify-between items-center mb-8">
         <div>
             <h1 class="text-2xl font-bold text-gray-900">Products Management</h1>
@@ -164,4 +166,4 @@
             </table>
         </div>
     </div>
-</x-admin-layout>
+@endsection
