@@ -1,10 +1,21 @@
-<svg width="180" height="50" viewBox="0 0 180 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <g transform="translate(5, 5) scale(0.15)">
-    <path d="M70 110V95C70 65 95 40 125 40C155 40 180 65 180 95V110" stroke="#D7C0AE" stroke-width="20" stroke-linecap="round" />
-    <path d="M30 110H220L235 240C235 260 215 280 195 280H55C35 280 15 260 15 240L30 110Z" fill="#BC9F8B" />
-    <path d="M18 220C60 190 140 250 232 210V240C232 260 215 280 195 280H55C35 280 18 260 18 240V220Z" fill="#A68672" />
-  </g>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 100" class="h-10 w-auto">
+    <defs>
+        <filter id="greenGlow" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur in="SourceAlpha" stdDeviation="4" result="blur" />
+            <feOffset in="blur" dx="0" dy="4" result="offsetBlur" />
+            <feFlood flood-color="#1DB954" flood-opacity="0.4" result="offsetColor" />
+            <feComposite in="offsetColor" in2="offsetBlur" operator="in" result="shadow" />
+            <feMerge>
+                <feMergeNode in="shadow" />
+                <feMergeNode in="SourceGraphic" />
+            </feMerge>
+        </filter>
+    </defs>
 
-  <text x="45" y="28" font-family="Arial, sans-serif" font-weight="800" font-size="18" fill="#8D6E63" letter-spacing="0.5">LOCAL</text>
-  <text x="108" y="28" font-family="Arial, sans-serif" font-weight="400" font-size="18" fill="#BC9F8B" letter-spacing="1">MART</text>
+    <rect x="10" y="10" width="60" height="60" rx="16" fill="#1DB954" filter="url(#greenGlow)"/>
+    
+    <path d="M30 45C30 35 38 28 45 28C52 28 60 35 60 45C60 55 52 62 40 62C34 62 30 58 30 45Z" fill="none" stroke="white" stroke-width="3" />
+    <path d="M30 45C35 45 40 42 40 35M40 62V28M40 50C45 50 55 55 55 55" stroke="white" stroke-width="3" stroke-linecap="round" fill="none" />
+
+    <text x="85" y="55" fill="#0F172A" style="font-family: 'Inter', sans-serif; font-weight: 800; font-size: 34px; letter-spacing: -1.2px;">LocalMart</text>
 </svg>
