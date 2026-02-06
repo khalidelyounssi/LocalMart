@@ -7,32 +7,30 @@
             <i class="fa-solid fa-arrow-left"></i>
         </a>
         <div>
-            <h1 class="text-2xl font-bold text-gray-900">Add New Category</h1>
-            <p class="text-gray-500 text-sm">Create a new product category for your store</p>
+            <h1 class="text-2xl font-bold text-gray-900">Edit Category</h1>
+            <p class="text-gray-500 text-sm">Update your product category</p>
         </div>
     </div>
 
     <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
-        <form action="{{ route('admin.categories.store') }}" method="POST" class="p-8 space-y-8" enctype="multipart/form-data">
+        <form action="{{ route('admin.categories.update' ,  $category->id ) }}" method="POST" class="p-8 space-y-8" enctype="multipart/form-data">
             @csrf
+            @method('PUT')
 
             <div class="space-y-2">
                 <label for="name" class="block text-sm font-bold text-gray-700">Category Name <span class="text-red-500">*</span></label>
                 <div class="relative">
-                    <input type="text" id="name" name="name" placeholder="e.g. Smart Watches" value="{{old('name')}}"
+                    <input type="text" id="name" name="name" placeholder="e.g. Smart Watches"  value="{{old('name' , $category->name )}}"
                         class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition text-gray-900 placeholder-gray-400"
                         onkeyup="generateSlug()">
                 </div>
-                @error('name')
-                <div class="text-red-500 text-sm">{{ $message }}</div>
-                @enderror
                 <p class="text-xs text-gray-500">The name is how it appears on your site.</p>
             </div>
 
             <div class="space-y-2">
-                <label for="name" class="block text-sm font-bold text-gray-700">Description <span class="text-red-500">*</span></label>
+                <label for="description" class="block text-sm font-bold text-gray-700">Description <span class="text-red-500">*</span></label>
                 <div class="relative">
-                    <input type="text" name="description" placeholder="e.g. Smart Watches" value="{{old('description')}}"
+                    <input type="text" name="description" placeholder="e.g. Smart Watches"  value="{{old('description' , $category->description )}}"
                         class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition text-gray-900 placeholder-gray-400">
                 </div>
                 @error('description')
@@ -47,7 +45,7 @@
                     <span class="inline-flex items-center px-4 bg-gray-100 text-gray-500 text-sm border-r border-gray-200 font-mono">
                         store.com/
                     </span>
-                    <input type="text" id="slug" name="slug" placeholder="smart-watches" readonly value="{{old('slug')}}"
+                    <input type="text" id="slug" name="slug" placeholder="smart-watches"  readonly value="{{old('slug' , $category->slug)}}"
                         class="flex-1 px-4 py-3 bg-transparent border-none focus:ring-0 text-gray-900 font-mono text-sm placeholder-gray-400">
                 </div>
                 @error('slug')
@@ -90,7 +88,7 @@
                         name="is_active"
                         value="1"
                         class="sr-only peer"
-                        {{ old('is_active', 1) ? 'checked' : '' }}>
+                        {{ old('is_active', $category->is_active) ? 'checked' : '' }} >
                     <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-100 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
                 </label>
 
