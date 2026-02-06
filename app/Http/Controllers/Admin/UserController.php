@@ -19,8 +19,13 @@ class UserController extends Controller
             ->whereYear('created_at', now()->format('Y'))
             ->count();
         $suspendedUsers = User::where('status', 'suspended')->count();
+        $totalUsersRoleClient = User::role('client')->count();
+        $totalUsersRoleSeller = User::role('seller')->count();
+        $totalUsersRoleModerator = User::role('moderator')->count();
 
-        return view('admin.users.index', compact('users', 'totalUsers', 'newUsersThisMonth', 'suspendedUsers'));
+
+        return view('admin.users.index', 
+        compact('users', 'totalUsers', 'newUsersThisMonth', 'suspendedUsers', 'totalUsersRoleClient', 'totalUsersRoleSeller', 'totalUsersRoleModerator'));
     }   
 
     public function toggleStatus (User $user) 
