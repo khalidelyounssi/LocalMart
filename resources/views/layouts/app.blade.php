@@ -18,6 +18,23 @@
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100">
             @include('layouts.navigation')
+            
+<!-- Off-Canvas Cart Sidebar -->
+<div id="cart-sidebar"
+     class="fixed right-0 top-0 h-full w-80 bg-white shadow-lg transform translate-x-full transition-transform duration-300 z-50">
+    <div class="p-4 flex justify-between items-center border-b">
+        <h2 class="text-lg font-semibold">Panier</h2>
+        <button id="close-cart" class="text-gray-500 hover:text-gray-800">&times;</button>
+    </div>
+    <div id="cart-items" class="p-4 space-y-4 overflow-y-auto h-[calc(100%-64px)]">
+        <!-- JS will append cart items here -->
+    </div>
+    <div class="p-4 border-t">
+        <button id="checkout-btn" class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">
+            Checkout
+        </button>
+    </div>
+</div>
 
             <!-- Page Heading -->
             @isset($header)

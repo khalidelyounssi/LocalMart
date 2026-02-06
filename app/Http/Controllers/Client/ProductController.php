@@ -14,4 +14,29 @@ class ProductController extends Controller
 
         return view('productDeatails', compact('product'));
     }
+
+    public function toggleLike(Product $product)
+{
+    $user = auth()->user();
+
+    $like = $product->wishlists()->where('user_id', $user->id)->first();
+
+    if ($like) {
+        // Unlike
+        $like->delete();
+        $status = 'removed';
+    } else {
+        // Like
+        $product->wishlists()->create([
+            'user_id' => $user->id,
+        ]);
+        $status = 'added';
+    }
+
+    // Return JSON for AJAX
+    return response()->json([
+        'status' => $status,
+        'likes_count' => $product->wishlists()->count(),
+    ]);
+}
 }

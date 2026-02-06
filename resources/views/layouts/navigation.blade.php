@@ -31,7 +31,7 @@
             </div>
 
             <div class="flex items-center gap-4">
-                <button class="hidden sm:inline-flex p-2 rounded-full hover:bg-gray-100 relative group">
+                <button id="open-cart" class="hidden sm:inline-flex p-2 rounded-full hover:bg-gray-100 relative group">
                     <svg class="w-5 h-5 text-gray-600 group-hover:text-[#1DB954] transition-colors" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.5 7h13L17 13M7 13H5.4" />
                     </svg>

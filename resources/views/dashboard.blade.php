@@ -26,73 +26,70 @@
             {{-- Categories --}}
             <div class="flex space-x-4 overflow-x-auto pb-4">
                 @foreach(['Nouveautés','Meilleures ventes','Coton bio','Accessoires','Décoration maison'] as $category)
-                    <div class="flex-shrink-0 bg-white px-6 py-3 rounded-2xl border hover:border-[#1DB954] cursor-pointer">
-                        <span class="text-gray-600 font-bold uppercase text-[10px]">
-                            {{ $category }}
-                        </span>
-                    </div>
+                <div class="flex-shrink-0 bg-white px-6 py-3 rounded-2xl border hover:border-[#1DB954] cursor-pointer">
+                    <span class="text-gray-600 font-bold uppercase text-[10px]">
+                        {{ $category }}
+                    </span>
+                </div>
                 @endforeach
             </div>
 
             {{-- Products --}}
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
                 @forelse ($products as $product)
-                    <div
-                        class="product-card bg-white rounded-3xl border overflow-hidden shadow-sm hover:shadow-xl transition cursor-pointer"
-                        data-url="{{ route('products.show', $product) }}"
-                        data-product-id="{{ $product->id }}"
-                    >
+                <div
+                    class="product-card bg-white rounded-3xl border overflow-hidden shadow-sm hover:shadow-xl transition cursor-pointer"
+                    data-url="{{ route('products.show', $product) }}"
+                    data-product-id="{{ $product->id }}">
 
-                        {{-- Image --}}
-                        <div class="aspect-[4/5] bg-gray-100 relative overflow-hidden">
-                            @if ($product->image)
-                                <img
-                                    src="{{ asset('storage/'.$product->image) }}"
-                                    class="w-full h-full object-cover hover:scale-110 transition-transform duration-500"
-                                >
-                            @endif
+                    {{-- Image --}}
+                    <div class="aspect-[4/5] bg-gray-100 relative overflow-hidden">
+                        @if ($product->image)
+                        <img
+                            src="{{ asset('storage/'.$product->image) }}"
+                            class="w-full h-full object-cover hover:scale-110 transition-transform duration-500">
+                        @endif
 
-                            {{-- Badges --}}
-                            <div class="absolute top-4 left-4 space-y-2">
-                                <span class="bg-white px-2 py-1 rounded text-xs font-bold">
-                                    Stock : {{ $product->stock }}
-                                </span>
-                                <span class="bg-[#1DB954] text-white px-2 py-1 rounded text-xs font-bold">
-                                    {{ $product->category->name ?? 'Non catégorisé' }}
-                                </span>
-                            </div>
-
-                            {{-- Plus button --}}
-                            <button
-                                class="open-modal absolute bottom-4 right-4 bg-[#1DB954] text-white w-10 h-10 rounded-full flex items-center justify-center shadow-lg"
-                                data-product-id="{{ $product->id }}"
-                                data-product-title="{{ $product->title }}"
-                            >
-                                +
-                            </button>
+                        {{-- Badges --}}
+                        <div class="absolute top-4 left-4 space-y-2">
+                            <span class="bg-white px-2 py-1 rounded text-xs font-bold">
+                                Stock : {{ $product->stock }}
+                            </span>
+                            <span class="bg-[#1DB954] text-white px-2 py-1 rounded text-xs font-bold">
+                                {{ $product->category->name ?? 'Non catégorisé' }}
+                            </span>
                         </div>
 
-                        {{-- Content --}}
-                        <div class="p-6">
-                            <h4 class="font-bold text-lg mb-2 truncate">
-                                {{ $product->title }}
-                            </h4>
+                        {{-- Plus button --}}
+                        <button
+                            class="open-modal absolute bottom-4 right-4 bg-[#1DB954] text-white w-10 h-10 rounded-full flex items-center justify-center shadow-lg"
+                            data-product-id="{{ $product->id }}"
+                            data-product-title="{{ $product->title }}">
+                            +
+                        </button>
+                    </div>
 
-                            <p class="text-sm text-gray-500 line-clamp-2 mb-4">
-                                {{ Str::limit($product->description, 80) }}
-                            </p>
+                    {{-- Content --}}
+                    <div class="p-6">
+                        <h4 class="font-bold text-lg mb-2 truncate">
+                            {{ $product->title }}
+                        </h4>
 
-                            <div class="flex justify-between items-center">
-                                <span class="text-[#1DB954] font-black text-xl">
-                                    ${{ number_format($product->price, 2) }}
-                                </span>
-                            </div>
+                        <p class="text-sm text-gray-500 line-clamp-2 mb-4">
+                            {{ Str::limit($product->description, 80) }}
+                        </p>
+
+                        <div class="flex justify-between items-center">
+                            <span class="text-[#1DB954] font-black text-xl">
+                                ${{ number_format($product->price, 2) }}
+                            </span>
                         </div>
                     </div>
+                </div>
                 @empty
-                    <p class="col-span-4 text-center text-gray-400">
-                        Aucun produit disponible.
-                    </p>
+                <p class="col-span-4 text-center text-gray-400">
+                    Aucun produit disponible.
+                </p>
                 @endforelse
             </div>
         </div>
@@ -163,6 +160,21 @@
                     modal.classList.add('hidden');
                     modal.classList.remove('flex');
                 }
+            });
+        });
+
+        //panier
+        document.addEventListener('DOMContentLoaded', () => {
+            const cartSidebar = document.getElementById('cart-sidebar');
+            const openCartBtn = document.getElementById('open-cart');
+            const closeCartBtn = document.getElementById('close-cart');
+
+            openCartBtn?.addEventListener('click', () => {
+                cartSidebar.classList.remove('translate-x-full');
+            });
+
+            closeCartBtn?.addEventListener('click', () => {
+                cartSidebar.classList.add('translate-x-full');
             });
         });
     </script>
