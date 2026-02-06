@@ -155,27 +155,9 @@
                 });
             });
 
-            modal.addEventListener('click', e => {
-                if (e.target === modal) {
-                    modal.classList.add('hidden');
-                    modal.classList.remove('flex');
-                }
-            });
         });
 
         //panier
-        document.addEventListener('DOMContentLoaded', () => {
-            const cartSidebar = document.getElementById('cart-sidebar');
-            const openCartBtn = document.getElementById('open-cart');
-            const closeCartBtn = document.getElementById('close-cart');
-
-            openCartBtn?.addEventListener('click', () => {
-                cartSidebar.classList.remove('translate-x-full');
-            });
-
-            closeCartBtn?.addEventListener('click', () => {
-                cartSidebar.classList.add('translate-x-full');
-            });
-        });
+       
     </script>
 </x-app-layout>

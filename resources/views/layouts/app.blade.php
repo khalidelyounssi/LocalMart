@@ -16,39 +16,55 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100">
-            @include('layouts.navigation')
-            
-<!-- Off-Canvas Cart Sidebar -->
-<div id="cart-sidebar"
-     class="fixed right-0 top-0 h-full w-80 bg-white shadow-lg transform translate-x-full transition-transform duration-300 z-50">
-    <div class="p-4 flex justify-between items-center border-b">
-        <h2 class="text-lg font-semibold">Panier</h2>
-        <button id="close-cart" class="text-gray-500 hover:text-gray-800">&times;</button>
-    </div>
-    <div id="cart-items" class="p-4 space-y-4 overflow-y-auto h-[calc(100%-64px)]">
-        <!-- JS will append cart items here -->
-    </div>
-    <div class="p-4 border-t">
-        <button id="checkout-btn" class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">
-            Checkout
-        </button>
-    </div>
-</div>
+    <div class="min-h-screen bg-gray-100">
+        @include('layouts.navigation')
 
-            <!-- Page Heading -->
-            @isset($header)
-                <header class="bg-white shadow">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        {{ $header }}
-                    </div>
-                </header>
-            @endisset
-
-            <!-- Page Content -->
-            <main>
-                {{ $slot }}
-            </main>
+        {{-- Cart Off-Canvas Sidebar --}}
+        <div id="cart-sidebar"
+             class="fixed right-0 top-0 h-full w-80 bg-white shadow-lg transform translate-x-full transition-transform duration-300 z-50">
+            <div class="p-4 flex justify-between items-center border-b">
+                <h2 class="text-lg font-semibold">Panier</h2>
+                <button id="close-cart" class="text-gray-500 hover:text-gray-800">&times;</button>
+            </div>
+            <div id="cart-items" class="p-4 space-y-4 overflow-y-auto h-[calc(100%-64px)]">
+                <!-- JS will append cart items here -->
+            </div>
+            <div class="p-4 border-t">
+                <button id="checkout-btn" class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">
+                    Checkout
+                </button>
+            </div>
         </div>
-    </body>
-</html>
+
+        {{-- Categories Off-Canvas Sidebar --}}
+        <div id="categories-sidebar" class="fixed top-0 left-0 z-50 h-full w-80 bg-white shadow-lg transform -translate-x-full transition-transform duration-300">
+            <div class="flex justify-between items-center p-6 border-b border-gray-200">
+                <h2 class="text-xl font-bold text-gray-800">Catégories</h2>
+                <button id="close-categories" class="text-gray-600 hover:text-red-500 text-2xl">&times;</button>
+            </div>
+            <div class="p-6 space-y-4 overflow-y-auto h-full">
+                @foreach($categories as $category)
+                    <a href="{{ route('dashboard', ['category' => $category->id]) }}" 
+                       class="block px-4 py-2 rounded-lg hover:bg-[#1DB954] hover:text-white transition">
+                       {{ $category->name }}
+                    </a>
+                @endforeach
+            </div>
+        </div>
+        <div id="categories-overlay" class="fixed inset-0 bg-black/50 z-40 hidden"></div>
+
+        <!-- Page Heading -->
+        @isset($header)
+            <header class="bg-white shadow">
+                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                    {{ $header }}
+                </div>
+            </header>
+        @endisset
+
+        <!-- Page Content -->
+        <main>
+            {{ $slot }}
+        </main>
+    </div>
+</body>

@@ -89,4 +89,40 @@
             </form>
         </div>
     </div>
+    <script>
+document.addEventListener('DOMContentLoaded', () => {
+    // --- CART SIDEBAR ---
+    const cartBtn = document.getElementById('open-cart');
+    const cartSidebar = document.getElementById('cart-sidebar');
+    const cartClose = document.getElementById('close-cart');
+
+    cartBtn?.addEventListener('click', () => {
+        cartSidebar.classList.remove('translate-x-full');
+    });
+
+    cartClose?.addEventListener('click', () => {
+        cartSidebar.classList.add('translate-x-full');
+    });
+
+    // --- CATEGORIES SIDEBAR ---
+    const categoriesBtn = document.querySelector('button.sm\\:flex'); // your "Categories" button
+    const categoriesSidebar = document.getElementById('categories-sidebar');
+    const categoriesOverlay = document.getElementById('categories-overlay');
+    const categoriesClose = document.getElementById('close-categories');
+
+    categoriesBtn?.addEventListener('click', () => {
+        categoriesSidebar.classList.remove('-translate-x-full');
+        categoriesOverlay.classList.remove('hidden');
+    });
+
+    const closeCategories = () => {
+        categoriesSidebar.classList.add('-translate-x-full');
+        categoriesOverlay.classList.add('hidden');
+    };
+
+    categoriesClose?.addEventListener('click', closeCategories);
+    categoriesOverlay?.addEventListener('click', closeCategories);
+});
+</script>
+
 </nav>
