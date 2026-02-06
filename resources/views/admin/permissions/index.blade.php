@@ -153,5 +153,10 @@
                 </tbody>
             </table>
         </div>
+<<<<<<< HEAD
     </div>  
 </x-admin-layout>
+=======
+    </div>
+@endsection
+>>>>>>> cba35a98f759c0532314ea6138851aa98e34708e

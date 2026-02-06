@@ -1,4 +1,6 @@
-<x-admin-layout>
+@extends('layouts.admin')
+
+@section('content')
     <div class="mb-6">
         <a href="{{ route('admin.comments.index') }}" class="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-blue-600 transition mb-3">
             <i class="fa-solid fa-arrow-left"></i> Back to Products
@@ -174,4 +176,4 @@
             <span class="text-xs text-gray-400">Showing 3 of 128 reviews</span>
         </div>
     </div>
-</x-admin-layout>
+@endsection
