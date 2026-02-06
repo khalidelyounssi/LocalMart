@@ -15,6 +15,11 @@
                 <i class="fa-solid fa-shop text-2xl"></i>
                 <span class="text-xl font-bold text-gray-800">LocalMart <span class="text-xs text-indigo-500 italic">Seller</span></span>
             </div>
+            <a href="{{ route('seller.dashboard') }}" 
+       class="flex items-center gap-3 p-3 rounded-xl transition {{ request()->routeIs('seller.dashboard') ? 'bg-indigo-50 text-indigo-600 font-bold' : 'text-gray-600 hover:bg-gray-50' }}">
+        <i class="fa-solid fa-chart-line"></i>
+        <span class="font-medium">Tableau de bord</span>
+    </a>
 
             <nav class="flex-1 px-4 space-y-2 py-4">
                 <a href="{{ route('seller.products.index') }}" 
@@ -23,11 +28,7 @@
                     <span class="font-medium">Mes Produits</span>
                 </a>
 
-                <a href="{{ route('seller.products.create') }}" 
-                   class="flex items-center gap-3 p-3 rounded-xl transition {{ request()->routeIs('seller.products.create') ? 'bg-indigo-50 text-indigo-600 font-bold' : 'text-gray-600 hover:bg-gray-50' }}">
-                    <i class="fa-solid fa-plus-circle"></i>
-                    <span class="font-medium">Ajouter Produit</span>
-                </a>
+                
                 <a href="{{ route('seller.orders.index') }}" class="flex items-center gap-3 p-3 rounded-xl transition {{ request()->routeIs('seller.orders.*') ? 'bg-indigo-50 text-indigo-600 font-bold' : 'text-gray-600 hover:bg-gray-50' }}">
                     <i class="fa-solid fa-cart-shopping"></i>
                     <span>Mes Commandes</span>

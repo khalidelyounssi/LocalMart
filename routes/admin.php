@@ -20,6 +20,16 @@ Route::get('/admin/categories/{category}/edit' , [CategoryController::class , 'e
 Route::put('/admin/categories/{category}/update', [CategoryController::class, 'update'])->name('admin.categories.update');
 Route::delete('/admin/categories/{category}/destroy' , [CategoryController::class , 'destroy'])->name("admin.categories.destroy");
 
+Route::resource('admin/users', UserController::class)->names([
+    'index' => 'admin.users.index',
+    'edit' => 'admin.users.edit',
+    'destroy' => 'admin.users.destroy',
+    'update' => 'admin.users.update',
+    'store' => 'admin.users.store',
+    'create' => 'admin.users.create',
+]);
+
+Route::patch('admin/users/{user}toggle' , [UserController::class, 'toggleStatus'])->name('admin.users.toggle');
 
 Route::get('/admin/comments/index' , [ReviewController::class , 'index'])->name("admin.comments.index");
 
