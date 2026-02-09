@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
-use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Models\Product;
 
@@ -15,9 +14,7 @@ class DashboardController extends Controller
          $products = Product::with(['seller', 'category'])
         ->where('stock', '>', 0)
         ->get();
-           $categories = Category::all();
-
-    return view('dashboard', compact('products' , 'categories'));
+    return view('dashboard', compact('products'));
     }
 
     /**

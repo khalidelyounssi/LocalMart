@@ -1,133 +1,181 @@
 @extends('layouts.admin')
 
 @section('content')
-    <div class="flex justify-between items-center mb-8">
-        <div>
-            <h1 class="text-2xl font-bold text-gray-900">Users Management</h1>
-            <p class="text-gray-500 text-sm">Manage user accounts and permissions</p>
-        </div>
-        <button class="bg-[#2563eb] text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-blue-700 transition font-medium">
-            <i class="fa-solid fa-user-plus text-sm"></i>
-            Add User
-        </button>
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-10">
+    <div>
+        <h1 class="text-3xl font-black text-slate-900 tracking-tight">Utilisateurs</h1>
+        <p class="text-gray-500 font-medium mt-1 text-sm">Gérez les comptes clients, vendeurs et modérateurs.</p>
     </div>
+    <button class="bg-slate-900 text-white px-6 py-3 rounded-2xl flex items-center justify-center gap-2 hover:bg-green-600 shadow-lg shadow-slate-200 hover:shadow-green-100 transition-all duration-300 font-bold text-sm group">
+        <i class="fa-solid fa-user-plus group-hover:scale-110 transition-transform"></i>
+        Ajouter un Utilisateur
+    </button>
+</div>
 
-    <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
-        <div class="p-4 border-b border-gray-100 flex gap-4 bg-white">
-            <div class="relative flex-1">
-                <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
-                <input type="text" placeholder="Search users..." 
-                       class="w-full pl-10 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+    <div class="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm border-l-4 border-l-slate-900 transition-all hover:scale-[1.02]">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Total Utilisateurs</p>
+                <p class="text-2xl font-black text-slate-900">{{ $totalUsers }}</p>
             </div>
-            <div class="relative">
-                <select class="appearance-none border border-gray-200 rounded-lg px-8 py-2 bg-gray-50 text-sm outline-none cursor-pointer">
-                    <option>All Roles</option>
-                    <option>Client</option>
-                    <option>Seller</option>
-                    <option>Moderator</option>
-                </select>
-                <i class="fa-solid fa-chevron-down absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 text-[10px] pointer-events-none"></i>
+            <div class="w-12 h-12 bg-slate-50 text-slate-900 rounded-2xl flex items-center justify-center text-xl">
+                <i class="fa-solid fa-user-group"></i>
             </div>
         </div>
+    </div>
 
-        <div class="overflow-x-auto">
-            <table class="w-full text-left border-collapse">
-                <thead class="bg-gray-50 text-gray-500 text-xs uppercase tracking-wider">
-                    <tr>
-                        <th class="px-6 py-4 font-semibold">User</th>
-                        <th class="px-6 py-4 font-semibold text-center">Role</th>
-                        <th class="px-6 py-4 font-semibold text-center">Status</th>
-                        <th class="px-6 py-4 font-semibold">Join Date</th>
-                        <th class="px-6 py-4 font-semibold">Activity</th>
-                        <th class="px-6 py-4 font-semibold text-right">Actions</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-gray-100 bg-white">
-                    <tr class="hover:bg-gray-50/50 transition">
-                        <td class="px-6 py-4 flex items-center gap-4">
-                            <div class="w-10 h-10 bg-blue-50 text-[#1e40af] rounded-full flex items-center justify-center font-bold text-sm">AJ</div>
-                            <div>
-                                <div class="font-bold text-gray-900 text-sm">Alice Johnson</div>
-                                <div class="text-xs text-gray-500">alice@example.com</div>
-                            </div>
-                        </td>
-                        <td class="px-6 py-4 text-center">
-                            <span class="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-[11px] font-bold">client</span>
-                        </td>
-                        <td class="px-6 py-4 text-center">
-                            <span class="px-3 py-1 bg-green-50 text-green-600 rounded-full text-[11px] font-bold">active</span>
-                        </td>
-                        <td class="px-6 py-4 text-sm text-gray-600">2025-11-15</td>
-                        <td class="px-6 py-4 text-sm text-gray-600">12 orders</td>
-                        <td class="px-6 py-4 text-right">
-                            <button class="text-gray-400 hover:text-gray-600 transition p-2"><i class="fa-solid fa-ellipsis-vertical"></i></button>
-                        </td>
-                    </tr>
-
-                    <tr class="hover:bg-gray-50/50 transition">
-                        <td class="px-6 py-4 flex items-center gap-4">
-                            <div class="w-10 h-10 bg-blue-50 text-[#1e40af] rounded-full flex items-center justify-center font-bold text-sm">BS</div>
-                            <div>
-                                <div class="font-bold text-gray-900 text-sm">Bob Smith</div>
-                                <div class="text-xs text-gray-500">bob@example.com</div>
-                            </div>
-                        </td>
-                        <td class="px-6 py-4 text-center">
-                            <span class="px-3 py-1 bg-blue-50 text-blue-600 rounded-full text-[11px] font-bold">seller</span>
-                        </td>
-                        <td class="px-6 py-4 text-center">
-                            <span class="px-3 py-1 bg-green-50 text-green-600 rounded-full text-[11px] font-bold">active</span>
-                        </td>
-                        <td class="px-6 py-4 text-sm text-gray-600">2025-10-22</td>
-                        <td class="px-6 py-4 text-sm text-gray-600">34 products</td>
-                        <td class="px-6 py-4 text-right">
-                            <button class="text-gray-400 hover:text-gray-600 transition p-2"><i class="fa-solid fa-ellipsis-vertical"></i></button>
-                        </td>
-                    </tr>
-
-                    <tr class="hover:bg-gray-50/50 transition">
-                        <td class="px-6 py-4 flex items-center gap-4">
-                            <div class="w-10 h-10 bg-orange-50 text-orange-600 rounded-full flex items-center justify-center font-bold text-sm">CW</div>
-                            <div>
-                                <div class="font-bold text-gray-900 text-sm">Carol White</div>
-                                <div class="text-xs text-gray-500">carol@example.com</div>
-                            </div>
-                        </td>
-                        <td class="px-6 py-4 text-center">
-                            <span class="px-3 py-1 bg-orange-50 text-orange-600 rounded-full text-[11px] font-bold">moderator</span>
-                        </td>
-                        <td class="px-6 py-4 text-center">
-                            <span class="px-3 py-1 bg-green-50 text-green-600 rounded-full text-[11px] font-bold">active</span>
-                        </td>
-                        <td class="px-6 py-4 text-sm text-gray-600">2025-09-10</td>
-                        <td class="px-6 py-4 text-sm text-gray-600">-</td>
-                        <td class="px-6 py-4 text-right">
-                            <button class="text-gray-400 hover:text-gray-600 transition p-2"><i class="fa-solid fa-ellipsis-vertical"></i></button>
-                        </td>
-                    </tr>
-
-                    <tr class="hover:bg-gray-50/50 transition">
-                        <td class="px-6 py-4 flex items-center gap-4">
-                            <div class="w-10 h-10 bg-gray-100 text-gray-600 rounded-full flex items-center justify-center font-bold text-sm">DB</div>
-                            <div>
-                                <div class="font-bold text-gray-900 text-sm">David Brown</div>
-                                <div class="text-xs text-gray-500">david@example.com</div>
-                            </div>
-                        </td>
-                        <td class="px-6 py-4 text-center">
-                            <span class="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-[11px] font-bold">client</span>
-                        </td>
-                        <td class="px-6 py-4 text-center">
-                            <span class="px-3 py-1 bg-red-50 text-red-600 rounded-full text-[11px] font-bold">suspended</span>
-                        </td>
-                        <td class="px-6 py-4 text-sm text-gray-600">2025-12-05</td>
-                        <td class="px-6 py-4 text-sm text-gray-600">3 orders</td>
-                        <td class="px-6 py-4 text-right">
-                            <button class="text-gray-400 hover:text-gray-600 transition p-2"><i class="fa-solid fa-ellipsis-vertical"></i></button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+    <div class="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm border-l-4 border-l-green-500 transition-all hover:scale-[1.02]">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Nouveaux ce mois</p>
+                <p class="text-2xl font-black text-slate-900">+{{ $newUsersThisMonth }}</p>
+            </div>
+            <div class="w-12 h-12 bg-green-50 text-green-600 rounded-2xl flex items-center justify-center text-xl">
+                <i class="fa-solid fa-calendar-plus"></i>
+            </div>
         </div>
     </div>
+
+    <div class="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm border-l-4 border-l-red-500 transition-all hover:scale-[1.02]">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Comptes Suspendus</p>
+                <p class="text-2xl font-black text-slate-900">{{ $suspendedUsers }}</p>
+            </div>
+            <div class="w-12 h-12 bg-red-50 text-red-600 rounded-2xl flex items-center justify-center text-xl">
+                <i class="fa-solid fa-user-slash"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm border-l-4 border-l-emerald-500 transition-all hover:scale-[1.02]">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Total Clients</p>
+                <p class="text-2xl font-black text-slate-900">{{ $totalUsersRoleClient }}</p>
+            </div>
+            <div class="w-12 h-12 bg-emerald-50 text-emerald-500 rounded-2xl flex items-center justify-center text-xl">
+                <i class="fa-solid fa-users"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm border-l-4 border-l-blue-500 transition-all hover:scale-[1.02]">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Total Vendeurs</p>
+                <p class="text-2xl font-black text-slate-900">{{ $totalUsersRoleSeller }}</p>
+            </div>
+            <div class="w-12 h-12 bg-blue-50 text-blue-500 rounded-2xl flex items-center justify-center text-xl">
+                <i class="fa-solid fa-shop"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm border-l-4 border-l-purple-500 transition-all hover:scale-[1.02]">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Modérateurs</p>
+                <p class="text-2xl font-black text-slate-900">{{ $totalUsersRoleModerator }}</p>
+            </div>
+            <div class="w-12 h-12 bg-purple-50 text-purple-500 rounded-2xl flex items-center justify-center text-xl">
+                <i class="fa-solid fa-user-shield"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="bg-white rounded-[2rem] border border-gray-100 shadow-xl shadow-gray-50/50 overflow-hidden">
+    <div class="p-6 border-b border-gray-50 flex flex-wrap gap-4 items-center justify-between bg-white">
+        <div class="flex items-center gap-4 flex-1">
+            <form action="{{ route('admin.users.index') }}" method="GET" class="relative max-w-xs w-full group">
+                <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-green-600 transition-colors"></i>
+                <input type="text" name="search" placeholder="Rechercher..." class="w-full pl-11 pr-4 py-2.5 bg-gray-50 border-none rounded-2xl focus:ring-4 focus:ring-green-50 focus:bg-white transition-all text-sm font-medium">
+            </form>
+
+            <select class="appearance-none bg-gray-50 border-none rounded-2xl px-4 py-2.5 text-sm font-bold text-slate-600 outline-none cursor-pointer focus:ring-4 focus:ring-green-50">
+                <option>Tous les Rôles</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="overflow-x-auto">
+        <table class="w-full text-left">
+            <thead>
+                <tr class="bg-gray-50/50">
+                    <th class="px-8 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest">Utilisateur</th>
+                    <th class="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest text-center">Rôle</th>
+                    <th class="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest text-center">Statut</th>
+                    <th class="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest">Inscription</th>
+                    <th class="px-6 py-4 text-right pr-8 text-[10px] font-black text-gray-400 uppercase tracking-widest">Actions</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-50">
+                @foreach($users as $user)
+                <tr class="hover:bg-green-50/30 transition-colors group">
+                    <td class="px-8 py-5">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 bg-slate-100 text-slate-600 rounded-2xl flex items-center justify-center font-black text-sm group-hover:bg-green-600 group-hover:text-white transition-all duration-300">
+                                {{ substr($user->name, 0, 2) }}
+                            </div>
+                            <div>
+                                <div class="font-bold text-slate-900 text-sm">{{ $user->name }}</div>
+                                <div class="text-xs text-gray-400 font-medium">{{ $user->email }}</div>
+                            </div>
+                        </div>
+                    </td>
+
+                    <td class="px-6 py-5 text-center">
+                        @forelse($user->roles as $role)
+                            <span class="px-4 py-1.5 bg-slate-100 text-slate-600 rounded-xl text-[10px] font-black uppercase tracking-tight">
+                                {{ $role->name }}
+                            </span>
+                        @empty
+                            <span class="text-[10px] text-gray-400 italic">Aucun</span>
+                        @endforelse
+                    </td>
+
+                    <td class="px-6 py-5 text-center">
+                        <form action="{{ route('admin.users.toggle', $user->id) }}" method="POST">
+                            @csrf
+                            @method('PATCH')
+                            <button type="submit" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl text-[10px] font-black uppercase transition-all duration-300 {{ $user->status == 'active' ? 'bg-green-50 text-green-600 hover:bg-red-50 hover:text-red-600' : 'bg-red-50 text-red-600 hover:bg-green-50 hover:text-green-600' }}">
+                                <span class="w-1.5 h-1.5 {{ $user->status == 'active' ? 'bg-green-500' : 'bg-red-500' }} rounded-full"></span>
+                                {{ $user->status }}
+                            </button>
+                        </form>
+                    </td>
+
+                    <td class="px-6 py-5">
+                        <div class="text-sm font-bold text-slate-700">{{ $user->created_at->format('d M Y') }}</div>
+                    </td>
+
+                    <td class="px-6 py-5 text-right pr-8">
+                        <div class="flex justify-end gap-2">
+                            <a href="{{ route('admin.users.edit', $user->id) }}" class="w-9 h-9 flex items-center justify-center rounded-xl bg-gray-50 text-slate-400 hover:bg-green-50 hover:text-green-600 transition-all duration-300 shadow-sm" title="Modifier">
+                                <i class="fa-regular fa-pen-to-square"></i>
+                            </a>
+                            <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" onsubmit="return confirm('Supprimer cet utilisateur ?')">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="w-9 h-9 flex items-center justify-center rounded-xl bg-gray-50 text-slate-400 hover:bg-red-50 hover:text-red-500 transition-all duration-300 shadow-sm" title="Supprimer">
+                                    <i class="fa-regular fa-trash-can"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+
+    <div class="p-6 bg-gray-50/50 border-t border-gray-50 flex items-center justify-between">
+        <p class="text-xs text-gray-400 font-bold uppercase tracking-widest">
+            Page {{ $users->currentPage() }} sur {{ $users->lastPage() }}
+        </p>
+        <div>{{ $users->links() }}</div>
+    </div>
+</div>
 @endsection
