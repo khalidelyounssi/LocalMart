@@ -16,7 +16,7 @@ Route::put('/seller/products/update/{product}', [ProductController::class, 'upda
 Route::delete('/seller/products/destroy/{product}', [ProductController::class, 'destroy'])->name("seller.products.destroy");Route::get('/seller/products/reviews' , [ProductController::class , 'reviews'])->name("seller.products.reviews");
 
 Route::get('/seller/orders/index', [OrderController::class, 'index'])->name('seller.orders.index');
-Route::patch('/seller/orders/{order}/status', [OrderController::class, 'updateStatus'])->name('seller.orders.updateStatus');
+Route::patch('/seller/orders/{item}/status', [OrderController::class, 'updateStatus'])->name('seller.orders.updateStatus');
 
 
 
