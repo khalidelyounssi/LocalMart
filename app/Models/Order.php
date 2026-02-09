@@ -2,12 +2,16 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
 
 {
-    protected $fillable = ['status', 'total_price', 'user_id'];
+    use HasFactory;
+
+
+    protected $fillable = ['status', 'total_amount', 'user_id'];
     public function client() {
     return $this->belongsTo(User::class, 'user_id');
 }

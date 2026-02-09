@@ -10,10 +10,10 @@ class PermissionController extends Controller
     public function index() {
         return view('admin.permissions.index');
     }
-    public function create() {}   // فورم الإضافة
-    public function store() {}    // حفظ البيانات
-    public function show($id) {}  // عرض عنصر واحد
-    public function edit($id) {}  // فورم التعديل
-    public function update($id) {} // تحديث البيانات
-    public function destroy($id) {} // الحذف
+    public function create() {}
+    public function store() {}  
+    public function show($id) {}  
+    public function edit($id) {}  
+    public function update($id) {} 
+    public function destroy($id) {} 
 }

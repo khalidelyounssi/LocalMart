@@ -30,7 +30,7 @@
             </div>
 
             <div class="flex items-center gap-4">
-                <button id="open-cart" class="hidden sm:inline-flex p-2 rounded-full hover:bg-gray-100 relative group">
+                <button class="hidden sm:inline-flex p-2 rounded-full hover:bg-gray-100 relative group">
                     <svg class="w-5 h-5 text-gray-600 group-hover:text-[#1DB954] transition-colors" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.5 7h13L17 13M7 13H5.4" />
                     </svg>
@@ -87,40 +87,4 @@
             </form>
         </div>
     </div>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // --- CART SIDEBAR ---
-            const cartBtn = document.getElementById('open-cart');
-            const cartSidebar = document.getElementById('cart-sidebar');
-            const cartClose = document.getElementById('close-cart');
-
-            cartBtn?.addEventListener('click', () => {
-                cartSidebar.classList.remove('translate-x-full');
-            });
-
-            cartClose?.addEventListener('click', () => {
-                cartSidebar.classList.add('translate-x-full');
-            });
-
-            // --- CATEGORIES SIDEBAR ---
-            const categoriesBtn = document.querySelector('button.sm\\:flex'); // your "Categories" button
-            const categoriesSidebar = document.getElementById('categories-sidebar');
-            const categoriesOverlay = document.getElementById('categories-overlay');
-            const categoriesClose = document.getElementById('close-categories');
-
-            categoriesBtn?.addEventListener('click', () => {
-                categoriesSidebar.classList.remove('-translate-x-full');
-                categoriesOverlay.classList.remove('hidden');
-            });
-
-            const closeCategories = () => {
-                categoriesSidebar.classList.add('-translate-x-full');
-                categoriesOverlay.classList.add('hidden');
-            };
-
-            categoriesClose?.addEventListener('click', closeCategories);
-            categoriesOverlay?.addEventListener('click', closeCategories);
-        });
-    </script>
-
 </nav>
