@@ -157,7 +157,7 @@
 
         });
 
-        //panier
+    
        
     </script>
 </x-app-layout>
