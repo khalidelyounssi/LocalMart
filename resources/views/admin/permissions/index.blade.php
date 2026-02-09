@@ -1,4 +1,6 @@
-<x-admin-layout>
+@extends('layouts.admin')
+
+@section('content')
     <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-10">
         <div>
             <h1 class="text-3xl font-black text-gray-900 tracking-tight">Rôles & Permissions</h1>
@@ -153,10 +155,5 @@
                 </tbody>
             </table>
         </div>
-<<<<<<< HEAD
     </div>  
-</x-admin-layout>
-=======
-    </div>
 @endsection
->>>>>>> cba35a98f759c0532314ea6138851aa98e34708e

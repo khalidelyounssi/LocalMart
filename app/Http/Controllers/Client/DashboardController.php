@@ -14,7 +14,6 @@ class DashboardController extends Controller
          $products = Product::with(['seller', 'category'])
         ->where('stock', '>', 0)
         ->get();
-
     return view('dashboard', compact('products'));
     }
 

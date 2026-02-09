@@ -1,4 +1,4 @@
-@extends('layouts.seller')
+@extends('layouts.admin')
 
 @section('content')
 <div class="container mx-auto">
@@ -66,7 +66,7 @@
                             </td>
 
                             <td class="px-8 py-6 text-right">
-                                <form action="{{ route('seller.orders.updateStatus', $item->id) }}" method="POST" class="flex items-center justify-end gap-2">
+                                <form action="{{ route('admin.orders.updateStatus', $item->id) }}" method="POST" class="flex items-center justify-end gap-2">
                                     @csrf
                                     @method('PATCH')
                                     <select name="status" class="text-xs font-bold border-none bg-gray-100 rounded-xl p-2.5 focus:ring-2 focus:ring-indigo-500 outline-none transition-all">

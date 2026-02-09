@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Seller;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Mail\OrderStatusUpdated;
@@ -23,7 +23,7 @@ class OrderController extends Controller
         ->latest()
         ->get();
 
-        return view('seller.orders.index', compact('orders'));
+        return view('admin.orders.index', compact('orders'));
     }
 
     /**
