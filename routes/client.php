@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\Client\DashboardController;
 use App\Http\Controllers\Client\ProductController;
-
+use App\Http\Controllers\client\OrderController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -20,6 +20,8 @@ Route::get('/products/{product}', [ProductController::class, 'show'])
 Route::post('/products/{product}/like', [ProductController::class, 'toggleLike'])
     ->middleware('auth')
     ->name('products.like');
-    Route::get('/dashboard/category/{category}', [DashboardController::class, 'index'])
+Route::get('/dashboard/category/{category}', [DashboardController::class, 'index'])
     ->middleware(['auth'])
     ->name('dashboard.category');
+
+Route::post('/card/add/{product}', [OrderController::class, 'addItem'])->middleware('auth')->name('cart.add');

@@ -6,33 +6,45 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-12 bg-white p-8 rounded-[32px] shadow-sm border border-gray-100">
 
                 {{-- Product Image --}}
-                <div class="relative group">
+                <div class="group">
                     <div class="aspect-square bg-gray-100 rounded-[24px] overflow-hidden border border-gray-50">
                         @if($product->image)
-                            <img src="{{ asset('storage/'.$product->image) }}" 
-                                 alt="{{ $product->title }}"
-                                 class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                        <img src="{{ asset('storage/'.$product->image) }}" alt="{{ $product->title }}"
+                            class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
                         @else
-                            <div class="w-full h-full flex items-center justify-center text-gray-300">
-                                <svg class="w-20 h-20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
-                                          d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                </svg>
-                            </div>
+                        <div class="w-full h-full flex items-center justify-center text-gray-300">
+                            <svg class="w-20 h-20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
+                                    d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                        </div>
                         @endif
                     </div>
 
-                    {{-- Like Button --}}
-                    <button class="like-btn absolute top-4 right-4 bg-white/90 backdrop-blur-md p-3 rounded-full shadow-md transition-all duration-300 active:scale-90"
+                    {{-- Like Button (under image) --}}
+                    <div class="mt-4 flex justify-end">
+                        <button
+                            class="like-btn bg-white border border-gray-200 px-5 py-2 rounded-full shadow-sm
+                                   flex items-center gap-2 transition-all duration-300 hover:bg-gray-50 active:scale-95"
                             data-product-id="{{ $product->id }}"
-                            title="Ajouter aux favoris">
-                        <svg class="w-6 h-6 fill-current {{ auth()->check() && $product->isLikedBy(auth()->user()) ? 'text-red-500' : 'text-gray-400' }}" viewBox="0 0 24 24">
-                            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 
-                                     2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09 
-                                     C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5 
-                                     c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-                        </svg>
-                    </button>
+                            title="J’aime ce produit">
+                            {{-- Hand / Like icon --}}
+                            <svg
+                                class="w-5 h-5 fill-current
+                                {{ auth()->check() && $product->isLikedBy(auth()->user()) ? 'text-[#1DB954]' : 'text-gray-400' }}"
+                                viewBox="0 0 24 24">
+                                <path d="M2 21h4V9H2v12zm20-11c0-1.1-.9-2-2-2h-6.31l.95-4.57.03-.32
+                                         c0-.41-.17-.79-.44-1.06L13 1 6.59 7.41C6.22 7.78 6 8.3 6 8.83V19
+                                         c0 1.1.9 2 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05
+                                         c.09-.23.14-.47.14-.73v-2z" />
+                            </svg>
+
+                            {{-- Likes count --}}
+                            <span class="like-count text-sm font-bold text-gray-700">
+                                {{ $product->wishlists_count ?? $product->wishlists()->count() }}
+                            </span>
+                        </button>
+                    </div>
                 </div>
 
                 {{-- Product Info --}}
@@ -60,13 +72,20 @@
                     </p>
 
                     <div class="mt-10 flex gap-4">
-                        <button class="flex-1 bg-[#1DB954] text-white px-8 py-4 rounded-2xl font-bold hover:bg-[#16a34a] shadow-lg shadow-green-100 transition-all transform hover:-translate-y-1 active:scale-95">
-                            Ajouter au Panier
-                        </button>
-                        <button class="p-4 bg-[#0F172A] text-white rounded-2xl hover:bg-black transition-colors shadow-lg shadow-gray-200">
+                        <form method="POST" action="{{ route('cart.add' ,$product) }}">
+                            @csrf
+                            <button type="submit"
+                                class="flex-1 bg-[#1DB954] text-white px-8 py-4 rounded-2xl font-bold hover:bg-[#16a34a] shadow-lg shadow-green-100 transition-all transform hover:-translate-y-1 active:scale-95">
+                                Ajouter au Panier
+                            </button>
+                        </form>
+
+
+                        <button
+                            class="p-4 bg-[#0F172A] text-white rounded-2xl hover:bg-black transition-colors shadow-lg shadow-gray-200">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                      d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+                                    d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
                             </svg>
                         </button>
                     </div>
@@ -76,7 +95,7 @@
             {{-- Comments Section --}}
             <div class="mt-12 bg-white rounded-[32px] p-8 shadow-sm border border-gray-100">
                 <h3 class="text-2xl font-black text-[#0F172A] mb-8 flex items-center">
-                    Commentaires 
+                    Commentaires
                     <span class="ml-3 px-2 py-0.5 bg-gray-100 text-gray-500 text-sm rounded-lg">3</span>
                 </h3>
 
@@ -84,10 +103,11 @@
                     <div class="flex items-start space-x-4">
                         <div class="w-10 h-10 rounded-full bg-gray-200 flex-shrink-0"></div>
                         <div class="flex-1">
-                            <textarea placeholder="Partagez votre avis sur ce produit..." 
-                                      class="w-full rounded-2xl border-gray-200 bg-gray-50 focus:border-[#1DB954] focus:ring-[#1DB954] transition-all py-3 px-4 text-sm min-h-[100px]"></textarea>
+                            <textarea placeholder="Partagez votre avis sur ce produit..."
+                                class="w-full rounded-2xl border-gray-200 bg-gray-50 focus:border-[#1DB954] focus:ring-[#1DB954] transition-all py-3 px-4 text-sm min-h-[100px]"></textarea>
                             <div class="mt-3 flex justify-end">
-                                <button class="bg-[#0F172A] text-white px-6 py-2 rounded-xl text-sm font-bold hover:bg-black transition-all">
+                                <button
+                                    class="bg-[#0F172A] text-white px-6 py-2 rounded-xl text-sm font-bold hover:bg-black transition-all">
                                     Publier l'avis
                                 </button>
                             </div>
@@ -97,7 +117,9 @@
 
                 <div class="space-y-8">
                     <div class="flex space-x-4">
-                        <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center text-[#1DB954] font-bold">JD</div>
+                        <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center text-[#1DB954] font-bold">
+                            JD
+                        </div>
                         <div class="flex-1 bg-gray-50 p-4 rounded-2xl border border-gray-100">
                             <div class="flex justify-between items-center mb-2">
                                 <h5 class="font-bold text-[#0F172A] text-sm">Jean Dupont</h5>
@@ -118,8 +140,11 @@
 
             likeBtn?.addEventListener('click', async (e) => {
                 e.stopPropagation();
+
                 const productId = likeBtn.dataset.productId;
                 const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+                const countEl = likeBtn.querySelector('.like-count');
+                const svg = likeBtn.querySelector('svg');
 
                 const res = await fetch(`/products/${productId}/like`, {
                     method: 'POST',
@@ -131,14 +156,15 @@
 
                 const data = await res.json();
 
-                // Toggle color only
-                const svg = likeBtn.querySelector('svg');
+                // Toggle icon color
                 if (data.status === 'added') {
-                    svg.classList.add('text-red-500');
+                    svg.classList.add('text-[#1DB954]');
                     svg.classList.remove('text-gray-400');
+                    countEl.textContent = parseInt(countEl.textContent) + 1;
                 } else {
                     svg.classList.add('text-gray-400');
-                    svg.classList.remove('text-red-500');
+                    svg.classList.remove('text-[#1DB954]');
+                    countEl.textContent = parseInt(countEl.textContent) - 1;
                 }
             });
         });
