@@ -1,4 +1,4 @@
-@extends('layouts.seller')
+@extends('layouts.admin')
 
 @section('content')
 <div class="max-w-4xl mx-auto">
@@ -8,7 +8,7 @@
             <p class="text-gray-500 text-sm">Remplissez les informations ci-dessous pour mettre en vente votre article.</p>
         </div>
 
-        <form action="{{ route('seller.products.store') }}" method="POST" enctype="multipart/form-data" class="p-8 space-y-6">
+        <form action="{{ route('admin.products.store') }}" method="POST" enctype="multipart/form-data" class="p-8 space-y-6">
             @csrf
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">

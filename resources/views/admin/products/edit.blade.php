@@ -1,4 +1,4 @@
-@extends('layouts.seller')
+@extends('layouts.admin')
 
 @section('content')
 <div class="max-w-4xl mx-auto">
@@ -7,7 +7,7 @@
         <p class="text-gray-500">Mettez à jour les informations de votre produit.</p>
     </div>
 
-    <form action="{{ route('seller.products.update', $product->id) }}" method="POST" enctype="multipart/form-data" class="bg-white p-8 rounded-[2rem] shadow-sm border border-gray-100">
+    <form action="{{ route('admin.products.update', $product->id) }}" method="POST" enctype="multipart/form-data" class="bg-white p-8 rounded-[2rem] shadow-sm border border-gray-100">
         @csrf
         @method('PUT')
 
