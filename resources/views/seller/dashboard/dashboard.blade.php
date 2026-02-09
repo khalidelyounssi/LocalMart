@@ -1,65 +1,113 @@
 @extends('layouts.seller')
 
 @section('content')
-<div class="container mx-auto">
-    <div class="mb-10">
-        <h1 class="text-3xl font-black text-gray-800 tracking-tight">Tableau de bord</h1>
-        <p class="text-gray-500 font-medium">Bonjour, <span class="text-indigo-600 font-bold">{{ auth()->user()->name }}</span> ! Voici un résumé de votre activité.</p>
+<div class="mb-8">
+    <h1 class="text-2xl font-bold text-gray-900">Seller Dashboard</h1>
+    <p class="text-gray-500 text-sm">Accès rapide aux statistiques de votre boutique</p>
+</div>
+
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+    
+    <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+        <div class="flex items-center justify-between mb-3">
+            <p class="text-sm text-gray-500 font-medium">Mes Revenus</p>
+            <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+                <i class="fa-solid fa-wallet text-green-600"></i>
+            </div>
+        </div>
+        <h2 class="text-2xl font-bold text-gray-800 mb-1">{{ number_format($totalEarnings, 2) }} MAD</h2>
+        <div class="flex items-center gap-1 text-sm text-green-600">
+            <i class="fa-solid fa-arrow-up text-xs"></i>
+            <span>Statistiques en temps réel</span>
+        </div>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        
-        <div class="bg-gradient-to-br from-indigo-600 to-indigo-800 p-8 rounded-[2.5rem] shadow-2xl shadow-indigo-200 relative overflow-hidden group">
-            <div class="absolute -right-4 -top-4 w-24 h-24 bg-white/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-500"></div>
-            <div class="relative z-10">
-                <div class="flex justify-between items-center mb-4">
-                    <p class="text-indigo-100 text-xs font-black uppercase tracking-[0.2em]">Total des Revenus</p>
-                    <div class="bg-white/20 p-3 rounded-2xl">
-                        <i class="fa-solid fa-wallet text-white text-xl"></i>
-                    </div>
-                </div>
-                <h3 class="text-white text-4xl font-black tracking-tight">
-                    {{ number_format($totalEarnings ?? 0, 2) }} <span class="text-sm opacity-80">DH</span>
-                </h3>
-                <p class="text-indigo-200 text-xs mt-4 font-medium italic">+ 0% depuis le mois dernier</p>
+    <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+        <div class="flex items-center justify-between mb-3">
+            <p class="text-sm text-gray-500 font-medium">Mes Produits</p>
+            <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
+                <i class="fa-solid fa-box-open text-purple-600"></i>
             </div>
         </div>
-
-        <div class="bg-white p-8 rounded-[2.5rem] border border-gray-100 shadow-xl shadow-gray-100/50 group hover:border-indigo-200 transition-all duration-300">
-            <div class="flex justify-between items-center mb-4">
-                <p class="text-gray-400 text-xs font-black uppercase tracking-[0.2em]">Mes Produits</p>
-                <div class="bg-indigo-50 p-3 rounded-2xl text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white transition-colors duration-300">
-                    <i class="fa-solid fa-box-open text-xl"></i>
-                </div>
-            </div>
-            <h3 class="text-gray-800 text-4xl font-black tracking-tight">{{ $productsCount ?? 0 }}</h3>
-            <p class="text-gray-400 text-xs mt-4 font-medium italic text-indigo-500">Gérer mon catalogue →</p>
-        </div>
-
-        <div class="bg-white p-8 rounded-[2.5rem] border border-gray-100 shadow-xl shadow-gray-100/50 group hover:border-amber-200 transition-all duration-300">
-            <div class="flex justify-between items-center mb-4">
-                <p class="text-gray-400 text-xs font-black uppercase tracking-[0.2em]">En Attente</p>
-                <div class="bg-amber-50 p-3 rounded-2xl text-amber-600 group-hover:bg-amber-500 group-hover:text-white transition-colors duration-300">
-                    <i class="fa-solid fa-clock text-xl"></i>
-                </div>
-            </div>
-            <h3 class="text-gray-800 text-4xl font-black tracking-tight text-amber-600">{{ $pendingOrdersCount ?? 0 }}</h3>
-            <p class="text-gray-400 text-xs mt-4 font-medium italic text-amber-500">Commandes à traiter</p>
-        </div>
-
+        <h2 class="text-2xl font-bold text-gray-800 mb-1">{{ $productsCount }}</h2>
+        <p class="text-xs text-gray-400">Total des articles en ligne</p>
     </div>
 
-    <div class="mt-12 bg-indigo-50/50 p-8 rounded-[2.5rem] border border-indigo-100/50 flex items-center justify-between">
-        <div class="flex items-center gap-6">
-            <div class="bg-white p-4 rounded-3xl shadow-sm text-indigo-600">
-                <i class="fa-solid fa-lightbulb text-2xl"></i>
-            </div>
-            <div>
-                <h4 class="font-black text-gray-800">Conseil du jour</h4>
-                <p class="text-sm text-gray-500">Ajoutez des images de haute qualité pour augmenter vos ventes de 30% !</p>
+    <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+        <div class="flex items-center justify-between mb-3">
+            <p class="text-sm text-gray-500 font-medium">En Attente</p>
+            <div class="w-10 h-10 bg-amber-100 rounded-lg flex items-center justify-center">
+                <i class="fa-solid fa-clock text-amber-600"></i>
             </div>
         </div>
-        <button class="bg-white text-indigo-600 px-6 py-3 rounded-2xl font-bold text-sm shadow-sm hover:shadow-md transition">Voir les guides</button>
+        <h2 class="text-2xl font-bold text-gray-800 mb-1">{{ $pendingOrdersCount }}</h2>
+        <p class="text-xs text-gray-400">Commandes à traiter</p>
+    </div>
+</div>
+
+<div class="grid lg:grid-cols-2 gap-8 mb-8">
+    <div class="bg-white p-6 rounded-lg shadow-md w-full border border-gray-200">
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-xl font-bold text-gray-800">Mes Tops Ventes</h2>
+            <a href="{{ route('seller.products.index') }}" class="px-4 py-1.5 text-sm font-medium text-gray-700 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition">
+                Gérer
+            </a>
+        </div>
+
+        <div class="space-y-5">
+            {{-- هنا استعملت المتغيرات اللي ديجا عندك --}}
+            @foreach($topProducts ?? [] as $product)
+            <div class="flex items-center gap-4 border-b border-gray-50 pb-4">
+                <div class="h-12 w-12 flex-shrink-0 rounded-xl bg-gray-100 overflow-hidden">
+                    <img src="{{ asset('storage/' . $product->image) }}" class="w-full h-full object-cover">
+                </div>
+                <div class="flex-1">
+                    <h3 class="text-sm font-bold text-gray-900">{{ $product->title }}</h3>
+                    <p class="text-xs text-gray-500">Stock: {{ $product->stock }}</p>
+                </div>
+                <div class="text-right">
+                    <h3 class="text-sm font-bold text-green-500">{{ $product->price }} MAD</h3>
+                </div>
+            </div>
+            @endforeach
+            @if(empty($topProducts))
+                <p class="text-center text-gray-400 text-sm py-10">Aucune donnée disponible</p>
+            @endif
+        </div>
+    </div>
+
+    <div class="bg-white p-6 rounded-lg shadow-md w-full border border-gray-200">
+        <h2 class="text-xl font-bold mb-6 text-gray-800">Évolution des Ventes</h2>
+        <div class="flex h-64 items-center justify-center border-t border-gray-50">
+             <p class="text-gray-400 italic">Graphique de performance (Bientôt disponible)</p>
+        </div>
+    </div>
+</div>
+
+<div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+    <div class="p-6 border-b border-gray-100 flex justify-between items-center">
+        <h3 class="font-bold text-gray-800">Dernières Commandes</h3>
+        <a href="{{ route('seller.orders.index') }}" class="text-indigo-600 text-sm font-bold hover:underline">Voir tout</a>
+    </div>
+    <div class="p-6 space-y-4">
+        {{-- افترضنا أن عندك متغير recentOrders صيفطتيه من الـ Controller --}}
+        @foreach($recentOrders ?? [] as $order)
+        <div class="flex items-center justify-between p-4 border border-gray-50 rounded-xl hover:bg-gray-50 transition">
+            <div class="flex items-center gap-4">
+                <div class="w-10 h-10 bg-indigo-50 rounded-full flex items-center justify-center text-indigo-600 font-bold">
+                    {{ substr($order->user->name, 0, 1) }}
+                </div>
+                <div>
+                    <p class="font-semibold text-gray-800">{{ $order->user->name }}</p>
+                    <p class="text-sm text-gray-500">Total: {{ $order->total_price }} MAD</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="px-3 py-1 bg-amber-100 text-amber-700 rounded-full text-xs font-medium">{{ $order->status }}</span>
+                <span class="text-sm text-gray-400">{{ $order->created_at->diffForHumans() }}</span>
+            </div>
+        </div>
+        @endforeach
     </div>
 </div>
 @endsection
