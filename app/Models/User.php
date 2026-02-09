@@ -68,4 +68,9 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
         }
         return 'dashboard';
     }
+
+    public function cart()
+{
+    return $this->hasOne(Cart::class);
+}
 }
