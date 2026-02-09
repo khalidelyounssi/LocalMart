@@ -55,7 +55,6 @@
         </div>
 
         <div class="space-y-5">
-            {{-- هنا استعملت المتغيرات اللي ديجا عندك --}}
             @foreach($topProducts ?? [] as $product)
             <div class="flex items-center gap-4 border-b border-gray-50 pb-4">
                 <div class="h-12 w-12 flex-shrink-0 rounded-xl bg-gray-100 overflow-hidden">
@@ -90,7 +89,6 @@
         <a href="{{ route('seller.orders.index') }}" class="text-indigo-600 text-sm font-bold hover:underline">Voir tout</a>
     </div>
     <div class="p-6 space-y-4">
-        {{-- افترضنا أن عندك متغير recentOrders صيفطتيه من الـ Controller --}}
         @foreach($recentOrders ?? [] as $order)
         <div class="flex items-center justify-between p-4 border border-gray-50 rounded-xl hover:bg-gray-50 transition">
             <div class="flex items-center gap-4">
