@@ -60,13 +60,6 @@
                             </span>
                         </div>
 
-                        {{-- Plus button --}}
-                        <button
-                            class="open-modal absolute bottom-4 right-4 bg-[#1DB954] text-white w-10 h-10 rounded-full flex items-center justify-center shadow-lg"
-                            data-product-id="{{ $product->id }}"
-                            data-product-title="{{ $product->title }}">
-                            +
-                        </button>
                     </div>
 
                     {{-- Content --}}
@@ -95,65 +88,20 @@
         </div>
     </div>
 
-    {{-- MODAL --}}
-    <div id="modal-container" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/60">
-        <div class="bg-white rounded-3xl w-96 p-8 relative shadow-xl">
-            <h3 id="modal-title" class="text-xl font-bold mb-6"></h3>
+ 
 
-            <form id="modal-form" method="POST">
-                @csrf
-                <button class="w-full bg-[#1DB954] text-white py-3 rounded-xl font-bold">
-                    Confirmer l’ajout
-                </button>
-            </form>
-
-            <button id="modal-cancel" class="mt-4 w-full bg-gray-100 py-3 rounded-xl">
-                Annuler
-            </button>
-
-            <button id="modal-close" class="absolute top-4 right-4 text-xl">
-                &times;
-            </button>
-        </div>
-    </div>
-
-    {{-- JS NATIF --}}
+    {{-- JS --}}
     <script>
         document.addEventListener('DOMContentLoaded', () => {
 
-            const modal = document.getElementById('modal-container');
-            const modalTitle = document.getElementById('modal-title');
-            const modalForm = document.getElementById('modal-form');
+          
 
             // Card click → details page
             document.querySelectorAll('.product-card').forEach(card => {
                 card.addEventListener('click', () => {
                     window.location.href = card.dataset.url;
                 });
-            });
-
-            // Open modal
-            document.querySelectorAll('.open-modal').forEach(btn => {
-                btn.addEventListener('click', e => {
-                    e.stopPropagation();
-
-                    modalTitle.textContent =
-                        `Ajouter "${btn.dataset.productTitle}" au panier ?`;
-
-                    modalForm.action = `/cart/add/${btn.dataset.productId}`;
-
-                    modal.classList.remove('hidden');
-                    modal.classList.add('flex');
-                });
-            });
-
-            // Close modal
-            document.querySelectorAll('#modal-close, #modal-cancel').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    modal.classList.add('hidden');
-                    modal.classList.remove('flex');
-                });
-            });
+            })
 
         });
 

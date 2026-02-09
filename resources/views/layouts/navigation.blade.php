@@ -103,7 +103,7 @@
             });
 
             // --- CATEGORIES SIDEBAR ---
-            const categoriesBtn = document.querySelector('button.sm\\:flex'); // your "Categories" button
+            const categoriesBtn = document.querySelector('button.sm\\:flex');
             const categoriesSidebar = document.getElementById('categories-sidebar');
             const categoriesOverlay = document.getElementById('categories-overlay');
             const categoriesClose = document.getElementById('close-categories');
@@ -119,7 +119,7 @@
             };
 
             categoriesClose?.addEventListener('click', closeCategories);
-            categoriesOverlay?.addEventListener('click', closeCategories);
+            // categoriesOverlay?.addEventListener('click', closeCategories);
         });
     </script>
 
