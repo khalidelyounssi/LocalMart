@@ -22,15 +22,16 @@ class RolePermisionSeeder extends Seeder
         Permission::create(['name' => 'create products']);
         Permission::create(['name' => 'edit products']);
         Permission::create(['name' => 'delete products']);
-        Permission::create(['name' => 'browse catalogue']);
+        Permission::create(['name' => 'view products']);
         Permission::create(['name' => 'manage orders status']); // pour le seller
+        Permission::create(['name' => 'view products reviews']);
 
         /**
          * permissions commandes (client)
          */
         Permission::create(['name' => 'place orders']);
         Permission::create(['name' => 'cancel orders']);
-        Permission::create(['name' => 'view product']);
+        
         Permission::create(['name' => 'view all orders']);
         Permission::create(['name' => 'view own orders']);
 
@@ -44,10 +45,16 @@ class RolePermisionSeeder extends Seeder
         /**
          * permissions administrateur
          */
-        Permission::create(['name' => 'manage users']);
         Permission::create(['name' => 'manage roles']);
         Permission::create(['name' => 'suspend users']);
         Permission::create(['name' => 'view analytics']);
+
+
+        Permission::create(['name' => 'create category']);
+        Permission::create(['name' => 'edit category']);
+        Permission::create(['name' => 'delete category']);
+        Permission::create(['name' => 'view categories']);
+
 
         $superAdmin = Role::create(['name' => 'super-admin']);
         
@@ -59,14 +66,13 @@ class RolePermisionSeeder extends Seeder
             'create products',
             'edit products',
             'delete products',
-            'browse catalogue',
+            'view products',
             'manage orders status',
-            'view own orders',
+            'view products reviews'
         ]);
 
         $client = Role::create(['name' => 'client']);
         $client->givePermissionTo([
-            'browse catalogue',
             'place orders',
             'cancel orders',
             'view own orders',
@@ -75,7 +81,6 @@ class RolePermisionSeeder extends Seeder
 
         $moderator = Role::create(['name' => 'moderator']);
         $moderator->givePermissionTo([
-            'browse catalogue',
             'interact product',
             'delete reviews',
             'hide product',
