@@ -29,7 +29,8 @@ Route::resource('admin/users', UserController::class)->names([
     'create' => 'admin.users.create',
 ]);
 
-Route::patch('admin/users/{user}toggle' , [UserController::class, 'toggleStatus'])->name('admin.users.toggle');
+Route::patch('users/{user}/toggle', [UserController::class, 'toggleStatus'])->name('admin.users.toggle');
+Route::patch('users/{user}/role', [UserController::class, 'updateRole'])->name('admin.users.updateRole');
 
 Route::get('/admin/comments/index' , [ReviewController::class , 'index'])->name("admin.comments.index");
 

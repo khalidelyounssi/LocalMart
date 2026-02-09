@@ -1,6 +1,11 @@
 @extends('layouts.admin')
 
 @section('content')
+@if(session('success'))
+<div class="bg-green-500 text-white p-4 rounded-xl mb-4 font-bold text-sm">
+    {{ session('success') }}
+</div>
+@endif
 <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-10">
     <div>
         <h1 class="text-3xl font-black text-slate-900 tracking-tight">Utilisateurs</h1>
@@ -127,28 +132,28 @@
                     </td>
 
                     <td class="px-6 py-5 text-center">
-                        @forelse($user->roles as $role)
-                            <span class="px-4 py-1.5 bg-slate-100 text-slate-600 rounded-xl text-[10px] font-black uppercase tracking-tight">
-                                {{ $role->name }}
-                            </span>
-                        @empty
-                            <span class="text-[10px] text-gray-400 italic">Aucun</span>
-                        @endforelse
+                        <select onchange="updateUserRole({{$user->id}}, this.value)"
+                        class="bg-gray-50 border-none rounded-xl px-2 py-1 text-[10px] font-black uppercase cursor-pointer focus:ring-2 focus:ring-green-500">
+                            <option value="client" {{ $user->hasRole('client') ? 'selected' : '' }}>Client</option>
+                            <option value="seller">Seller</option>
+                        </select>
                     </td>
 
                     <td class="px-6 py-5 text-center">
-                        <form action="{{ route('admin.users.toggle', $user->id) }}" method="POST">
-                            @csrf
-                            @method('PATCH')
-                            <button type="submit" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl text-[10px] font-black uppercase transition-all duration-300 {{ $user->status == 'active' ? 'bg-green-50 text-green-600 hover:bg-red-50 hover:text-red-600' : 'bg-red-50 text-red-600 hover:bg-green-50 hover:text-green-600' }}">
-                                <span class="w-1.5 h-1.5 {{ $user->status == 'active' ? 'bg-green-500' : 'bg-red-500' }} rounded-full"></span>
-                                {{ $user->status }}
-                            </button>
-                        </form>
+                        <button type="button"
+                            onclick="updateUserStatus({{ $user->id }})"
+                            id="status-btn-{{ $user->id }}"
+                            class="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl text-[10px] font-black uppercase transition-all duration-300 {{ $user->status == 'active' ? 'bg-green-50 text-green-600' : 'bg-red-50 text-red-600' }}">
+
+                            <span id="status-dot-{{ $user->id }}" class="w-1.5 h-1.5 {{ $user->status == 'active' ? 'bg-green-500' : 'bg-red-500' }} rounded-full"></span>
+                            <span id="status-text-{{ $user->id }}">{{ $user->status }}</span>
+                        </button>
                     </td>
 
                     <td class="px-6 py-5">
-                        <div class="text-sm font-bold text-slate-700">{{ $user->created_at->format('d M Y') }}</div>
+                        <div id="date-{{ $user->id }}" class="text-sm font-bold text-slate-700">
+                            {{ $user->created_at->format('d M Y') }}
+                        </div>
                     </td>
 
                     <td class="px-6 py-5 text-right pr-8">
@@ -178,4 +183,37 @@
         <div>{{ $users->links() }}</div>
     </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+    function updateUserStatus(userId) {
+        /**
+         *  Créez la requête (même route que celle définie dans admin.php pour le changement de statut)
+         */
+        axios.patch(`/users/${userId}/toggle`)
+            .then(Response => {
+                if (Response.data.success) {
+                    const data = Response.data;
+                    document.getElementById(`status-text-${userId}`).innerText = data.new_status;
+                    document.getElementById(`date-${userId}`).innerText = data.updated_at;
+
+                    const statusBtn = document.getElementById(`status-btn-${userId}`);
+                    const statusDot = document.getElementById(`status-dot-${userId}`);
+
+                    if (data.new_status === 'active')
+                    {
+                        statusBtn.className = 'inline-flex items-center gap-1.5 px-3 py-1 rounded-xl text-[10px] font-black uppercase transition-all duration-300 bg-green-50 text-green-600';
+                        statusDot.className = 'w-1.5 h-1.5 bg-green-500 rounded-full';
+                    }else
+                    {
+                        statusBtn.className = 'inline-flex items-center gap-1.5 px-3 py-1 rounded-xl text-[10px] font-black uppercase transition-all duration-300 bg-red-50 text-red-600';
+                        statusDot.className = 'w-1.5 h-1.5 bg-red-500 rounded-full';
+                    }
+                }
+            })
+            .catch(error => {
+                console.error('Erreur lors de la mise à jour du statut :', error);
+                alert('Une erreur est survenue. Veuillez réessayer.');
+            });
+    }
+</script>
 @endsection
