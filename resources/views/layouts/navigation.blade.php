@@ -1,20 +1,14 @@
 <nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-       
-        <div class="flex items-center gap-4">
-            <button id="open-cart" class="hidden sm:inline-flex p-2 rounded-full hover:bg-gray-100 relative group">
-                <svg class="w-5 h-5 text-gray-600 group-hover:text-[#1DB954] transition-colors" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.5 7h13L17 13M7 13H5.4" />
-                </svg>
-            </button>
-          
         <div class="flex h-16 items-center justify-between gap-4">
 
+            <!-- Logo + Categories -->
             <div class="flex items-center gap-6">
                 <a href="{{ route('dashboard') }}" class="flex items-center">
                     <x-application-logo class="h-10 w-auto" />
                 </a>
 
+                <!-- Categories Button -->
                 <button class="hidden sm:flex items-center gap-2 text-sm font-medium text-gray-600 hover:text-[#1DB954] transition-colors">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
@@ -23,6 +17,7 @@
                 </button>
             </div>
 
+            <!-- Search Bar -->
             <div class="hidden md:flex flex-1 max-w-xl">
                 <div class="relative w-full">
                     <input
@@ -37,13 +32,16 @@
                 </div>
             </div>
 
+            <!-- Right Icons: Cart + User Dropdown + Mobile Menu -->
             <div class="flex items-center gap-4">
-                <button class="hidden sm:inline-flex p-2 rounded-full hover:bg-gray-100 relative group">
+                <!-- Cart Button -->
+                <button id="open-cart" class="hidden sm:inline-flex p-2 rounded-full hover:bg-gray-100 relative group">
                     <svg class="w-5 h-5 text-gray-600 group-hover:text-[#1DB954] transition-colors" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.5 7h13L17 13M7 13H5.4" />
                     </svg>
                 </button>
 
+                <!-- User Dropdown -->
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button class="flex items-center gap-2 rounded-full bg-gray-100 px-3 py-1.5 text-sm font-medium text-gray-700 hover:bg-[#1DB954] hover:text-white transition-all">
@@ -67,6 +65,7 @@
                     </x-slot>
                 </x-dropdown>
 
+                <!-- Mobile menu toggle -->
                 <button @click="open = !open"
                     class="sm:hidden inline-flex items-center justify-center rounded-md p-2 text-gray-500 hover:bg-gray-100 hover:text-[#1DB954]">
                     <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -78,28 +77,40 @@
         </div>
     </div>
 
-   
+    <!-- Mobile menu -->
     <div x-show="open" class="sm:hidden border-t border-gray-200">
-      
+        <div class="p-4 space-y-2">
+            <input
+                type="text"
+                placeholder="Search products..."
+                class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:ring-[#1DB954] focus:border-[#1DB954]" />
+            <x-responsive-nav-link :href="route('profile.edit')" class="hover:text-[#1DB954]">
+                Profile
+            </x-responsive-nav-link>
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <x-responsive-nav-link :href="route('logout')" onclick="event.preventDefault(); this.closest('form').submit();">
+                    Log Out
+                </x-responsive-nav-link>
+            </form>
+        </div>
     </div>
 
     <!-- CART SIDEBAR -->
-    <div id="cart-sidebar"
-         class="fixed right-0 top-0 h-full w-80 bg-white shadow-lg transform translate-x-full transition-transform duration-300 z-50">
+    <div id="cart-sidebar" class="fixed right-0 top-0 h-full w-80 bg-white shadow-lg transform translate-x-full transition-transform duration-300 z-50">
         <div class="p-4 flex justify-between items-center border-b">
             <h2 class="text-lg font-semibold">Panier</h2>
             <button id="close-cart" class="text-gray-500 hover:text-gray-800">&times;</button>
         </div>
 
-        <!-- CART CONTENT -->
-        @php
-            $cartOrder = auth()->user()->orders()->where('status', 'pending')->with('items.product')->first();
-        @endphp
+        <div class="p-4 space-y-4 overflow-y-auto h-[calc(100%-64px)]" id="cart-items">
+            @php
+                $cartOrder = auth()->user()->orders()->where('status', 'pending')->with('items.product')->first();
+            @endphp
 
-        <div id="cart-items" class="p-4 space-y-4 overflow-y-auto h-[calc(100%-64px)]">
             @if($cartOrder && $cartOrder->items->count())
                 @foreach($cartOrder->items as $item)
-                    <div class="flex justify-between items-center border-b py-2">
+                    <div class="flex justify-between">
                         <span>{{ $item->product->title }} x {{ $item->quantity }}</span>
                         <span>${{ number_format($item->price_at_purchase * $item->quantity, 2) }}</span>
                     </div>
@@ -116,7 +127,6 @@
         </div>
     </div>
 
-    <!-- JS to open/close cart and categories -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             // --- CART SIDEBAR ---
@@ -139,13 +149,13 @@
             const categoriesClose = document.getElementById('close-categories');
 
             categoriesBtn?.addEventListener('click', () => {
-                categoriesSidebar.classList.remove('-translate-x-full');
-                categoriesOverlay.classList.remove('hidden');
+                categoriesSidebar?.classList.remove('-translate-x-full');
+                categoriesOverlay?.classList.remove('hidden');
             });
 
             const closeCategories = () => {
-                categoriesSidebar.classList.add('-translate-x-full');
-                categoriesOverlay.classList.add('hidden');
+                categoriesSidebar?.classList.add('-translate-x-full');
+                categoriesOverlay?.classList.add('hidden');
             };
 
             categoriesClose?.addEventListener('click', closeCategories);
