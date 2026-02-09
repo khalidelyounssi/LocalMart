@@ -107,8 +107,23 @@ class DashboardController extends Controller
             ->selectRaw('p.title, p.stock , p.price , p.image , c.name as category, COUNT(o.id) as count, SUM(o.quantity * o.price_at_purchase) as revenue')
             ->groupBy('p.title', 'c.name' , 'p.stock' , 'p.price' , 'p.image')
             ->get();
+        
 
-        return view('admin.dashboard.index',  compact('data', 'totalAmount', 'growthAmount' , 'currentVal' , 'maxValue' , 'totalOrders' , 'growthOrder' , 'totalProduct' , 'growthProduct' , 'totalUser' , 'growthUser' , 'topProduct' , 'recentUsers'));
+        
+    $userId = auth()->id();
+
+    $totalEarnings = \App\Models\OrderItem::whereHas('product', function($q) use ($userId) {
+        $q->where('user_id', $userId);
+    })->sum(\DB::raw('price_at_purchase * quantity'));
+
+    $productsCount = \App\Models\Product::where('user_id', $userId)->count();
+
+    $pendingOrdersCount = \App\Models\Order::whereHas('items.product', function($q) use ($userId) {
+        $q->where('user_id', $userId);
+    })->where('status', 'pending')->count();
+
+        return view('admin.dashboard.index',  compact('data', 'totalAmount', 'growthAmount' , 'currentVal' , 'maxValue' , 'totalOrders' , 'growthOrder' , 'totalProduct' , 'growthProduct' , 'totalUser' , 'growthUser' , 'topProduct' , 'recentUsers'
+                                                        ,'totalEarnings', 'productsCount', 'pendingOrdersCount'));
     }
     public function create() {}   // فورم الإضافة
     public function store() {}    // حفظ البيانات

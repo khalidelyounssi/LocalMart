@@ -6,6 +6,8 @@ use App\Http\Controllers\Admin\ReviewController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\PermissionController;
+use App\Http\Controllers\Admin\OrderController;
+
 
 Route::get('/admin/dashboard/index' , [DashboardController::class , 'index'])->name("admin.dashboard.index");
 
@@ -37,3 +39,17 @@ Route::get('/admin/comments/index' , [ReviewController::class , 'index'])->name(
 Route::get('/admin/comments/product/{id}' , [ReviewController::class , 'show'])->name("admin.comments.product");
 
 Route::get('/admin/permissions/index', [PermissionController::class , 'index'])->name("admin.permissions.index");
+
+
+
+Route::get('/admin/products/index' , [ProductController::class , 'index'])->name("admin.products.index");
+Route::get('/admin/products/create' , [ProductController::class , 'create'])->name("admin.products.create");
+Route::post('/admin/products/store' , [ProductController::class , 'store'])->name("admin.products.store");
+Route::get('/admin/products/edit/{product}' , [ProductController::class , 'edit'])->name("admin.products.edit");
+Route::put('/admin/products/update/{product}', [ProductController::class, 'update'])->name("admin.products.update");
+Route::delete('/admin/products/destroy/{product}', [ProductController::class, 'destroy'])->name("admin.products.destroy");
+
+Route::get('/admin/products/reviews' , [ProductController::class , 'reviews'])->name("admin.products.reviews");
+
+Route::get('/admin/orders/index', [OrderController::class, 'index'])->name('admin.orders.index');
+Route::patch('/admin/orders/{item}/status', [OrderController::class, 'updateStatus'])->name('admin.orders.updateStatus');

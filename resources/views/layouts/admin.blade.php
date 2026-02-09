@@ -39,6 +39,8 @@
                 <x-admin-nav-link href="{{ route('admin.categories.index') }}" icon="fa-list" label="Catégories" :active="request()->is('admin/categories*')" />
                 <x-admin-nav-link href="{{ route('admin.permissions.index') }}" icon="fa-key" label="Permissions" :active="request()->is('admin/permissions*')" />
                 <x-admin-nav-link href="{{ route('admin.comments.index') }}" icon="fa-comment" label="Commentaires" :active="request()->is('admin/comments*')" />
+                <x-admin-nav-link href="{{ route('admin.orders.index') }}" icon="fa-truck" label="Mes commandes" :active="request()->is('admin/orders*')" />
+                <x-admin-nav-link href="{{ route('admin.products.reviews') }}" icon="fa-star" label="Avis Clients" :active="request()->is('admin.products.reviews')" />
             </nav>
 
             <div class="p-6 border-t border-gray-50">

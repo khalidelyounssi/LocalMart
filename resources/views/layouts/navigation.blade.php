@@ -21,10 +21,9 @@
                         type="text"
                         placeholder="Search products..."
                         class="w-full rounded-full border border-gray-200 bg-gray-50 pl-10 pr-4 py-2 text-sm
-                               focus:border-[#1DB954] focus:ring-[#1DB954] transition-all"
-                    >
+                               focus:border-[#1DB954] focus:ring-[#1DB954] transition-all">
                     <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400"
-                         fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M17 11a6 6 0 11-12 0 6 6 0 0112 0z" />
                     </svg>
                 </div>
@@ -61,7 +60,7 @@
                 </x-dropdown>
 
                 <button @click="open = !open"
-                        class="sm:hidden inline-flex items-center justify-center rounded-md p-2 text-gray-500 hover:bg-gray-100 hover:text-[#1DB954]">
+                    class="sm:hidden inline-flex items-center justify-center rounded-md p-2 text-gray-500 hover:bg-gray-100 hover:text-[#1DB954]">
                     <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path x-show="!open" stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
                         <path x-show="open" stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -76,8 +75,7 @@
             <input
                 type="text"
                 placeholder="Search products..."
-                class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:ring-[#1DB954] focus:border-[#1DB954]"
-            />
+                class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:ring-[#1DB954] focus:border-[#1DB954]" />
             <x-responsive-nav-link :href="route('profile.edit')" class="hover:text-[#1DB954]">
                 Profile
             </x-responsive-nav-link>
