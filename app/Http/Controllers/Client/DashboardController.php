@@ -3,18 +3,22 @@
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Models\Product;
 
 class DashboardController extends Controller
 {
    
+   
     public function index()
     {
          $products = Product::with(['seller', 'category'])
         ->where('stock', '>', 0)
         ->get();
-    return view('dashboard', compact('products'));
+           $categories = Category::all();
+
+    return view('dashboard', compact('products' , 'categories'));
     }
 
     /**
