@@ -28,8 +28,9 @@ Route::get('/dashboard/category/{category}', [DashboardController::class, 'index
 Route::post('/cart/add/{product}', [CartController::class, 'addItem'])
     ->middleware('auth')->name('cart.add');
 
-Route::post('/cart/remove/{product}', [CartController::class, 'removeItem'])
-    ->middleware('auth')->name('cart.remove');
+Route::delete('/cart/item/{product}', [CartController::class, 'deleteItem'])
+    ->middleware('auth')
+    ->name('cart.delete');
 
 Route::get('/cart', [CartController::class, 'index'])
     ->middleware('auth')->name('cart.index');

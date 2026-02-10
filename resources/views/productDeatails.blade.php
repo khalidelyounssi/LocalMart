@@ -74,6 +74,12 @@
                     <div class="mt-10 flex gap-4">
                         <form method="POST" action="{{ route('cart.add' ,$product) }}">
                             @csrf
+
+                            <div class="flex items-center border rounded">
+                                <button type="button" onclick="decrement()" class="px-3 py-1 bg-gray-200">−</button>
+                                <input type="number" name="quantity" id="quantity" value="1" min="1" class="w-12 text-center border-l border-r" />
+                                <button type="button" onclick="increment()" class="px-3 py-1 bg-gray-200">+</button>
+                            </div>
                             <button type="submit"
                                 class="flex-1 bg-[#1DB954] text-white px-8 py-4 rounded-2xl font-bold hover:bg-[#16a34a] shadow-lg shadow-green-100 transition-all transform hover:-translate-y-1 active:scale-95">
                                 Ajouter au Panier
@@ -91,6 +97,9 @@
                     </div>
                 </div>
             </div>
+
+
+
 
             {{-- Comments Section --}}
             <div class="mt-12 bg-white rounded-[32px] p-8 shadow-sm border border-gray-100">
@@ -168,5 +177,18 @@
                 }
             });
         });
+
+        //incriemnt
+        function increment() {
+            let qty = document.getElementById('quantity');
+            qty.value = parseInt(qty.value) + 1;
+        }
+
+        function decrement() {
+            let qty = document.getElementById('quantity');
+            if (parseInt(qty.value) > 1) {
+                qty.value = parseInt(qty.value) - 1;
+            }
+        }
     </script>
 </x-app-layout>

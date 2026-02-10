@@ -88,22 +88,32 @@
         <button id="close-cart">&times;</button>
     </div>
 
-    <div class="p-4 space-y-3 text-sm">
-        @php
-            $cart = auth()->user()->cart()->with('items.product')->first();
-        @endphp
+   <div class="p-4 space-y-3 text-sm">
+    @php
+        $cart = auth()->user()->cart()->with('items.product')->first();
+    @endphp
 
-        @if($cart && $cart->items->count())
-            @foreach($cart->items as $item)
-                <div class="flex justify-between">
-                    <span>{{ $item->product->title }} × {{ $item->quantity }}</span>
-                    <span>{{ number_format($item->product->price * $item->quantity, 2) }} DH</span>
-                </div>
-            @endforeach
-        @else
-            <p class="text-gray-500">Votre panier est vide</p>
-        @endif
-    </div>
+    @if($cart && $cart->items->count())
+        @foreach($cart->items as $item)
+            <div class="flex justify-between items-center">
+                <span>{{ $item->product->title }} × {{ $item->quantity }}</span>
+                <span>{{ number_format($item->product->price * $item->quantity, 2) }} DH</span>
+                
+                {{-- Delete button --}}
+                <form action="{{ route('cart.delete', $item->product->id) }}" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="ml-2 text-red-600 hover:text-red-800 text-sm">
+                        Supprimer
+                    </button>
+                </form>
+            </div>
+        @endforeach
+    @else
+        <p class="text-gray-500">Votre panier est vide</p>
+    @endif
+</div>
+
 </div>
 
 {{-- JS --}}
