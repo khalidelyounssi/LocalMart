@@ -1,6 +1,7 @@
 @extends('layouts.admin')
 
 @section('content')
+@role('admin')
 <div class="mb-8">
     <h1 class="text-2xl font-bold text-gray-900">Admin Dashboard</h1>
     <p class="text-gray-500 text-sm">fast access to all statistique of your platform</p>
@@ -195,8 +196,8 @@
         @endforeach
     </div>
 </div>
-
-
+@endrole
+@role('seller')
 <div class="mb-8">
     <h1 class="text-2xl font-bold text-gray-900">Seller Dashboard</h1>
     <p class="text-gray-500 text-sm">Accès rapide aux statistiques de votre boutique</p>
@@ -306,4 +307,5 @@
         @endforeach
     </div>
 </div>
+@endrole
 @endsection
