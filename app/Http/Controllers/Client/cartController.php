@@ -17,54 +17,57 @@ class CartController extends Controller
     }
 
     
-    public function addItem(Request $request, Product $product)
+   public function addItem(Request $request, Product $product)
 {
     $request->validate([
         'quantity' => 'required|integer|min:1'
     ]);
 
-    $quantity = $request->input('quantity', 1);
-
-    // Check stock
-    if ($quantity > $product->stock) {
-        return redirect()->back()->with('error', "Désolé, seulement {$product->stock} article(s) disponible(s) en stock.");
-    }
+    $quantityRequested = $request->input('quantity');
 
     $cart = auth()->user()->cart()->firstOrCreate([]);
 
-    $cartItem = $cart->items()->where('product_id', $product->id)->first();
+    $cartItem = $cart->items()
+        ->where('product_id', $product->id)
+        ->first();
+
+    $currentQuantity = $cartItem ? $cartItem->quantity : 0;
+
+    $newTotalQuantity = $currentQuantity + $quantityRequested;
+
+    if ($newTotalQuantity > $product->stock) {
+        return redirect()->back()->with(
+            'error',
+            "Désolé, seulement {$product->stock} article(s) disponible(s) en stock."
+        );
+    }
 
     if ($cartItem) {
-        $newQuantity = $cartItem->quantity + $quantity;
-
-        // Ensure not exceeding stock
-        if ($newQuantity > $product->stock) {
-            return redirect()->back()->with('error', "Désolé, vous ne pouvez pas ajouter plus de {$product->stock} article(s).");
-        }
-
-        $cartItem->update(['quantity' => $newQuantity]);
+        $cartItem->update([
+            'quantity' => $newTotalQuantity
+        ]);
     } else {
         $cart->items()->create([
             'product_id' => $product->id,
-            'quantity' => $quantity,
+            'quantity' => $quantityRequested,
         ]);
     }
 
     return redirect()->back()->with('success', 'Produit ajouté au panier');
 }
 
-    public function deleteItem(Product $product)
+
+   public function deleteItem(Product $product)
 {
     $cart = auth()->user()->cart()->first();
     if (!$cart) return redirect()->back();
 
     $cartItem = $cart->items()->where('product_id', $product->id)->first();
     if ($cartItem) {
-        $product->increment('stock', $cartItem->quantity);
-
-  
-        $cartItem->delete();
+        $cartItem->delete(); 
     }
 
     return redirect()->back()->with('success', 'Produit supprimé du panier');
-}}
+}
+
+}
