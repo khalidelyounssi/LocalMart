@@ -25,7 +25,7 @@ Route::delete('/admin/categories/{category}/destroy' , [CategoryController::clas
 Route::resource('admin/users', UserController::class)->names([
     'index' => 'admin.users.index',
     'edit' => 'admin.users.edit',
-    'destroy' => 'admin.users.destroy',
+    // 'destroy' => 'admin.users.destroy',
     'update' => 'admin.users.update',
     'store' => 'admin.users.store',
     'create' => 'admin.users.create',
@@ -33,7 +33,7 @@ Route::resource('admin/users', UserController::class)->names([
 
 Route::patch('users/{user}/toggle', [UserController::class, 'toggleStatus'])->name('admin.users.toggle');
 Route::patch('users/{user}/role', [UserController::class, 'updateRole'])->name('admin.users.updateRole');
-
+Route::delete('users/{user}', [UserController::class, 'destroy'])->name('admin.users.destroy');
 Route::get('/admin/comments/index' , [ReviewController::class , 'index'])->name("admin.comments.index");
 
 Route::get('/admin/comments/product/{id}' , [ReviewController::class , 'show'])->name("admin.comments.product");

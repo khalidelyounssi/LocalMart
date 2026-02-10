@@ -50,7 +50,7 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                                 </svg>
                             </div>
-                            <input id="email" type="email" name="email" value="{{ old('email') }}"  autofocus placeholder="nom@exemple.com"
+                            <input id="email" type="email" name="email" value="{{ old('email') }}" autofocus placeholder="nom@exemple.com"
                                 class="w-full pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 outline-none @error('email') border-red-500 @enderror">
                         </div>
                         @error('email') <p class="text-xs text-red-500 mt-1">{{ $message }}</p> @enderror
@@ -64,19 +64,23 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                                 </svg>
                             </div>
-                            <input id="password" type="password" name="password"  placeholder="••••••••"
+                            <input id="password" type="password" name="password" placeholder="••••••••"
                                 class="w-full pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 outline-none @error('password') border-red-500 @enderror">
                         </div>
                         @error('password') <p class="text-xs text-red-500 mt-1">{{ $message }}</p> @enderror
                     </div>
-
+                    @if(session('error'))
+                    <div class="bg-red-100 text-red-700 p-4 rounded-xl mb-4">
+                        {{ session('error') }}
+                    </div>
+                    @endif
                     <div class="flex items-center justify-between py-2">
                         <div class="flex items-center">
                             <input id="remember_me" type="checkbox" name="remember" class="rounded border-gray-300 text-green-600 focus:ring-green-500 shadow-sm">
                             <label for="remember_me" class="ml-2 text-sm text-gray-600 cursor-pointer">Se souvenir de moi</label>
                         </div>
                         @if (Route::has('password.request'))
-                            <a href="{{ route('password.request') }}" class="text-sm text-green-600 font-semibold hover:text-green-700">Oublié ?</a>
+                        <a href="{{ route('password.request') }}" class="text-sm text-green-600 font-semibold hover:text-green-700">Oublié ?</a>
                         @endif
                     </div>
 
