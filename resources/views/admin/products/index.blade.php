@@ -8,11 +8,13 @@
             <h1 class="text-2xl font-bold text-gray-900">Mes articles en vente</h1>
             <p class="text-gray-500 text-sm">Gérez votre inventaire et vos produits</p>
         </div>
+          @canany(['create products' , 'edit products'])
         <div class="flex gap-3">
             <a href="{{ route('admin.products.create') }}" class="bg-[#2563eb] text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-blue-700 transition font-medium shadow-sm text-sm">
                 <i class="fa-solid fa-plus text-xs"></i> Ajouter un produit
             </a>
         </div>
+        @endcanany
     </div>
 
     {{-- Cartes de statistiques --}}

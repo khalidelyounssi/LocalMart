@@ -17,10 +17,8 @@ return new class extends Migration
             $table->foreignId('product_id')->constrained()->onDelete('cascade');
             $table->foreignId('seller_id')->constrained('users')->onDelete('cascade');
             $table->integer('quantity');
-            $table->decimal('price_at_purchase', 10, 2); // الثمن وقت الشراء
+            $table->decimal('price_at_purchase', 10, 2); 
 
-            // حالة المنتج (كل بائع كيغير حالة السلعة ديالو بوحدو)
-            //test
             $table->enum('status', ['pending', 'shipped', 'delivered'])->default('pending');
             $table->timestamps();
         });

@@ -58,8 +58,7 @@ class RolePermisionSeeder extends Seeder
 
         $superAdmin = Role::create(['name' => 'super-admin']);
         
-        $admin = Role::create(['name' => 'admin']);
-        $admin->givePermissionTo(Permission::all());
+        
 
         $seller = Role::create(['name' => 'seller']);
         $seller->givePermissionTo([
@@ -85,6 +84,28 @@ class RolePermisionSeeder extends Seeder
             'delete reviews',
             'hide product',
             'suspend users',
+        ]);
+
+        $admin = Role::create(['name' => 'admin']);
+        $admin->givePermissionTo([
+            
+           
+            'view products',
+            'manage orders status',
+            'view products reviews',
+            'place orders',
+            'cancel orders',
+            'view own orders',
+            'interact product',
+            'delete reviews',
+            'hide product',
+            'suspend users',
+            'manage roles',
+            'create category',
+            'edit category',
+            'delete category',
+            'view categories'
+            
         ]);
     }
 }
