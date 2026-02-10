@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Product extends Model
 {
+
+    use HasFactory;
 
 protected $fillable = [
         'title',
@@ -26,4 +29,13 @@ public function seller()
 {
     return $this->belongsTo(User::class, 'user_id');
 }
+public function wishlists()
+{
+    return $this->hasMany(Wishlist::class);
+}
+public function isLikedBy(User $user)
+{
+    return $this->wishlists()->where('user_id', $user->id)->exists();
+}
+
 }

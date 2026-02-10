@@ -32,15 +32,28 @@
 
             <nav class="flex-1 px-4 space-y-1 overflow-y-auto custom-scrollbar">
                 <p class="px-4 text-[10px] font-black text-gray-300 uppercase tracking-[0.2em] mb-4">Menu Principal</p>
-
                 <x-admin-nav-link href="{{ route('admin.dashboard.index') }}" icon="fa-table-columns" label="Dashboard" :active="request()->is('admin/dashboard*')" />
+                @canany(['manage roles' , 'suspend users'])
                 <x-admin-nav-link href="{{ route('admin.users.index') }}" icon="fa-users" label="Utilisateurs" :active="request()->is('admin/users*')" />
+                @endcanany
+                @canany(['create products' , 'edit products', 'delete products', 'view products'])
                 <x-admin-nav-link href="{{ route('admin.products.index') }}" icon="fa-box-open" label="Produits" :active="request()->is('admin/products*')" />
+                @endcanany
+                @canany(['create category' , 'edit category' , 'delete category' , 'view categories'])
                 <x-admin-nav-link href="{{ route('admin.categories.index') }}" icon="fa-list" label="Catégories" :active="request()->is('admin/categories*')" />
+                @endcanany
+                @role('admin')
                 <x-admin-nav-link href="{{ route('admin.permissions.index') }}" icon="fa-key" label="Permissions" :active="request()->is('admin/permissions*')" />
+                @endrole
+                @canany(['delete reviews' , 'hide product'])
                 <x-admin-nav-link href="{{ route('admin.comments.index') }}" icon="fa-comment" label="Commentaires" :active="request()->is('admin/comments*')" />
+                @endcanany
+                @canany(['manage orders status'])
                 <x-admin-nav-link href="{{ route('admin.orders.index') }}" icon="fa-truck" label="Mes commandes" :active="request()->is('admin/orders*')" />
+                @endcanany
+                @canany(['view products reviews'])
                 <x-admin-nav-link href="{{ route('admin.products.reviews') }}" icon="fa-star" label="Avis Clients" :active="request()->is('admin.products.reviews')" />
+                @endcanany
             </nav>
 
             <div class="p-6 border-t border-gray-50">
