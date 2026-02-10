@@ -13,9 +13,9 @@ Route::middleware(['auth', 'checkStatus'])->group(function () {
         ->name('dashboard');
 });
 
-Route::get('/dashboard', [DashboardController::class, 'index'])
-    ->middleware(['auth'])
-    ->name('dashboard');
+// Route::get('/dashboard', [DashboardController::class, 'index'])
+//     ->middleware(['auth'])
+//     ->name('dashboard');
 
 
 Route::get('/products/{product}', [ProductController::class, 'show'])

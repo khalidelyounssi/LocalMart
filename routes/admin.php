@@ -38,6 +38,7 @@ Route::patch('users/{user}/toggle', [UserController::class, 'toggleStatus'])->na
 Route::patch('users/{user}/role', [UserController::class, 'updateRole'])->name('admin.users.updateRole');
 Route::delete('users/{user}', [UserController::class, 'destroy'])->name('admin.users.destroy');
 Route::get('/admin/comments/index' , [ReviewController::class , 'index'])->name("admin.comments.index");
+
         Route::get('/admin/categories/create', [CategoryController::class , 'create'])->name("admin.categories.create")->middleware(['permission:create category']);
         Route::post('/admin/categories/store' , [CategoryController::class , 'store'])->name("admin.categories.store")->middleware(['permission:create category']);
         Route::get('/admin/categories/{category}/edit' , [CategoryController::class , 'edit'])->name("admin.categories.edit")->middleware(['permission:edit category']);
@@ -77,7 +78,9 @@ Route::get('/admin/comments/index' , [ReviewController::class , 'index'])->name(
         Route::get('/admin/products/reviews' , [ProductController::class , 'reviews'])->name("admin.products.reviews");
     });
 
-
 });
+
+    Route::post('/permissions/toggle', [PermissionController::class, 'toggle'])->name('permissions.toggle');
+
 
 
