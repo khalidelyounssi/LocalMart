@@ -25,6 +25,20 @@ Route::middleware(['auth' , 'role:admin|moderator|seller'])->group(function () {
 
         Route::get('/admin/categories/index', [CategoryController::class , 'index'])->name("admin.categories.index");
 
+Route::resource('admin/users', UserController::class)->names([
+    'index' => 'admin.users.index',
+    'edit' => 'admin.users.edit',
+    // 'destroy' => 'admin.users.destroy',
+    'update' => 'admin.users.update',
+    'store' => 'admin.users.store',
+    'create' => 'admin.users.create',
+]);
+
+Route::patch('users/{user}/toggle', [UserController::class, 'toggleStatus'])->name('admin.users.toggle');
+Route::patch('users/{user}/role', [UserController::class, 'updateRole'])->name('admin.users.updateRole');
+Route::delete('users/{user}', [UserController::class, 'destroy'])->name('admin.users.destroy');
+Route::get('/admin/comments/index' , [ReviewController::class , 'index'])->name("admin.comments.index");
+
         Route::get('/admin/categories/create', [CategoryController::class , 'create'])->name("admin.categories.create")->middleware(['permission:create category']);
         Route::post('/admin/categories/store' , [CategoryController::class , 'store'])->name("admin.categories.store")->middleware(['permission:create category']);
         Route::get('/admin/categories/{category}/edit' , [CategoryController::class , 'edit'])->name("admin.categories.edit")->middleware(['permission:edit category']);
@@ -64,7 +78,9 @@ Route::middleware(['auth' , 'role:admin|moderator|seller'])->group(function () {
         Route::get('/admin/products/reviews' , [ProductController::class , 'reviews'])->name("admin.products.reviews");
     });
 
-
 });
+
+    Route::post('/permissions/toggle', [PermissionController::class, 'toggle'])->name('permissions.toggle');
+
 
 

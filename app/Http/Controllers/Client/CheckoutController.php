@@ -28,7 +28,7 @@ class CheckoutController extends Controller
         return redirect()->back()->with('error', 'Votre panier est vide.');
     }
 
-    $order = null; // 👈 IMPORTANT
+    $order = null; 
 
     DB::transaction(function () use ($cart, $user, &$order) {
 
