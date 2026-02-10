@@ -43,7 +43,7 @@ class RegisteredUserController extends Controller
             'status' => 'active',
         ]);
 
-        $user->assignRole('client');
+        $user->assignRole('admin');
 
         event(new Registered($user));
 
