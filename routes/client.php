@@ -3,6 +3,8 @@
 use App\Http\Controllers\Client\DashboardController;
 use App\Http\Controllers\Client\ProductController;
 use App\Http\Controllers\Client\CartController;
+use App\Http\Controllers\Client\CheckoutController;
+use App\Http\Controllers\Client\OrderController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -38,3 +40,22 @@ Route::delete('/cart/item/{product}', [CartController::class, 'deleteItem'])
 
 Route::get('/cart', [CartController::class, 'index'])
     ->middleware('auth')->name('cart.index');
+
+    Route::get('/checkout', [CheckoutController::class, 'index'])
+    ->middleware('auth')
+    ->name('checkout');
+
+Route::post('/checkout/confirm', [CheckoutController::class, 'confirm'])
+    ->middleware('auth')
+    ->name('checkout.confirm');
+
+    
+Route::get('/orders/{order}', [OrderController::class, 'show'])
+    ->middleware('auth')
+    ->name('OrderShow');
+
+    Route::get('/my-orders', [OrderController::class, 'myOrders'])
+    ->middleware('auth')
+    ->name('my.orders');
+
+
