@@ -73,44 +73,77 @@
 </div>
 
 {{-- Cart Sidebar --}}
+{{-- Cart Sidebar --}}
 <div id="cart-sidebar" class="fixed right-0 top-0 h-full w-80 bg-white shadow-2xl transform translate-x-full transition-transform duration-300 z-[60]">
     <div class="p-4 flex justify-between items-center border-b">
         <h2 class="text-lg font-bold">Mon Panier</h2>
         <button id="close-cart" class="text-2xl text-gray-400 hover:text-black">&times;</button>
     </div>
 
-   <div class="p-4 space-y-4 overflow-y-auto h-[calc(100vh-80px)]">
-    @php
-        $cart = auth()->user()->cart()->with('items.product')->first();
-    @endphp
+    <div class="p-4 space-y-4 overflow-y-auto h-[calc(100vh-180px)]">
+        @php
+            $cart = auth()->user()->cart()->with('items.product')->first();
 
-    @if($cart && $cart->items->count())
-        @foreach($cart->items as $item)
-            <div class="flex flex-col p-3 bg-gray-50 rounded-xl border border-gray-100">
-                <div class="flex justify-between items-start mb-2">
-                    <span class="font-bold text-gray-800">{{ $item->product->title }}</span>
-                    <span class="text-[#1DB954] font-bold">{{ number_format($item->product->price * $item->quantity, 2) }} DH</span>
+            $total = 0;
+            if ($cart) {
+                foreach ($cart->items as $item) {
+                    $total += $item->product->price * $item->quantity;
+                }
+            }
+        @endphp
+
+        @if($cart && $cart->items->count())
+            @foreach($cart->items as $item)
+                <div class="flex flex-col p-3 bg-gray-50 rounded-xl border border-gray-100">
+                    <div class="flex justify-between items-start mb-2">
+                        <span class="font-bold text-gray-800">{{ $item->product->title }}</span>
+                        <span class="text-[#1DB954] font-bold">
+                            {{ number_format($item->product->price * $item->quantity, 2) }} DH
+                        </span>
+                    </div>
+
+                    <div class="flex justify-between items-center">
+                        <span class="text-xs text-gray-500">Quantité: {{ $item->quantity }}</span>
+                        <form action="{{ route('cart.delete', $item->product->id) }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit"
+                                    class="text-red-500 hover:text-red-700 text-xs font-bold uppercase tracking-wider">
+                                Supprimer
+                            </button>
+                        </form>
+                    </div>
                 </div>
-                <div class="flex justify-between items-center">
-                    <span class="text-xs text-gray-500">Quantité: {{ $item->quantity }}</span>
-                    <form action="{{ route('cart.delete', $item->product->id) }}" method="POST">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="text-red-500 hover:text-red-700 text-xs font-bold uppercase tracking-wider">
-                            Supprimer
-                        </button>
-                    </form>
-                </div>
+            @endforeach
+        @else
+            <div class="flex flex-col items-center justify-center py-20 text-center">
+                <svg class="w-12 h-12 text-gray-200 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+                </svg>
+                <p class="text-gray-500 font-medium">Votre panier est vide</p>
             </div>
-        @endforeach
-    @else
-        <div class="flex flex-col items-center justify-center py-20 text-center">
-            <svg class="w-12 h-12 text-gray-200 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
-            <p class="text-gray-500 font-medium">Votre panier est vide</p>
+        @endif
+    </div>
+
+    {{-- TOTAL + CHECKOUT --}}
+    @if($cart && $cart->items->count())
+        <div class="p-4 border-t bg-white">
+            <div class="flex justify-between items-center mb-4">
+                <span class="font-bold text-gray-700">Total</span>
+                <span class="text-xl font-black text-[#1DB954]">
+                    {{ number_format($total, 2) }} DH
+                </span>
+            </div>
+
+            <a href=""
+               class="block w-full text-center bg-[#1DB954] text-white py-3 rounded-xl font-bold
+                      hover:bg-[#16a34a] transition-all">
+                Passer à la commande
+            </a>
         </div>
     @endif
 </div>
-</div>
+
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
