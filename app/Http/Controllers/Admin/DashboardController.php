@@ -4,8 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use App\Models\OrderItem;
 use App\Models\Product;
 use App\Models\User;
+use App\Models\Report;
+use App\Models\Review;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
@@ -13,6 +16,9 @@ class DashboardController extends Controller
 {
     public function index()
     {
+
+        $userId = auth()->id();
+
 
         $data = [];
 
@@ -23,6 +29,9 @@ class DashboardController extends Controller
             $data[] = [
                 'month' => $start->format('Y-m'),
                 'sum_order' => Order::where('status', 'delivered')->whereBetween('created_at', [$start, $end])->sum('total_amount'),
+
+                'sum_order_seller' => OrderItem::where('status', 'delivered')->whereBetween('created_at', [$start, $end])->where('seller_id' , $userId)->sum('price_at_purchase'),
+                
                 'count_order' => Order::where('status', 'delivered')->whereBetween('created_at', [$start, $end])->count(),
                 'count_product' => Product::whereBetween('created_at', [$start, $end])->count(),
                 'count_user' => User::whereBetween('created_at', [$start, $end])
@@ -34,6 +43,7 @@ class DashboardController extends Controller
 
             ];
         }
+
 
         $totalAmount = 0;
         $totalProduct = 0;
@@ -50,6 +60,15 @@ class DashboardController extends Controller
         foreach ($data as $key => $value) {
             if($maxValue < $value['sum_order']){
                 $maxValue = $value['sum_order'];
+            }
+        }
+
+        $maxValueSeller = 0;
+
+
+        foreach ($data as $key => $value) {
+            if($maxValueSeller < $value['sum_order_seller']){
+                $maxValueSeller = $value['sum_order_seller'];
             }
         }
 
@@ -107,10 +126,20 @@ class DashboardController extends Controller
             ->selectRaw('p.title, p.stock , p.price , p.image , c.name as category, COUNT(o.id) as count, SUM(o.quantity * o.price_at_purchase) as revenue')
             ->groupBy('p.title', 'c.name' , 'p.stock' , 'p.price' , 'p.image')
             ->get();
+
+
+
+
+        $topSellerProducts = DB::table('products as p')
+            ->join('categories as c', 'p.category_id', '=', 'c.id')
+            ->join('order_items as o', 'o.product_id', '=', 'p.id')
+            ->where('o.seller_id', $userId)
+            ->selectRaw('p.title, p.stock , p.price , p.image , c.name as category, COUNT(o.id) as count, SUM(o.quantity * o.price_at_purchase) as revenue')
+            ->groupBy('p.title', 'c.name' , 'p.stock' , 'p.price' , 'p.image')
+            ->get();
         
 
         
-    $userId = auth()->id();
 
     $totalEarnings = \App\Models\OrderItem::whereHas('product', function($q) use ($userId) {
         $q->where('user_id', $userId);
@@ -122,8 +151,14 @@ class DashboardController extends Controller
         $q->where('user_id', $userId);
     })->where('status', 'pending')->count();
 
+    $recentOrders = OrderItem::where('seller_id', $userId)->with('order.user')->get();
+
+
+    $reviewsReports = Report::where('reportable_type', Review::class)->where('status' , 'pending')->count();
+    $productsReports = Report::where('reportable_type', Product::class)->where('status' , 'pending')->count();
+
         return view('admin.dashboard.index',  compact('data', 'totalAmount', 'growthAmount' , 'currentVal' , 'maxValue' , 'totalOrders' , 'growthOrder' , 'totalProduct' , 'growthProduct' , 'totalUser' , 'growthUser' , 'topProduct' , 'recentUsers'
-                                                        ,'totalEarnings', 'productsCount', 'pendingOrdersCount'));
+                                                        ,'totalEarnings', 'productsCount', 'pendingOrdersCount' , 'topSellerProducts' , 'maxValueSeller' , 'recentOrders' ,'reviewsReports' ,'productsReports'));
     }
     public function create() {}   // فورم الإضافة
     public function store() {}    // حفظ البيانات

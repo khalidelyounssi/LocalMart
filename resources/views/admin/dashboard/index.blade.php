@@ -252,8 +252,7 @@
         </div>
 
         <div class="space-y-5">
-            {{-- هنا استعملت المتغيرات اللي ديجا عندك --}}
-            @foreach($topProducts ?? [] as $product)
+            @foreach($topSellerProducts ?? [] as $product)
             <div class="flex items-center gap-4 border-b border-gray-50 pb-4">
                 <div class="h-12 w-12 flex-shrink-0 rounded-xl bg-gray-100 overflow-hidden">
                     <img src="{{ asset('storage/' . $product->image) }}" class="w-full h-full object-cover">
@@ -267,7 +266,7 @@
                 </div>
             </div>
             @endforeach
-            @if(empty($topProducts))
+            @if(empty($topSellerProducts ))
                 <p class="text-center text-gray-400 text-sm py-10">Aucune donnée disponible</p>
             @endif
         </div>
@@ -275,8 +274,39 @@
 
     <div class="bg-white p-6 rounded-lg shadow-md w-full border border-gray-200">
         <h2 class="text-xl font-bold mb-6 text-gray-800">Évolution des Ventes</h2>
-        <div class="flex h-64 items-center justify-center border-t border-gray-50">
-             <p class="text-gray-400 italic">Graphique de performance (Bientôt disponible)</p>
+                <div class="flex h-64">
+
+            <div class="flex flex-col justify-between text-gray-400 text-sm pr-4 border-r border-dashed border-gray-200">
+                <span>{{ $maxValueSeller }}</span>
+                <span>{{ $maxValueSeller*3/4 }}</span>
+                <span>{{ $maxValueSeller/2 }}</span>
+                <span>{{ $maxValueSeller/4 }}</span>
+                <span>0</span>
+            </div>
+
+            <div class="flex flex-1 items-end justify-between pl-4 relative">
+
+                <div class="absolute inset-0 flex flex-col justify-between pointer-events-none z-0">
+                    <div class="w-full h-px bg-gray-100 border-t border-dashed border-gray-200"></div>
+                    <div class="w-full h-px bg-gray-100 border-t border-dashed border-gray-200"></div>
+                    <div class="w-full h-px bg-gray-100 border-t border-dashed border-gray-200"></div>
+                    <div class="w-full h-px bg-gray-100 border-t border-dashed border-gray-200"></div>
+                    <div class="w-full h-px bg-gray-100 border-t border-dashed border-gray-200"></div>
+                </div>
+                @foreach($data as $month)
+                <div class="flex flex-col items-center justify-end h-full w-1/6 z-10 group">
+                    <span class="mb-1 text-xs font-bold text-gray-700 opacity-0 group-hover:opacity-100 transition-opacity">
+                        {{ $month['sum_order_seller'] }}
+                    </span>
+                    @if($maxValueSeller == 0)
+                    <div class="w-10 bg-black rounded-t-sm hover:bg-gray-800 transition-all duration-300" style="height: {{ $month['sum_order_seller']/1*100 }}%"></div>
+                    @else
+                    <div class="w-10 bg-black rounded-t-sm hover:bg-gray-800 transition-all duration-300" style="height: {{ $month['sum_order_seller']/$maxValueSeller*100 }}%"></div>
+                    @endif
+                    <span class="mt-2 text-sm text-gray-500">{{ $month['month'] }}</span>
+                </div>
+                @endforeach
+            </div>
         </div>
     </div>
 </div>
@@ -288,24 +318,63 @@
     </div>
     <div class="p-6 space-y-4">
         {{-- افترضنا أن عندك متغير recentOrders صيفطتيه من الـ Controller --}}
-        @foreach($recentOrders ?? [] as $order)
+        @foreach($recentOrders ?? [] as $orderItem)
         <div class="flex items-center justify-between p-4 border border-gray-50 rounded-xl hover:bg-gray-50 transition">
             <div class="flex items-center gap-4">
                 <div class="w-10 h-10 bg-indigo-50 rounded-full flex items-center justify-center text-indigo-600 font-bold">
-                    {{ substr($order->user->name, 0, 1) }}
+                    {{ substr($orderItem->order->user->name, 0, 1) }}
                 </div>
                 <div>
-                    <p class="font-semibold text-gray-800">{{ $order->user->name }}</p>
-                    <p class="text-sm text-gray-500">Total: {{ $order->total_price }} MAD</p>
+                    <p class="font-semibold text-gray-800">{{ $orderItem->order->user->name }}</p>
+                    <p class="text-sm text-gray-500">Total: {{ $orderItem->price_at_purchase }} MAD</p>
                 </div>
             </div>
             <div class="flex items-center gap-3">
-                <span class="px-3 py-1 bg-amber-100 text-amber-700 rounded-full text-xs font-medium">{{ $order->status }}</span>
-                <span class="text-sm text-gray-400">{{ $order->created_at->diffForHumans() }}</span>
+                <span class="px-3 py-1 bg-amber-100 text-amber-700 rounded-full text-xs font-medium">{{ $orderItem->status }}</span>
+                <span class="text-sm text-gray-400">{{ $orderItem->created_at->diffForHumans() }}</span>
             </div>
         </div>
         @endforeach
     </div>
+</div>
+@endrole
+@role('moderator')
+<div class="mb-8">
+    <h1 class="text-2xl font-bold text-gray-900">Moderator Dashboard</h1>
+    <p class="text-gray-500 text-sm">fast access to all Moderator statistique</p>
+</div>
+
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+    <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+        <div class="flex items-center justify-between mb-3">
+            <p class="text-sm text-gray-500 font-medium">Pending Reviews</p>
+            <div class="w-10 h-10 bg-yellow-100 rounded-lg flex items-center justify-center">
+                <i class="fa-solid fa-comment text-yellow-600"></i>
+            </div>
+        </div>
+        <h2 class="text-2xl font-bold text-gray-800 mb-1">{{ $reviewsReports }}</h2>
+    </div>
+
+    <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+        <div class="flex items-center justify-between mb-3">
+            <p class="text-sm text-gray-500 font-medium">Pending Products</p>
+            <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+                <i class="fa-solid fa-cart-shopping text-blue-600"></i>
+            </div>
+        </div>
+        <h2 class="text-2xl font-bold text-gray-800 mb-1">{{ $productsReports }}</h2>
+    </div>
+
+    <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+        <div class="flex items-center justify-between mb-3">
+            <p class="text-sm text-gray-500 font-medium">Reports</p>
+            <div class="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center">
+                <i class="fa-solid fa-triangle-exclamation text-red-600"></i>
+            </div>
+        </div>
+        <h2 class="text-2xl font-bold text-gray-800 mb-1">{{ $reviewsReports + $productsReports }}</h2>
+    </div>
+
 </div>
 @endrole
 @endsection
