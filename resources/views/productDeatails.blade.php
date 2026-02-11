@@ -83,15 +83,21 @@
                 </div>
             </div>
 
+
+<livewire:comments :product="$product" />
+
+
+
+
             {{-- Comments Section --}}
-            <div class="mt-12 bg-white rounded-[32px] p-6 md:p-10 shadow-sm border border-gray-100">
+            <!-- <div class="mt-12 bg-white rounded-[32px] p-6 md:p-10 shadow-sm border border-gray-100">
                 <div class="flex items-center gap-4 mb-10">
                     <h3 class="text-2xl font-black text-[#0F172A]">Commentaires</h3>
                     <span class="px-3 py-1 bg-gray-100 text-gray-500 text-xs font-bold rounded-full">3 avis</span>
-                </div>
+                </div> -->
 
                 {{-- Add Comment --}}
-                <div class="mb-12">
+                <!-- <div class="mb-12">
                     <div class="flex items-start gap-4">
                         <div class="w-12 h-12 shrink-0 rounded-full bg-gray-200 overflow-hidden"></div>
                         <div class="flex-1 space-y-3">
@@ -104,10 +110,10 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
 
                 {{-- Comment List --}}
-                <div class="space-y-6">
+                <!-- <div class="space-y-6">
                     <div class="flex gap-4">
                         <div class="w-12 h-12 shrink-0 rounded-full bg-green-100 flex items-center justify-center text-[#1DB954] font-black shadow-sm">
                             JD
@@ -122,7 +128,7 @@
                             </p>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
