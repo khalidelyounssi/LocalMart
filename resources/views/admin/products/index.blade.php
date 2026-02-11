@@ -8,11 +8,13 @@
             <h1 class="text-2xl font-bold text-gray-900">Mes articles en vente</h1>
             <p class="text-gray-500 text-sm">Gérez votre inventaire et vos produits</p>
         </div>
+          @canany(['create products' , 'edit products'])
         <div class="flex gap-3">
             <a href="{{ route('admin.products.create') }}" class="bg-[#2563eb] text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-blue-700 transition font-medium shadow-sm text-sm">
                 <i class="fa-solid fa-plus text-xs"></i> Ajouter un produit
             </a>
         </div>
+        @endcanany
     </div>
 
     {{-- Cartes de statistiques --}}
@@ -61,6 +63,7 @@
                 </thead>
                 <tbody class="divide-y divide-gray-100 bg-white">
                     @foreach($products as $product)
+                    @if( $product->is_active == 1 )
                     <tr class="hover:bg-gray-50/50 transition">
                         <td class="px-6 py-4 flex items-center gap-4">
                             <div class="w-12 h-12 bg-gray-100 rounded-lg overflow-hidden flex items-center justify-center border border-gray-200">
@@ -108,6 +111,42 @@
                             </div>
                         </td>
                     </tr>
+                    @else
+                    <tr class="relative w-full h-64 bg-white border p-4">
+                        <td class="absolute inset-0 bg-gray-500/50 z-10 rounded-lg px-6 py-4 flex items-center gap-4">
+                            <div class="w-12 h-12 bg-gray-100 rounded-lg overflow-hidden flex items-center justify-center border border-gray-200">
+                                @if($product->image)
+                                    <img src="{{ asset('storage/' . $product->image) }}" class="h-full w-full object-cover">
+                                @else
+                                    <i class="fa-solid fa-image text-gray-400"></i>
+                                @endif
+                            </div>
+                            <div>
+                                <div class="font-bold text-gray-900 text-sm">{{ $product->title }}</div>
+                                <div class="text-xs text-gray-400 font-mono">ID: {{ $product->id }}</div>
+                            </div>
+                        </td>
+                        
+                        <td class="px-6 py-4 text-center">
+                             <span class="text-sm font-bold text-gray-900">{{ $product->price }} DH</span>
+                        </td>
+
+                        <td class="px-6 py-4 text-center">
+                            @if($product->stock > 0)
+                                <span class="px-3 py-1 bg-green-50 text-green-600 rounded-full text-[11px] font-bold">
+                                    {{ $product->stock }} Unités
+                                </span>
+                            @else
+                                <span class="px-3 py-1 bg-red-50 text-red-600 rounded-full text-[11px] font-bold">
+                                    Épuisé
+                                </span>
+                            @endif
+                        </td>
+
+                        <td class="px-6 py-4 text-right">
+                        </td>
+                    </tr>
+                    @endif
                     @endforeach
                 </tbody>
             </table>

@@ -22,4 +22,9 @@ public function user()
 {
     return $this->belongsTo(User::class);
 }
+
+public function reports()
+{
+    return $this->morphMany(\App\Models\Report::class, 'reportable');
+}
 }

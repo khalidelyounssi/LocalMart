@@ -16,38 +16,58 @@ class CartController extends Controller
         return view('cart.index', compact('cart'));
     }
 
-    public function addItem(Product $product)
-    {
-        $cart = auth()->user()->cart()->firstOrCreate([]);
+    
+   public function addItem(Request $request, Product $product)
+{
+    $request->validate([
+        'quantity' => 'required|integer|min:1'
+    ]);
 
-        $cartItem = $cart->items()->where('product_id', $product->id)->first();
+    $quantityRequested = $request->input('quantity');
 
-        if ($cartItem) {
-            $cartItem->increment('quantity');
-        } else {
-            $cart->items()->create([
-                'product_id' => $product->id,
-                'quantity' => 1,
-            ]);
-        }
+    $cart = auth()->user()->cart()->firstOrCreate([]);
 
-        return redirect()->back()->with('success', 'Produit ajouté au panier');
+    $cartItem = $cart->items()
+        ->where('product_id', $product->id)
+        ->first();
+
+    $currentQuantity = $cartItem ? $cartItem->quantity : 0;
+
+    $newTotalQuantity = $currentQuantity + $quantityRequested;
+
+    if ($newTotalQuantity > $product->stock) {
+        return redirect()->back()->with(
+            'error',
+            "Désolé, seulement {$product->stock} article(s) disponible(s) en stock."
+        );
     }
 
-    public function removeItem(Product $product)
-    {
-        $cart = auth()->user()->cart()->first();
-        if (!$cart) return redirect()->back();
-
-        $cartItem = $cart->items()->where('product_id', $product->id)->first();
-        if ($cartItem) {
-            if ($cartItem->quantity > 1) {
-                $cartItem->decrement('quantity');
-            } else {
-                $cartItem->delete();
-            }
-        }
-
-        return redirect()->back();
+    if ($cartItem) {
+        $cartItem->update([
+            'quantity' => $newTotalQuantity
+        ]);
+    } else {
+        $cart->items()->create([
+            'product_id' => $product->id,
+            'quantity' => $quantityRequested,
+        ]);
     }
+
+    return redirect()->back()->with('success', 'Produit ajouté au panier');
+}
+
+
+   public function deleteItem(Product $product)
+{
+    $cart = auth()->user()->cart()->first();
+    if (!$cart) return redirect()->back();
+
+    $cartItem = $cart->items()->where('product_id', $product->id)->first();
+    if ($cartItem) {
+        $cartItem->delete(); 
+    }
+
+    return redirect()->back()->with('success', 'Produit supprimé du panier');
+}
+
 }

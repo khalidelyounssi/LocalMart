@@ -10,7 +10,6 @@ class Report extends Model
 {
     use HasFactory;
 
-    // ضروري تزيد هاد الحقول باش تقدر تعمرهم (Mass Assignment)
     protected $fillable = [
         'user_id',
         'reportable_id',

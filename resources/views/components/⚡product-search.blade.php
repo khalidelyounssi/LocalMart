@@ -14,22 +14,32 @@ new class extends Component {
     {
         return [
             'products' => Product::query()
-                ->whereHas('reports') 
-                ->withCount('reports')
-                ->with(['reports' => function($q) {
-                    $q->latest(); 
+                ->whereHas('review.reports')
+                ->withCount(['review as reported_reviews_count' => function ($query) {
+                    $query->has('reports');
+                }])
+                ->with(['review' => function ($q) {
+                    $q->whereHas('reports')
+                        ->with(['reports' => function ($r) {
+                            $r->latest();
+                        }, 'user']);
                 }, 'user'])
+
                 ->when($this->search, function ($query) {
                     $query->where('title', 'like', '%' . $this->search . '%');
                 })
-                ->when($this->sortBy === 'highest', fn($q) => $q->orderBy('reports_count', 'desc'))
-                ->when($this->sortBy === 'newest', fn($q) => $q->orderByDesc(
-                    \App\Models\Report::select('created_at')
-                        ->whereColumn('reportable_id', 'products.id')
-                        ->where('reportable_type', 'product')
-                        ->latest()
-                        ->take(1)
-                ))
+                ->when($this->sortBy === 'highest', fn($q) => $q->orderBy('reported_reviews_count', 'desc'))
+
+                ->when($this->sortBy === 'newest', function ($q) {
+                    $q->orderByDesc(
+                        \App\Models\Report::select('reports.created_at')
+                            ->join('reviews', 'reviews.id', '=', 'reports.reportable_id')
+                            ->whereColumn('reviews.product_id', 'products.id')
+                            ->where('reports.reportable_type', 'App\Models\Review')
+                            ->latest('reports.created_at')
+                            ->take(1)
+                    );
+                })
                 ->paginate(10)
         ];
     }
@@ -37,16 +47,16 @@ new class extends Component {
 ?>
 
 <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
-    
+
     {{-- قسم البحث والفلتر --}}
     <div class="p-5 border-b border-gray-100 bg-white flex flex-col md:flex-row gap-4">
         <div class="relative flex-1">
             <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
             {{-- حقل البحث بالاسم --}}
-            <input wire:model.live.debounce.300ms="search" 
-                   type="text" 
-                   placeholder="Search by Product Name..." 
-                   class="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
+            <input wire:model.live.debounce.300ms="search"
+                type="text"
+                placeholder="Search by Product Name..."
+                class="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
         </div>
 
         <div class="relative w-full md:w-64">
@@ -76,57 +86,57 @@ new class extends Component {
             </thead>
             <tbody class="divide-y divide-gray-100 bg-white">
                 @forelse($products as $product)
-                    <tr class="hover:bg-gray-50 transition group">
-                        
-                        <td class="px-6 py-4">
-                            <div class="flex items-center gap-4">
-                                <div class="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center shrink-0">
-                                    <i class="fa-solid fa-box text-gray-500"></i>
-                                </div>
-                                <div>
-                                    <div class="font-bold text-gray-900 text-sm">{{ $product->title }}</div>
-                                    <div class="text-xs text-gray-400">ID: #{{ $product->id }}</div>
-                                </div>
+                <tr class="hover:bg-gray-50 transition group">
+
+                    <td class="px-6 py-4">
+                        <div class="flex items-center gap-4">
+                            <div class="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center shrink-0">
+                                <i class="fa-solid fa-box text-gray-500"></i>
                             </div>
-                        </td>
-
-                        <td class="px-6 py-4 text-center">
-                            <span class="inline-flex px-3 py-1 bg-red-100 text-red-700 rounded-full text-xs font-bold">
-                                {{ $product->reports_count }}
-                            </span>
-                        </td>
-
-                        <td class="px-6 py-4">
-                            <span class="text-sm text-gray-600 block truncate w-48" title="{{ $product->reports->first()->reason ?? '' }}">
-                                {{ Str::limit($product->reports->first()->reason ?? 'No reason', 30) }}
-                            </span>
-                            <div class="text-xs text-gray-400 mt-1">
-                                {{ $product->reports->first()?->created_at->diffForHumans() }}
+                            <div>
+                                <div class="font-bold text-gray-900 text-sm">{{ $product->title }}</div>
+                                <div class="text-xs text-gray-400">ID: #{{ $product->id }}</div>
                             </div>
-                        </td>
+                        </div>
+                    </td>
 
-                        <td class="px-6 py-4 text-center">
-                            @php
-                                $status = $product->reports->first()->status ?? 'pending';
-                                $color = $status === 'pending' ? 'bg-yellow-50 text-yellow-600' : 'bg-green-50 text-green-600';
-                            @endphp
-                            <span class="px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wide {{ $color }}">
-                                {{ $status }}
-                            </span>
-                        </td>
+                    <td class="px-6 py-4 text-center">
+                        <span class="inline-flex px-3 py-1 bg-red-100 text-red-700 rounded-full text-xs font-bold">
+                            {{ $product->reported_reviews_count }}
+                        </span>
+                    </td>
 
-                        <td class="px-6 py-4 text-right">
-                            <a href="{{ route('admin.comments.product' , $product->id ) }}" class="text-blue-600 hover:text-blue-800 text-sm font-bold">
-                                Manage <i class="fa-solid fa-arrow-right ml-1"></i>
-                            </a>
-                        </td>
-                    </tr>
+                    <td class="px-6 py-4">
+                        <span class="text-sm text-gray-600 block truncate w-48" title="{{ $product->reports->first()->reason ?? '' }}">
+                            {{ Str::limit($product->reports->first()->reason ?? 'No reason', 30) }}
+                        </span>
+                        <div class="text-xs text-gray-400 mt-1">
+                            {{ $product->reports->first()?->created_at->diffForHumans() }}
+                        </div>
+                    </td>
+
+                    <td class="px-6 py-4 text-center">
+                        @php
+                        $status = $product->reports->first()->status ?? 'pending';
+                        $color = $status === 'pending' ? 'bg-yellow-50 text-yellow-600' : 'bg-green-50 text-green-600';
+                        @endphp
+                        <span class="px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wide {{ $color }}">
+                            {{ $status }}
+                        </span>
+                    </td>
+
+                    <td class="px-6 py-4 text-right">
+                        <a href="{{ route('admin.comments.product' , $product->id ) }}" class="text-blue-600 hover:text-blue-800 text-sm font-bold">
+                            Manage <i class="fa-solid fa-arrow-right ml-1"></i>
+                        </a>
+                    </td>
+                </tr>
                 @empty
-                    <tr>
-                        <td colspan="5" class="px-6 py-10 text-center text-gray-500">
-                            No reported products found.
-                        </td>
-                    </tr>
+                <tr>
+                    <td colspan="5" class="px-6 py-10 text-center text-gray-500">
+                        No reported products found.
+                    </td>
+                </tr>
                 @endforelse
             </tbody>
         </table>

@@ -16,7 +16,16 @@ class ProductController extends Controller
 
     public function index()
     {
+        if (auth()->user()->hasRole("seller")) { 
+
         $products = Product::where('user_id', auth()->id())->get();
+        } else {
+
+        $products = Product::all();
+        }
+
+
+
         return view('admin.products.index', compact('products')); 
     }
 
