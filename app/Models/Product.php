@@ -38,4 +38,9 @@ public function isLikedBy(User $user)
     return $this->wishlists()->where('user_id', $user->id)->exists();
 }
 
+public function comments()
+{
+    return $this->hasMany(Comment::class);
+}
+
 }
