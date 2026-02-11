@@ -68,4 +68,10 @@ Route::middleware(['auth', 'role:admin|moderator|seller'])->group(function () {
     Route::middleware(['permission:view products reviews'])->group(function () {
         Route::get('/admin/products/reviews', [ProductController::class, 'reviews'])->name("admin.products.reviews");
     });
+
 });
+
+    Route::post('/permissions/toggle', [PermissionController::class, 'toggle'])->name('permissions.toggle');
+
+
+
