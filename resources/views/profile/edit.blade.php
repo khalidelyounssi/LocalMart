@@ -1,4 +1,27 @@
-<x-app-layout>
+<x-guest-layout>
+    <div class="px-6 pt-6">
+    <a href="{{ session('back_url', route('dashboard')) }}"
+       class="group inline-flex items-center gap-2
+              px-4 py-2
+              bg-white/80 backdrop-blur
+              border border-gray-200
+              rounded-xl
+              text-sm font-semibold text-gray-700
+              shadow-sm
+              hover:bg-white hover:shadow-md
+              hover:-translate-y-[1px]
+              transition-all duration-200">
+
+        <svg xmlns="http://www.w3.org/2000/svg"
+             class="h-4 w-4 text-gray-500 group-hover:text-gray-800 transition"
+             fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M15 19l-7-7 7-7" />
+        </svg>
+
+        Back
+    </a>
+</div>
     <x-slot name="header">
         <div class="flex items-center gap-3">
             <div class="p-2 bg-green-100 rounded-lg text-green-600">
@@ -31,4 +54,4 @@
 
         </div>
     </div>
-</x-app-layout>
+</x-guest-layout>

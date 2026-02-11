@@ -62,7 +62,6 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
         if ($this->hasRole('admin') || $this->hasRole('moderator') || $this->hasRole('seller')) {
             return 'admin/dashboard/index';
         }
-        return 'dashboard';
     }
 
     public function cart()

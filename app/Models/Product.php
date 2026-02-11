@@ -53,4 +53,9 @@ public function review()
     return $this->hasMany(Review::class);
 }
 
+public function comments()
+{
+    return $this->hasMany(Comment::class);
+}
+
 }

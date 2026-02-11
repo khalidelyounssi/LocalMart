@@ -3,6 +3,7 @@
 use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\Review;
+use App\Models\Report;
 
 new class extends Component
 {
@@ -21,9 +22,9 @@ new class extends Component
     public function delete($id)
     {
         $review = Review::find($id);
-        if ($review) {
-            $review->update(['is_active' => '0']);
-        }
+        $report = Report::where('reportable_type' , 'App\Models\Review')->where('reportable_id' , $id);
+        $report->delete();
+        $review->delete();
     }
 
     public function with()

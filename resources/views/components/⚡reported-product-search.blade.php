@@ -16,13 +16,18 @@ new class extends Component {
         $product->update(["is_active" => "0"]);
     }
 
+    public function active($id)
+    {
+        $product = Product::find($id);
+        $product->update(["is_active" => "1"]);
+    }
+
     public function with()
     {
         return [
             'products' => Product::query()
                 ->whereHas('reports') 
                 ->withCount('reports')
-                ->where('is_active' , '1')
                 ->with(['reports' => function($q) {
                     $q->latest(); 
                 }, 'user'])
@@ -125,14 +130,23 @@ new class extends Component {
                                 {{ $status }}
                             </span>
                         </td>
-
+                        @if($product->is_active == 1)
                         <td>
                             <button wire:click="delete({{ $product->id }})"
-                                wire:confirm="Are you sure you want to delete this review?"
+                                wire:confirm="Are you sure you want to delete this product?"
                                 class="px-3 py-1.5 bg-red-50 text-red-600 hover:bg-red-600 hover:text-white rounded-lg text-xs font-bold flex items-center gap-2 transition">
                                     <i class="fa-solid fa-trash-can"></i> Suspend
                             </button>
                         </td>
+                        @else
+                        <td>
+                            <button wire:click="active({{ $product->id }})"
+                                wire:confirm="Are you sure you want to active this product?"
+                                class="px-3 py-1.5 bg-green-50 text-green-600 hover:bg-green-600 hover:text-white rounded-lg text-xs font-bold flex items-center gap-2 transition">
+                                    <i class="fa-solid fa-flash"></i> active
+                            </button>
+                        </td>
+                        @endif
                     </tr>
                 @empty
                     <tr>
