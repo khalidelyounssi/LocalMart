@@ -1,13 +1,13 @@
 @extends('layouts.admin')
 
 @section('content')
-<div id="message" class="hidden fixed top-10 right-10 z-[100] min-w-[350px] transform transition-all duration-500"></div>
+<div id="message" class="hidden fixed top-10 right-10 z-[150] min-w-[350px] transform transition-all duration-500"></div>
 <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-10">
     <div>
         <h1 class="text-3xl font-black text-slate-900 tracking-tight">Utilisateurs</h1>
         <p class="text-gray-500 font-medium mt-1 text-sm">Gérez les comptes clients, vendeurs et modérateurs.</p>
     </div>
-    <button class="bg-slate-900 text-white px-6 py-3 rounded-2xl flex items-center justify-center gap-2 hover:bg-green-600 shadow-lg shadow-slate-200 hover:shadow-green-100 transition-all duration-300 font-bold text-sm group">
+    <button onclick="toggleModal()" class="bg-slate-900 text-white px-6 py-3 rounded-2xl flex items-center justify-center gap-2 hover:bg-green-600 shadow-lg shadow-slate-200 hover:shadow-green-100 transition-all duration-300 font-bold text-sm group">
         <i class="fa-solid fa-user-plus group-hover:scale-110 transition-transform"></i>
         Ajouter un Utilisateur
     </button>
@@ -122,6 +122,50 @@
         </table>
     </div>
 </div>
+<div id="user-modal" class="hidden fixed inset-0 z-[110] overflow-y-auto">
+    <div class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity"></div>
+
+    <div class="flex min-h-full items-center justify-center p-4">
+        <div class="relative w-full max-w-md transform overflow-hidden rounded-[2.5rem] bg-white p-8 shadow-2xl transition-all">
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="text-xl font-black text-slate-900">Ajouter Utilisateur</h3>
+                <button onclick="toggleModal()" class="text-slate-400 hover:text-red-500 transition-colors">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
+            </div>
+            <form id="add-user-form">
+                @csrf
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-black text-slate-400 uppercase mb-2 ml-1">Nom complet</label>
+                        <input type="text" name="name" required class="w-full px-5 py-3 bg-gray-50 border-none rounded-2xl focus:ring-4 focus:ring-green-50 text-sm font-bold">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-black text-slate-400 uppercase mb-2 ml-1">Email</label>
+                        <input type="email" name="email" required class="w-full px-5 py-3 bg-gray-50 border-none rounded-2xl focus:ring-4 focus:ring-green-50 text-sm font-bold">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-black text-slate-400 uppercase mb-2 ml-1">Rôle</label>
+                        <select name="role" required class="w-full px-5 py-3 bg-gray-50 border-none rounded-2xl focus:ring-4 focus:ring-green-50 text-sm font-bold outline-none">
+                            <option value="client">Client</option>
+                            <option value="seller">Vendeur</option>
+                            <option value="moderator">Modérateur</option>
+                            <option value="admin">Administrateur</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-black text-slate-400 uppercase mb-2 ml-1">Mot de passe</label>
+                        <input type="password" name="password" required class="w-full px-5 py-3 bg-gray-50 border-none rounded-2xl focus:ring-4 focus:ring-green-50 text-sm font-bold">
+                    </div>
+                </div>
+
+                <button type="submit" class="w-full mt-8 bg-slate-900 text-white py-4 rounded-2xl font-black text-sm hover:bg-green-600 transition-all shadow-lg shadow-slate-200 uppercase tracking-widest">
+                    Créer le compte
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
     axios.defaults.headers.common['X-CSRF-TOKEN'] = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
@@ -130,7 +174,7 @@
         const msgDiv = document.getElementById('message');
         const bgColor = type === 'success' ? 'bg-green-500' : 'bg-red-500';
 
-        msgDiv.className = `fixed top-10 right-10 z-[100] min-w-[320px] ${bgColor} text-white p-4 rounded-2xl shadow-2xl font-bold text-sm transition-all duration-500 flex items-center gap-3 opacity-100 translate-y-0`;
+        msgDiv.className = `fixed top-10 right-10 z-[150] min-w-[320px] ${bgColor} text-white p-4 rounded-2xl shadow-2xl font-bold text-sm transition-all duration-500 flex items-center gap-3 opacity-100 translate-y-0`;
         msgDiv.innerHTML = `<i class="fa-solid ${type === 'success' ? "fa-check-circle" : "fa-exclamation-circle"} mr-2"></i>${message}`;
 
         msgDiv.classList.remove('hidden');
@@ -140,15 +184,37 @@
         }, 3000);
     }
 
+    function refreshUserTable() {
+        const searchQuery = document.getElementById('search-input').value;
+        const selectedRole = document.getElementById('role-filter').value;
+        axios.get("{{route('admin.users.index')}}", {
+                params: {
+                    search: searchQuery,
+                    role: selectedRole
+                },
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => {
+                console.log("Table Refreshed!");
+                document.getElementById('users-table-body').innerHTML = response.data;
+            })
+            .catch(error => {
+                console.error('Error search: ', error);
+            })
+    }
+
     function updateUserStatus(userId) {
         /**
          *  Créez la requête (même route que celle définie dans admin.php pour le changement de statut)
          */
         axios.patch(`/users/${userId}/toggle`)
-            .then(Response => {
-                if (Response.data.success) {
-                    showMessage(Response.data.message, 'success');
-                    const data = Response.data;
+            .then(response => {
+                if (response.data.success) {
+                    showMessage(response.data.message, 'success');
+                    const data = response.data;
+
                     document.getElementById(`status-text-${userId}`).innerText = data.new_status;
                     document.getElementById(`date-${userId}`).innerText = data.updated_at;
 
@@ -171,7 +237,7 @@
             })
             .catch(error => {
                 console.error('Erreur lors de la mise à jour du statut :', error);
-                const errorMessage = error.Response?.data?.message || 'Une erreur est survenue. Veuillez réessayer.';
+                const errorMessage = error.response?.data?.message || 'Une erreur est survenue. Veuillez réessayer.';
                 showMessage(errorMessage, 'error');
             });
     }
@@ -180,21 +246,21 @@
         axios.patch(`/users/${UserId}/role`, {
                 role: newRole
             })
-            .then(Response => {
-                if (Response.data.success) {
-                    const data = Response.data;
+            .then(response => {
+                if (response.data.success) {
+                    const data = response.data;
                     if (data.role_counts) {
                         document.getElementById('total-clients').innerText = data.role_counts.total_clients;
                         document.getElementById('total-sellers').innerText = data.role_counts.total_sellers;
                         document.getElementById('total-moderators').innerText = data.role_counts.total_moderators;
                     }
                     console.log('role updated to : ' + newRole);
-                    showMessage(Response.data.message, 'success');
+                    showMessage(response.data.message, 'success');
                 }
             })
             .catch(error => {
                 console.error('Erreur lors de la mise à jour du rôle :', error);
-                const errorMessage = error.Response?.data?.message || 'Une erreur est survenue. Veuillez réessayer.';
+                const errorMessage = error.response?.data?.message || 'Une erreur est survenue. Veuillez réessayer.';
                 showMessage(errorMessage, 'error');
             })
     }
@@ -219,7 +285,7 @@
                 })
                 .catch(error => {
                     console.error('Erreur lors de la suppression de l`utilisateur :', error);
-                    const errorMessage = error.Response?.data?.message || 'Une erreur est survenue. Veuillez réessayer.';
+                    const errorMessage = error.response?.data?.message || 'Une erreur est survenue. Veuillez réessayer.';
                     showMessage(errorMessage, 'error');
                 });
         }
@@ -250,7 +316,7 @@
             })
             .catch(error => {
                 console.error('Erreur lors du filtrage des utilisateurs :', error);
-                console.log(error.Response);
+                console.log(error.response);
                 showMessage('Une erreur est survenue lors du filtrage des utilisateurs.', 'error');
             });
     });
@@ -261,31 +327,58 @@
 
     let searchTimer;
     document.getElementById('search-input').addEventListener('input', function() {
-        const searchQuery = this.value;
-        const selectedRole = document.getElementById('role-filter').value;
 
         clearTimeout(searchTimer);
 
         searchTimer = setTimeout(() => {
-            axios.get("{{route('admin.users.index')}}", {
-                    params: {
-                        search: searchQuery,
-                        role: selectedRole
-                    },
-                    headers: {
-                        'X-Requested-With': 'XMLHttpRequest'
-                    }
-                })
-                .then(response => {
-                    document.getElementById('users-table-body').innerHTML = response.data;
-                })
-                .catch(error => {
-                    console.error('Error search: ', error);
-                })
-        },500)
+            refreshUserTable();
+        }, 500)
     })
     document.querySelector('form.group').addEventListener('submit', function(e) {
         e.preventDefault();
     });
+
+    /**
+     * toggle modal pour ajouter un utilisateur
+     */
+
+    function toggleModal() {
+        const modal = document.getElementById('user-modal');
+        modal.classList.toggle('hidden');
+    }
+    document.getElementById('add-user-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const formData = new FormData(this);
+
+        axios.post("{{route('admin.users.store')}}", formData)
+            .then(response => {
+                if (response.data.success) {
+                    showMessage(response.data.message, 'success');
+                    toggleModal();
+                    this.reset();
+                    refreshUserTable();
+                    const data = response.data;
+                    if (data.status) {
+                        document.getElementById('total-users').innerText = data.status.total_users;
+                        document.getElementById('total-user-mois').innerText = '+' + data.status.total_users_this_month;
+                        document.getElementById('total-suspended-users').innerText = data.status.suspended_users;
+                        document.getElementById('total-clients').innerText = data.status.total_clients;
+                        document.getElementById('total-sellers').innerText = data.status.total_sellers;
+                        document.getElementById('total-moderators').innerText = data.status.total_moderators;
+                    }
+                }
+            })
+            .catch(error => {
+                if (error.response && error.response.status === 422) {
+                    console.error('Erreur lors de l`utilisateur :', error);
+                    const errors = error.response.data.errors;
+                    const firstError = Object.values(errors)[0][0];
+                    showMessage(firstError, 'error');
+                } else {
+                    showMessage('Erreur lors de la création', 'error');
+                }
+            })
+    })
 </script>
 @endsection
