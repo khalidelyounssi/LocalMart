@@ -64,7 +64,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
         }
 
         if ($this->hasRole('seller')) {
-            return 'seller/dashboard/index';
+            return 'admin/dashboard/index';
         }
         return 'dashboard';
     }
