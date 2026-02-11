@@ -93,7 +93,7 @@
                                 </span>
                             @endif
                         </td>
-
+                        @if( $product->is_active == 1 )
                         <td class="px-6 py-4 text-right">
                             <div class="flex items-center justify-end gap-2">
                                 <a href="{{ route('admin.products.edit', $product->id) }}" 
@@ -109,6 +109,13 @@
                                 </form>
                             </div>
                         </td>
+                        @else
+                        <td class="px-6 py-4 text-right">
+                            <span class="px-3 py-1 bg-red-50 text-red-600 rounded-full text-[11px] font-bold">
+                                    suspend
+                            </span>
+                        </td>
+                        @endif
                     </tr>
                     @endforeach
                 </tbody>

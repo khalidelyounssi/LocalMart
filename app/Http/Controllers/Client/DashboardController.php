@@ -13,7 +13,7 @@ class DashboardController extends Controller
    
     public function index()
     {
-         $products = Product::with(['seller', 'category'])
+         $products = Product::with(['seller', 'category'])->where('is_active' , '1')
         ->where('stock', '>', 0)
         ->get();
            $categories = Category::all();

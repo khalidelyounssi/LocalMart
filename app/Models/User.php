@@ -59,14 +59,9 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
     public function getRedirectRoute()
     {
-        if ($this->hasRole('admin') || $this->hasRole('moderator')) {
+        if ($this->hasRole('admin') || $this->hasRole('moderator') || $this->hasRole('seller')) {
             return 'admin/dashboard/index';
         }
-
-        if ($this->hasRole('seller')) {
-            return 'admin/dashboard/index';
-        }
-        return 'dashboard';
     }
 
     public function cart()

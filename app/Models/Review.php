@@ -6,7 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Review extends Model
 {
-    // 
+    protected $fillable = [
+        'user_id',
+        'product_id',
+        'rating',
+        'comment',
+    ];
     
     public function product()
 {
@@ -16,5 +21,10 @@ class Review extends Model
 public function user()
 {
     return $this->belongsTo(User::class);
+}
+
+public function reports()
+{
+    return $this->morphMany(\App\Models\Report::class, 'reportable');
 }
 }

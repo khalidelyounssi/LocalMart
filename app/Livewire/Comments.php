@@ -4,29 +4,32 @@ namespace App\Livewire;
 
 use Livewire\Component;
 use App\Models\Product;
-use App\Models\Comment;
+use App\Models\Review;
 
 class Comments extends Component
 {
-   public $Product;     
+    public $product;     
     public $commentText; 
+    public $rating;
 
    
     public function mount(Product $product)
     {
-        $this->Product = $product;
+        $this->product = $product;
     }
 
     public function addComment()
     {
         $this->validate([
             'commentText' => 'required|string|max:500',
+            'rating' => 'required'
         ]);
 
-        Comment::create([
-            'Product_id' => $this->Product->id,
+        Review::create([
+            'product_id' => $this->product->id,
             'user_id' => auth()->id(),
-            'body' => $this->commentText,
+            'comment' => $this->commentText,
+            'rating' => $this->rating
         ]);
 
         $this->commentText = '';
@@ -35,7 +38,7 @@ class Comments extends Component
     public function render()
     {
         return view('livewire.comments', [
-            'comments' => $this->Product->comments()->latest()->get(),
+            'comments' => $this->product->review()->latest()->get(),
         ]);
     }
 }
