@@ -5,12 +5,13 @@ namespace App\Livewire;
 use Livewire\Component;
 use App\Models\Product;
 use App\Models\Review;
+use App\Models\Report;
 
 class Comments extends Component
 {
     public $product;
     public $commentText;
-    public $rating;
+    public $rating = 0;
 
 
     public function mount(Product $product)
@@ -34,6 +35,25 @@ class Comments extends Component
 
         $this->commentText = '';
         $this->rating = 0;
+    }
+
+    public function reportComment($reviewId)
+    {
+       if (!auth()->id()) { 
+    return redirect()->route('login');
+}
+
+        $review = Review::findOrFail($reviewId);
+
+       
+        $review->reports()->create([
+            'user_id' => auth()->id(),
+            'reason' => 'User reported this comment', 
+            'status' => 'pending',
+        ]);
+
+       
+        session()->flash('message', 'Thank you. The comment has been reported.');
     }
 
   public function render()

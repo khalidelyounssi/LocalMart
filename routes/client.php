@@ -37,8 +37,6 @@ Route::get('/dashboard/category/{category}', [DashboardController::class, 'index
     ->name('dashboard.category');
 
 
-
-
 Route::post('/cart/add/{product}', [CartController::class, 'addItem'])
     ->middleware('auth')->name('cart.add');
 
