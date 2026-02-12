@@ -11,6 +11,7 @@
                             </div>
                         </div>
                     </td>
+                     @if(auth()->user()->can('manage roles'))
 
                     <td class="px-6 py-5 text-center">
                         <select onchange="updateUserRole({{$user->id}}, this.value)"
@@ -21,6 +22,7 @@
                             <option value="client" {{ $user->hasRole('client') ? 'selected' : '' }}>Client</option>
                         </select>
                     </td>
+                     @endif
 
                     <td class="px-6 py-5 text-center">
                         <button type="button"
@@ -38,7 +40,7 @@
                             {{ $user->created_at->format('d M Y') }}
                         </div>
                     </td>
-
+                    @can('manage roles')
                     <td class="px-6 py-5 text-right pr-8">
                         <div class="flex justify-end gap-2">
                             <button type="button"
@@ -48,6 +50,7 @@
                             </button>
                         </div>
                     </td>
+                    @endcan
                 </tr>
                 @endforeach
                 <tr id="pagination-row">

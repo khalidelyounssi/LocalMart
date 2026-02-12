@@ -96,10 +96,12 @@
                         @if( $product->is_active == 1 )
                         <td class="px-6 py-4 text-right">
                             <div class="flex items-center justify-end gap-2">
+                                 @canany(['edit products' ])
                                 <a href="{{ route('admin.products.edit', $product->id) }}" 
                                    class="p-2 text-gray-400 hover:text-blue-600 transition rounded-lg hover:bg-blue-50" title="Modifier">
                                     <i class="fa-solid fa-pen-to-square"></i>
                                 </a>
+                                  @endcanany
                                 
                                 <form action="{{ route('admin.products.destroy', $product->id) }}" method="POST" class="inline" onsubmit="return confirm('Voulez-vous vraiment supprimer ce produit ?')">
                                     @csrf @method('DELETE')
