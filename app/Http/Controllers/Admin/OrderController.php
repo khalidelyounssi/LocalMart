@@ -35,26 +35,21 @@ class OrderController extends Controller
     {
 
 
-        // 2. التحقق من صحة الحالة المرسلة
         $request->validate([
             'status' => 'required|in:pending,shipped,delivered',
         ]);
 
-        // 3. تحديث الحالة في قاعدة البيانات
         $item->update([
             'status' => $request->status
         ]);
 
         try {
-            // 4. الحصول على إيميل الكليان من الطلب (Order) المرتبط بالقطعة (Item)
             $clientEmail = $item->order->user->email;
 
-            // 5. إرسال الإيميل
             Mail::to($clientEmail)->send(new OrderStatusUpdated($item));
             
             return back()->with('success', 'Le statut a été mis à jour et l\'e-mail a été envoyé au client !');
         } catch (\Exception $e) {
-            // إذا وقع مشكل فـ الإيميل (مثلا الكونفيك ديال SMTP غلط)، الحالة غتبدل ولكن غيعطيك تنبيه
             return back()->with('success', 'Statut mis à jour, mais l\'e-mail n\'a pas pu être envoyé.');
         }
     }
