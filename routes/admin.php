@@ -10,7 +10,7 @@ use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\OrderController;
 
 
-Route::middleware(['auth', 'role:admin|moderator|seller'])->group(function () {
+Route::middleware(['auth', 'role:admin|moderator|seller' , 'checkStatus'])->group(function () {
     Route::get('/admin/dashboard/index', [DashboardController::class, 'index'])->name("admin.dashboard.index");
 
     Route::middleware(['permission:create products|edit products|delete products|view products'])->group(function () {
