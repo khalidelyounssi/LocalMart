@@ -60,7 +60,7 @@
         </div>
 
         <div class="mt-10">
-            <button type="submit" class="w-full bg-indigo-600 text-white font-black py-5 rounded-2xl shadow-xl shadow-indigo-100 hover:bg-indigo-700 transition-all active:scale-[0.98]">
+            <button type="submit" class="w-full bg-green-600 text-white font-black py-5 rounded-2xl shadow-xl shadow-indigo-100 hover:bg-green-700 transition-all active:scale-[0.98]">
                 MODIFIER LE PRODUIT
             </button>
         </div>

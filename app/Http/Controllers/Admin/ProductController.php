@@ -107,6 +107,9 @@ public function update(Request $request, Product $product)
         $query->where('user_id', auth()->id());
     })->with(['user', 'product'])->latest()->get();
 
-    return view('admin.products.reviews', compact('reviews'));
+
+    $allReviews = Review::with(['user', 'product'])->latest()->get();
+
+    return view('admin.products.reviews', compact('reviews' , 'allReviews'));
 }
 }

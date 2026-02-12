@@ -7,7 +7,7 @@
         <h1 class="text-3xl font-black text-slate-900 tracking-tight">Utilisateurs</h1>
         <p class="text-gray-500 font-medium mt-1 text-sm">Gérez les comptes clients, vendeurs et modérateurs.</p>
     </div>
-    <button onclick="toggleModal()" class="bg-slate-900 text-white px-6 py-3 rounded-2xl flex items-center justify-center gap-2 hover:bg-green-600 shadow-lg shadow-slate-200 hover:shadow-green-100 transition-all duration-300 font-bold text-sm group">
+    <button onclick="toggleModal()" class="bg-green-600 text-white px-6 py-3 rounded-2xl flex items-center justify-center gap-2 hover:bg-green-700 shadow-lg shadow-slate-200 hover:shadow-green-100 transition-all duration-300 font-bold text-sm group">
         <i class="fa-solid fa-user-plus group-hover:scale-110 transition-transform"></i>
         Ajouter un Utilisateur
     </button>

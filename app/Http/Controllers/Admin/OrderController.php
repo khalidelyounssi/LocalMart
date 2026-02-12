@@ -23,18 +23,17 @@ class OrderController extends Controller
         ->latest()
         ->get();
 
-        return view('admin.orders.index', compact('orders'));
+        $allOrders = Order::get();
+
+        return view('admin.orders.index', compact('orders' , 'allOrders'));
     }
 
     /**
      * تحديث حالة "قطعة" من الطلب وإرسال إيميل للكليان
      */
-    public function updateStatus(Request $request, OrderItem $item)
+    public function updateStatus(Request $request, Order $item)
     {
-        // 1. التأكد أن البائع هو صاحب المنتج
-        if ($item->product->user_id !== auth()->id()) {
-            return back()->with('error', 'Action non autorisée.');
-        }
+
 
         // 2. التحقق من صحة الحالة المرسلة
         $request->validate([
