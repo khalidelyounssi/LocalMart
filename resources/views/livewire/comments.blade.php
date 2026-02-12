@@ -46,11 +46,11 @@
                     <span class="text-xs text-gray-400">{{ $comment->created_at->diffForHumans() }}</span>
                 </div>
 
-                @if(auth()->id() !== $comment->user_id)
+               
                 <button wire:click="reportComment({{ $comment->id }})" class="text-gray-400 hover:text-red-500 text-sm flex items-center gap-1">
                     <i class="fa-solid fa-circle-exclamation"></i> Report
                 </button>
-                @endif
+               
             </div>
         </div>
         @empty
