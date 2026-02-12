@@ -8,11 +8,11 @@ use App\Models\Review;
 
 class Comments extends Component
 {
-    public $product;     
-    public $commentText; 
+    public $product;
+    public $commentText;
     public $rating;
 
-   
+
     public function mount(Product $product)
     {
         $this->product = $product;
@@ -22,7 +22,7 @@ class Comments extends Component
     {
         $this->validate([
             'commentText' => 'required|string|max:500',
-            'rating' => 'required'
+            'rating' => 'required|integer|min:1|max:5'
         ]);
 
         Review::create([
@@ -33,12 +33,18 @@ class Comments extends Component
         ]);
 
         $this->commentText = '';
+        $this->rating = 0;
     }
 
-    public function render()
-    {
-        return view('livewire.comments', [
-            'comments' => $this->product->review()->latest()->get(),
-        ]);
-    }
+  public function render()
+{
+    return view('livewire.comments', [
+        'comments' => $this->product->reviews()->latest()->get(),
+    ]);
+}
+public function setRating($value)
+{
+    $this->rating = $value;
+}
+
 }
