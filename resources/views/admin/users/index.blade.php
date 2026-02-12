@@ -1,3 +1,4 @@
+
 @extends('layouts.admin')
 
 @section('content')
@@ -110,10 +111,14 @@
             <thead>
                 <tr class="bg-gray-50/50">
                     <th class="px-8 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest">Utilisateur</th>
+                      @canany(['manage roles' ])
                     <th class="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest text-center">Rôle</th>
+                    @endcanany
                     <th class="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest text-center">Statut</th>
                     <th class="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest">Inscription</th>
+                     @canany(['manage roles' ])
                     <th class="px-6 py-4 text-right pr-8 text-[10px] font-black text-gray-400 uppercase tracking-widest">Actions</th>
+                      @endcanany
                 </tr>
             </thead>
             <tbody id="users-table-body" class="divide-y divide-gray-50">
@@ -144,15 +149,17 @@
                         <label class="block text-xs font-black text-slate-400 uppercase mb-2 ml-1">Email</label>
                         <input type="email" name="email" required class="w-full px-5 py-3 bg-gray-50 border-none rounded-2xl focus:ring-4 focus:ring-green-50 text-sm font-bold">
                     </div>
-                    <div>
-                        <label class="block text-xs font-black text-slate-400 uppercase mb-2 ml-1">Rôle</label>
-                        <select name="role" required class="w-full px-5 py-3 bg-gray-50 border-none rounded-2xl focus:ring-4 focus:ring-green-50 text-sm font-bold outline-none">
-                            <option value="client">Client</option>
-                            <option value="seller">Vendeur</option>
-                            <option value="moderator">Modérateur</option>
-                            <option value="admin">Administrateur</option>
-                        </select>
-                    </div>
+                        <div>
+                            
+                        edezlfdcnzekbcezibibcize<label class="block text-xs font-black text-slate-400 uppercase mb-2 ml-1">Rôle</label>
+                            <select name="role" required class="w-full px-5 py-3 bg-gray-50 border-none rounded-2xl focus:ring-4 focus:ring-green-50 text-sm font-bold outline-none">
+                                <option value="client">Client</option>
+                                <option value="seller">Vendeur</option>
+                                <option value="moderator">Modérateur</option>
+                                <option value="admin">Administrateur</option>
+                            </select>
+                        </div>
+                    
                     <div>
                         <label class="block text-xs font-black text-slate-400 uppercase mb-2 ml-1">Mot de passe</label>
                         <input type="password" name="password" required class="w-full px-5 py-3 bg-gray-50 border-none rounded-2xl focus:ring-4 focus:ring-green-50 text-sm font-bold">
