@@ -99,7 +99,7 @@
                                     <div class="w-12 h-12 bg-gray-100 rounded-2xl overflow-hidden border border-gray-50">
                                         <i class="w-full h-full object-cover fa-solid fa-box flex justify-center items-center"></i>
                                     </div>
-                                    <form action="" method="get">
+                                    <form action="{{ route('admin.orders.details' , $order->id )}}" method="get">
                                         <button type="submit" class="flex justify-center items-center gap-2 hover:text-green-600">
                                             <p class="pb-1">Details</p>
                                             <i class="fa-solid fa-arrow-right"></i>

@@ -53,4 +53,9 @@ class OrderController extends Controller
             return back()->with('success', 'Statut mis à jour, mais l\'e-mail n\'a pas pu être envoyé.');
         }
     }
+
+    public function show($id){
+        $order = Order::where('id' , $id)->with('items.product')->with('user')->first();
+        return view('admin.orders.details' , compact('order'));
+    }
 }

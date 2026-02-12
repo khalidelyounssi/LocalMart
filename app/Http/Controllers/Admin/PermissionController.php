@@ -16,7 +16,6 @@ class PermissionController extends Controller
     $permissions = Permission::all();
     $usersCount = User::count();
     
-    // إحصائيات بسيطة
     $totalRoles = $roles->count();
     $totalPermissions = $permissions->count();
 
