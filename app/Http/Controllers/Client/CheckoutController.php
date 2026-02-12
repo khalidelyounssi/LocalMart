@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\client;
+namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\Models\Cart;
 use App\Models\Order;
+use Illuminate\Http\Request;
+
+
 use App\Models\OrderItem;
-use App\Models\Product;
+
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail; 
 use App\Mail\NewOrderSellerMail;    
