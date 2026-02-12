@@ -66,11 +66,14 @@
         <button id="close-categories" class="text-2xl text-gray-400 hover:text-black">&times;</button>
     </div>
     <div class="p-4 space-y-1">
-        @foreach($categories as $category)
-        <a href="{{ route('dashboard.category', $category->slug) }}" class="block px-4 py-2 rounded-lg text-gray-600 hover:bg-green-50 hover:text-[#1DB954] transition-all">
-            {{ $category->name }}
-        </a>
-        @endforeach
+       @foreach($categories as $category)
+<a href="{{ route('dashboard.category', $category->slug) }}"
+   class="block px-4 py-2 rounded-lg text-gray-600 hover:bg-green-50 hover:text-[#1DB954] transition-all
+   {{ request()->segment(3) === $category->slug ? 'bg-green-50 text-[#1DB954]' : '' }}">
+    {{ $category->name }}
+</a>
+@endforeach
+
     </div>
 </div>
 

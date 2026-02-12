@@ -30,6 +30,12 @@ Route::get('/products/{product}', [ProductController::class, 'show'])
 Route::post('/products/{product}/like', [ProductController::class, 'toggleLike'])
     ->middleware('auth')
     ->name('products.like');
+
+
+Route::get('/dashboard', [DashboardController::class, 'index'])
+    ->middleware(['auth', 'checkStatus'])
+    ->name('dashboard');
+
 Route::get('/dashboard/category/{category}', [DashboardController::class, 'index'])
     ->middleware(['auth'])
     ->name('dashboard.category');

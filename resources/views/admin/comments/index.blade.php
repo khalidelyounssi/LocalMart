@@ -7,9 +7,6 @@
         <p class="text-gray-500 text-sm">Monitor and moderate flagged user comments</p>
     </div>
     <div class="flex gap-2">
-        <button class="bg-white border border-gray-200 text-gray-700 px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-gray-50 transition font-medium shadow-sm text-sm">
-            <i class="fa-solid fa-filter text-xs"></i> Filter Settings
-        </button>
     </div>
 </div>
 
@@ -18,25 +15,27 @@
         <div class="absolute right-0 top-0 w-16 h-full bg-gradient-to-l from-red-50 to-transparent"></div>
         <div>
             <p class="text-xs font-bold text-red-400 uppercase tracking-wider mb-1">Pending Reports</p>
-            <h3 class="text-3xl font-bold text-gray-900">15</h3>
+            <h3 class="text-3xl font-bold text-gray-900">{{ $countReport }}</h3>
         </div>
         <div class="w-12 h-12 bg-red-50 rounded-xl flex items-center justify-center text-red-500 z-10">
             <i class="fa-solid fa-bell"></i>
         </div>
     </div>
-    <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm flex items-center justify-between">
+    <div class="bg-white p-6 rounded-2xl border border-yellow-100 shadow-sm flex items-center justify-between relative overflow-hidden">
+        <div class="absolute right-0 top-0 w-16 h-full bg-gradient-to-l from-yellow-50 to-transparent"></div>
         <div>
-            <p class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Processed Today</p>
-            <h3 class="text-3xl font-bold text-gray-900">42</h3>
+            <p class="text-xs font-bold text-yellow-400 uppercase tracking-wider mb-1">Product Suspended</p>
+            <h3 class="text-3xl font-bold text-yellow-900">{{ $countProductSuspended }}</h3>
         </div>
-        <div class="w-12 h-12 bg-green-50 rounded-xl flex items-center justify-center text-green-500">
-            <i class="fa-solid fa-check-double"></i>
+        <div class="w-12 h-12 bg-orange-50 rounded-xl flex items-center justify-center text-orange-500">
+            <i class="fa-solid fa-ban"></i>
         </div>
     </div>
-    <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm flex items-center justify-between">
+    <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm flex items-center justify-between relative overflow-hidden">
+        <div class="absolute right-0 top-0 w-16 h-full bg-gradient-to-l from-gray-50 to-transparent"></div>
         <div>
             <p class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Spam Accounts Banned</p>
-            <h3 class="text-3xl font-bold text-gray-900">8</h3>
+            <h3 class="text-3xl font-bold text-gray-900">{{ $countSuspendAccounts }}</h3>
         </div>
         <div class="w-12 h-12 bg-gray-50 rounded-xl flex items-center justify-center text-gray-400">
             <i class="fa-solid fa-user-slash"></i>

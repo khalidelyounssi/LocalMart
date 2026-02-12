@@ -10,7 +10,7 @@ use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\OrderController;
 
 
-Route::middleware(['auth', 'role:admin|moderator|seller' , 'checkStatus'])->group(function () {
+Route::middleware(['auth', 'checkStatus','role:admin|moderator|seller'])->group(function () {
     Route::get('/admin/dashboard/index', [DashboardController::class, 'index'])->name("admin.dashboard.index");
 
     Route::middleware(['permission:create products|edit products|delete products|view products'])->group(function () {
@@ -63,6 +63,7 @@ Route::middleware(['auth', 'role:admin|moderator|seller' , 'checkStatus'])->grou
     Route::middleware(['permission:manage orders status'])->group(function () {
         Route::get('/admin/orders/index', [OrderController::class, 'index'])->name('admin.orders.index');
         Route::patch('/admin/orders/{item}/status', [OrderController::class, 'updateStatus'])->name('admin.orders.updateStatus');
+        Route::get('/admin/orders/{order}/details', [OrderController::class, 'show'])->name('admin.orders.details');
     });
 
     Route::middleware(['permission:view products reviews'])->group(function () {

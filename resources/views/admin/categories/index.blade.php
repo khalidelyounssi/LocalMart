@@ -6,8 +6,8 @@
         <h1 class="text-2xl font-bold text-gray-900">Categories Management</h1>
         <p class="text-gray-500 text-sm">Organize products into categories</p>
     </div>
-    <a href="{{ route('admin.categories.create') }}" class="bg-[#2563eb] text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-blue-700 transition font-medium shadow-sm text-sm">
-        <i class="fa-solid fa-plus text-xs"></i> Add Category
+    <a href="{{ route('admin.categories.create') }}" class="bg-green-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-green-700 transition font-medium shadow-sm text-sm">
+        <i class="fa-solid fa-plus text-xs"></i> Ajoute un Categorie
     </a>
 </div>
 
