@@ -1,3 +1,4 @@
+
 @extends('layouts.admin')
 
 @section('content')
@@ -7,7 +8,7 @@
         <h1 class="text-3xl font-black text-slate-900 tracking-tight">Utilisateurs</h1>
         <p class="text-gray-500 font-medium mt-1 text-sm">Gérez les comptes clients, vendeurs et modérateurs.</p>
     </div>
-    <button onclick="toggleModal()" class="bg-slate-900 text-white px-6 py-3 rounded-2xl flex items-center justify-center gap-2 hover:bg-green-600 shadow-lg shadow-slate-200 hover:shadow-green-100 transition-all duration-300 font-bold text-sm group">
+    <button onclick="toggleModal()" class="bg-green-600 text-white px-6 py-3 rounded-2xl flex items-center justify-center gap-2 hover:bg-green-700 shadow-lg shadow-slate-200 hover:shadow-green-100 transition-all duration-300 font-bold text-sm group">
         <i class="fa-solid fa-user-plus group-hover:scale-110 transition-transform"></i>
         Ajouter un Utilisateur
     </button>
@@ -110,10 +111,14 @@
             <thead>
                 <tr class="bg-gray-50/50">
                     <th class="px-8 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest">Utilisateur</th>
+                      @canany(['manage roles' ])
                     <th class="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest text-center">Rôle</th>
+                    @endcanany
                     <th class="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest text-center">Statut</th>
                     <th class="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest">Inscription</th>
+                     @canany(['manage roles' ])
                     <th class="px-6 py-4 text-right pr-8 text-[10px] font-black text-gray-400 uppercase tracking-widest">Actions</th>
+                      @endcanany
                 </tr>
             </thead>
             <tbody id="users-table-body" class="divide-y divide-gray-50">
@@ -144,15 +149,17 @@
                         <label class="block text-xs font-black text-slate-400 uppercase mb-2 ml-1">Email</label>
                         <input type="email" name="email" required class="w-full px-5 py-3 bg-gray-50 border-none rounded-2xl focus:ring-4 focus:ring-green-50 text-sm font-bold">
                     </div>
-                    <div>
-                        <label class="block text-xs font-black text-slate-400 uppercase mb-2 ml-1">Rôle</label>
-                        <select name="role" required class="w-full px-5 py-3 bg-gray-50 border-none rounded-2xl focus:ring-4 focus:ring-green-50 text-sm font-bold outline-none">
-                            <option value="client">Client</option>
-                            <option value="seller">Vendeur</option>
-                            <option value="moderator">Modérateur</option>
-                            <option value="admin">Administrateur</option>
-                        </select>
-                    </div>
+                        <div>
+                            
+                        edezlfdcnzekbcezibibcize<label class="block text-xs font-black text-slate-400 uppercase mb-2 ml-1">Rôle</label>
+                            <select name="role" required class="w-full px-5 py-3 bg-gray-50 border-none rounded-2xl focus:ring-4 focus:ring-green-50 text-sm font-bold outline-none">
+                                <option value="client">Client</option>
+                                <option value="seller">Vendeur</option>
+                                <option value="moderator">Modérateur</option>
+                                <option value="admin">Administrateur</option>
+                            </select>
+                        </div>
+                    
                     <div>
                         <label class="block text-xs font-black text-slate-400 uppercase mb-2 ml-1">Mot de passe</label>
                         <input type="password" name="password" required class="w-full px-5 py-3 bg-gray-50 border-none rounded-2xl focus:ring-4 focus:ring-green-50 text-sm font-bold">

@@ -19,6 +19,7 @@
                         <th class="px-8 py-5 text-right">Date</th>
                     </tr>
                 </thead>
+                @role('seller')
                 <tbody class="divide-y divide-gray-50">
                     @forelse($reviews as $review)
                     <tr class="hover:bg-gray-50 transition">
@@ -50,6 +51,40 @@
                     </tr>
                     @endforelse
                 </tbody>
+                @endrole
+                @role('admin')
+                <tbody class="divide-y divide-gray-50">
+                    @forelse($allReviews as $review)
+                    <tr class="hover:bg-gray-50 transition">
+                        <td class="px-8 py-6 font-bold text-gray-700">
+                            {{ $review->user->name }}
+                        </td>
+                        <td class="px-8 py-6 text-indigo-600 font-semibold">
+                            {{ $review->product->title }}
+                        </td>
+                        <td class="px-8 py-6 text-center">
+                            <div class="flex justify-center text-yellow-400">
+                                @for($i = 1; $i <= 5; $i++)
+                                    <i class="fa-{{ $i <= $review->rating ? 'solid' : 'regular' }} fa-star"></i>
+                                @endfor
+                            </div>
+                        </td>
+                        <td class="px-8 py-6 text-gray-600 italic">
+                            "{{ $review->comment }}"
+                        </td>
+                        <td class="px-8 py-6 text-right text-gray-400 text-sm">
+                            {{ $review->created_at->format('d/m/Y') }}
+                        </td>
+                    </tr>
+                    @empty
+                    <tr>
+                        <td colspan="5" class="px-8 py-12 text-center text-gray-400">
+                            Aucun avis pour le moment.
+                        </td>
+                    </tr>
+                    @endforelse
+                </tbody>
+                @endrole
             </table>
         </div>
     </div>
