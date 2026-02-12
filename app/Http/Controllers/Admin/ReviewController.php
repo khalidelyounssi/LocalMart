@@ -5,11 +5,16 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\Report;
+use App\Models\User;
 
 class ReviewController extends Controller
 {
 public function index() {
-    return view('admin.comments.index');
+    $countReport = Report::count();
+    $countProductSuspended = Product::where('is_active' , '0')->count();
+    $countSuspendAccounts = User::where('status' , 'suspended')->count();
+    return view('admin.comments.index' , compact('countReport' , 'countProductSuspended' , 'countSuspendAccounts'));
 }    // عرض القائمة
 public function create() {}   // فورم الإضافة
 public function store() {}    // حفظ البيانات

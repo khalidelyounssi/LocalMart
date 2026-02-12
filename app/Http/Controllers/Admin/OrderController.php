@@ -23,15 +23,17 @@ class OrderController extends Controller
         ->latest()
         ->get();
 
-        return view('admin.orders.index', compact('orders'));
+        $allOrders = Order::get();
+
+        return view('admin.orders.index', compact('orders' , 'allOrders'));
     }
 
-    
-    public function updateStatus(Request $request, OrderItem $item)
+    /**
+     * تحديث حالة "قطعة" من الطلب وإرسال إيميل للكليان
+     */
+    public function updateStatus(Request $request, Order $item)
     {
-        if ($item->product->user_id !== auth()->id()) {
-            return back()->with('error', 'Action non autorisée.');
-        }
+
 
         $request->validate([
             'status' => 'required|in:pending,shipped,delivered',

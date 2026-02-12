@@ -10,7 +10,7 @@
         </div>
           @canany(['create products' , 'edit products'])
         <div class="flex gap-3">
-            <a href="{{ route('admin.products.create') }}" class="bg-[#2563eb] text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-blue-700 transition font-medium shadow-sm text-sm">
+            <a href="{{ route('admin.products.create') }}" class="bg-green-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-green-700 transition font-medium shadow-sm text-sm">
                 <i class="fa-solid fa-plus text-xs"></i> Ajouter un produit
             </a>
         </div>
@@ -24,7 +24,7 @@
                 <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Total Produits</p>
                 <h3 class="text-3xl font-bold text-gray-900">{{ count($products) }}</h3>
             </div>
-            <div class="w-12 h-12 bg-blue-50 rounded-full flex items-center justify-center text-blue-600">
+            <div class="w-12 h-12 bg-green-50 rounded-full flex items-center justify-center text-green-600">
                 <i class="fa-solid fa-box-open text-xl"></i>
             </div>
         </div>

@@ -91,7 +91,7 @@
             </div>
 
             <div class="pt-4">
-                <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-black py-4 rounded-2xl shadow-xl shadow-indigo-100 transition-all transform hover:-translate-y-1 active:scale-95">
+                <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white font-black py-4 rounded-2xl shadow-xl shadow-indigo-100 transition-all transform hover:-translate-y-1 active:scale-95">
                     <i class="fa-solid fa-plus-circle mr-2"></i> Créer le produit
                 </button>
             </div>
