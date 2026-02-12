@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Mail\OrderStatusUpdated;
 use Illuminate\Http\Request;
 use App\Models\Order;
-use App\Models\OrderItem;
+
 use Illuminate\Support\Facades\Mail; 
 
 class OrderController extends Controller
