@@ -44,14 +44,19 @@ class OrderController extends Controller
         ]);
 
         try {
-            $clientEmail = $item->order->user->email;
+        $clientEmail = $item->user->email;
 
+        if ($clientEmail) {
             Mail::to($clientEmail)->send(new OrderStatusUpdated($item));
             
-            return back()->with('success', 'Le statut a été mis à jour et l\'e-mail a été envoyé au client !');
-        } catch (\Exception $e) {
-            return back()->with('success', 'Statut mis à jour, mais l\'e-mail n\'a pas pu être envoyé.');
+            return back()->with('success', 'Le statut a été mis à jour et l\'e-mail a été envoyé !');
         }
+
+        return back()->with('error', 'Le client n\'a pas d\'adresse e-mail.');
+
+    } catch (\Exception $e) {
+        return back()->with('error', 'Statut mis à jour, mais l\'e-mail a échoué : ' . $e->getMessage());
+    }
     }
 
     public function show($id){
