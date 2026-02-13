@@ -5,12 +5,13 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
+    use Illuminate\Notifications\Notifiable;
+    use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable
-{
-    /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    class User extends Authenticatable
+    {
+        /** @use HasFactory<\Database\Factories\UserFactory> */
+        use HasFactory, Notifiable, HasRoles, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -21,6 +22,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'status',
     ];
 
     /**
@@ -45,11 +47,28 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
-public function products() {
-    return $this->hasMany(Product::class);
-}
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
 
-public function orders() {
-    return $this->hasMany(Order::class);
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+
+    public function getRedirectRoute()
+    {
+        if ($this->hasRole('admin') || $this->hasRole('moderator') || $this->hasRole('seller')) {
+            return 'admin/dashboard/index';
+        }else
+        {
+            return '/dashboard';
+        }
+    }
+
+    public function cart()
+{
+    return $this->hasOne(Cart::class);
 }
 }
