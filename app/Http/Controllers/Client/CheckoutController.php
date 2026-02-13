@@ -94,7 +94,7 @@ class CheckoutController extends Controller
                 ->route('OrderShow', $order->id)
                 ->with('success', 'Commande confirmée avec succès.');
         } catch (\Exception $e) {
-            dd($e->getMessage());
+            
             return redirect()->back()->with('error', 'Erreur : ' . $e->getMessage());
         }
     }
@@ -131,7 +131,6 @@ class CheckoutController extends Controller
 
             return redirect($session->url);
         } catch (\Exception $e) {
-            dd($e->getMessage());
             return redirect()->back()->with('error', 'Erreur Stripe : ' . $e->getMessage());
         }
     }
@@ -173,7 +172,6 @@ class CheckoutController extends Controller
                 return redirect()->route('checkout')->with('error', 'Paiement non réussi.');
             }
         } catch (\Exception $e) {
-            dd($e->getMessage());
             return redirect()->route('checkout')->with('error', 'Erreur Stripe : ' . $e->getMessage());
         }
     }

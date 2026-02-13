@@ -10,11 +10,11 @@ class OrderStatusUpdated extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $orderItem;
+    public $order; 
 
-public function __construct($orderItem)
+public function __construct( $order) 
 {
-    $this->orderItem = $orderItem;
+    $this->order = $order;
 }
 
     public function build()
